@@ -19,26 +19,24 @@
         }
         .container { max-width: 600px; padding: 20px; }
         h1 { font-size: 2.5rem; letter-spacing: -1px; margin-bottom: 0.5rem; }
-        p { color: #888; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; }
+        p { color: #888; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2.5rem; }
         .tagline { color: #00ffcc; font-weight: 500; margin-bottom: 1.5rem; }
         
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-top: 10px;
-        }
-        .contact-links a {
+        .contact-link {
+            display: inline-block;
             color: #ffffff;
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s ease;
-            border-bottom: 1px solid transparent;
-            padding-bottom: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid #333;
+            padding: 10px 25px;
+            border-radius: 5px;
         }
-        .contact-links a:hover {
+        .contact-link:hover {
             color: #00ffcc;
-            border-bottom: 1px solid #00ffcc;
+            border-color: #00ffcc;
+            background-color: rgba(0, 255, 204, 0.05);
         }
 
         .footer { position: absolute; bottom: 20px; font-size: 0.8rem; color: #444; }
@@ -50,11 +48,7 @@
         <div class="tagline">Enabling business adoption of production-grade AI</div>
         <p>We engineer the data ecosystems and infrastructure required for reliable, real-world AI integration. Our full site is launching soon.</p>
         
-        <div class="contact-links">
-            <a href="mailto:leonardo@varnaops.com">Email</a>
-            <a href="https://www.linkedin.com/company/varnaops/" target="_blank">LinkedIn</a>
-            <a href="https://x.com/VarnaOps" target="_blank">X</a>
-        </div>
+        <a href="mailto:leonardo@varnaops.com" class="contact-link">Contact</a>
     </div>
 
     <div class="footer">
