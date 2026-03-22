@@ -5,9 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VarnaOps | AI/ML & Python Engineering</title>
     <style>
+        :root {
+            --bg: #0a0a0a;
+            --text: #ffffff;
+            --accent: #00ffcc;
+            --secondary: #888;
+            --border: #333;
+        }
         body {
-            background-color: #0a0a0a;
-            color: #ffffff;
+            background-color: var(--bg);
+            color: var(--text);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             display: flex;
             flex-direction: column;
@@ -17,42 +24,105 @@
             margin: 0;
             text-align: center;
         }
-        .container { max-width: 650px; padding: 20px; }
-        h1 { font-size: 2.5rem; letter-spacing: -1px; margin-bottom: 0.5rem; }
-        p { color: #888; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2.5rem; }
-        .tagline { color: #00ffcc; font-weight: 500; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.85rem; }
+        .container { 
+            max-width: 650px; 
+            padding: 20px; 
+        }
+        h1 { 
+            font-size: 2.8rem; 
+            letter-spacing: -1.5px; 
+            margin-bottom: 0.5rem; 
+            font-weight: 800;
+        }
+        .tagline { 
+            color: var(--accent); 
+            font-weight: 600; 
+            margin-bottom: 1.5rem; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            font-size: 0.8rem; 
+            font-family: monospace;
+        }
+        p { 
+            color: var(--secondary); 
+            font-size: 1.15rem; 
+            line-height: 1.6; 
+            margin-bottom: 2.5rem; 
+        }
         
+        .cta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
         .contact-link {
             display: inline-block;
-            color: #ffffff;
+            color: var(--text);
             text-decoration: none;
             font-size: 1rem;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.2s ease;
-            border: 1px solid #333;
-            padding: 10px 35px;
-            border-radius: 5px;
+            border: 1px solid var(--border);
+            padding: 12px 40px;
+            border-radius: 4px;
         }
         .contact-link:hover {
-            color: #00ffcc;
-            border-color: #00ffcc;
+            color: var(--accent);
+            border-color: var(--accent);
             background-color: rgba(0, 255, 204, 0.05);
         }
 
-        .footer { position: absolute; bottom: 20px; font-size: 0.8rem; color: #444; }
+        .social-links {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        .social-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .social-links a:hover {
+            color: var(--text);
+            border-color: var(--accent);
+        }
+
+        .footer { 
+            position: absolute; 
+            bottom: 30px; 
+            font-size: 0.75rem; 
+            color: #444; 
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>VarnaOps LLC</h1>
-        <div class="tagline">Applied AI/ML R&D • Python Engineering • Scalable Systems</div>
-        <p>Expert-level Python development and AI/ML engineering.</p>
+        <h1>VarnaOps</h1>
+        <div class="tagline">Applied AI/ML • Python Engineering • Scalable Systems</div>
         
-        <a href="mailto:leonardo@varnaops.com" class="contact-link">Contact for Contractor Roles</a>
+        <p>
+            Specialized engineering services for high-throughput data ecosystems 
+            and production-ready Machine Learning infrastructure.
+        </p>
+        
+        <div class="cta-group">
+            <a href="mailto:leonardo@varnaops.com" class="contact-link">Contact for Contractor Roles</a>
+            
+            <div class="social-links">
+                <a href="https://github.com/leonardogolinelli" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/leonardo-golinelli-1466ba323" target="_blank">LinkedIn</a>
+            </div>
+        </div>
     </div>
-    
+
     <div class="footer">
-        © 2026 VarnaOps LLC | B2B Technical Consulting
+        © 2026 VarnaOps LLC | Registered US Entity
     </div>
 </body>
 </html>
