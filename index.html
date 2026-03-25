@@ -41,16 +41,13 @@
             font-size: 0.8rem; 
             color: #444; 
         }
-        .contact-link { 
-            color: #00ffcc; 
-            text-decoration: none; 
-            border: 1px solid #333;
-            padding: 10px 20px;
-            transition: all 0.2s ease;
+        .email-link {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
         }
-        .contact-link:hover { 
-            background: rgba(0, 255, 204, 0.05);
-            border-color: #00ffcc;
+        .email-link:hover {
+            color: #00ffcc;
         }
     </style>
 </head>
@@ -64,8 +61,8 @@
         <p>Currently in development.</p>
         
         <div class="footer">
-            Founded by Leonardo Golinelli. <br><br>
-            <a href="mailto:leonardo@varnaops.com">leonardo@varnaops.com</a> <br><br>
+            <a href="mailto:leonardo@varnaops.com" class="email-link">leonardo@varnaops.com</a> 
+            <br><br>
             San Diego &bull; Varna
         </div>
     </div>
