@@ -1,70 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>VarnaOps | Scalable AI Infrastructure</title>
-    <style>
-        body { 
-            background-color: #0a0a0a; 
-            color: #eee; 
-            font-family: 'Courier New', Courier, monospace; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            margin: 0; 
-        }
-        .content { 
-            max-width: 600px; 
-            padding: 40px; 
-            border-left: 1px solid #333; 
-        }
-        h1 { 
-            color: #fff; 
-            font-size: 1.6rem; 
-            margin-bottom: 20px;
-            letter-spacing: -0.5px;
-        }
-        .vision { 
-            color: #00ffcc; 
-            font-weight: bold; 
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-        }
-        p { 
-            font-size: 0.95rem; 
-            color: #666;
-            margin-bottom: 30px;
-        }
-        .footer { 
-            margin-top: 50px; 
-            font-size: 0.8rem; 
-            color: #444; 
-        }
-        .email-link {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        .email-link:hover {
-            color: #00ffcc;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VarnaOps | AI Platform for Single-Cell Biology</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --panel: #111;
+      --text: #f3f3f3;
+      --muted: #a0a0a0;
+      --line: #262626;
+      --accent: #00d8b6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 760px;
+      padding: 48px;
+      background: linear-gradient(180deg, #101010 0%, #0d0d0d 100%);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0 0 16px 0;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .subhead {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 32px;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.2s ease;
+    }
+
+    .button-primary {
+      background: var(--accent);
+      color: #041411;
+    }
+
+    .button-primary:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .button-secondary {
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: transparent;
+    }
+
+    .button-secondary:hover {
+      border-color: #3a3a3a;
+      color: var(--accent);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .feature {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .feature h2 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+    }
+
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .footer {
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .footer a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: var(--accent);
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 28px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="content">
-        <h1>VarnaOps LLC</h1>
-        <div class="vision">
-            Scalable AI Infrastructure for Biology.
-        </div>
-        
-        <p>Currently in development.</p>
-        
-        <div class="footer">
-            <a href="mailto:leonardo@varnaops.com" class="email-link">leonardo@varnaops.com</a> 
-            <br><br>
-            San Diego &bull; Varna
-        </div>
+  <main class="card">
+    <div class="eyebrow">VarnaOps</div>
+
+    <h1>AI platform for single-cell data analysis</h1>
+
+    <p class="subhead">
+      VarnaOps helps biotech teams and researchers go from raw single-cell data
+      to interpretable biological insight faster, with automated annotation,
+      reproducible outputs, and a low-friction workflow.
+    </p>
+
+    <div class="cta-row">
+      <a class="button button-primary" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20Early%20Access">Request early access</a>
+      <a class="button button-secondary" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20Inquiry">Contact founder</a>
     </div>
+
+    <section class="grid">
+      <div class="feature">
+        <h2>Upload data</h2>
+        <p>Bring your single-cell dataset into a simple workflow without custom scripting.</p>
+      </div>
+      <div class="feature">
+        <h2>Automated annotation</h2>
+        <p>Run ML-based cell annotation with clear outputs and faster turnaround.</p>
+      </div>
+      <div class="feature">
+        <h2>Interpretable results</h2>
+        <p>Get labels, visualizations, and structured outputs designed for downstream use.</p>
+      </div>
+    </section>
+
+    <div class="footer">
+      Founder: <a href="mailto:leonardo@varnaops.com">leonardo@varnaops.com</a>
+    </div>
+  </main>
 </body>
 </html>
