@@ -51,10 +51,17 @@
     }
 
     h1 {
-      margin: 0 0 28px 0; /* increased spacing since subtitle is removed */
+      margin: 0 0 12px 0;
       font-size: clamp(2rem, 4vw, 3.4rem);
       line-height: 1.05;
       letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
     }
 
     .cta-row {
@@ -152,7 +159,11 @@
   <main class="card">
     <div class="eyebrow">VarnaOps</div>
 
-    <h1>No-code platform for automated single-cell annotation</h1>
+    <h1>Automated single-cell annotation — in one click</h1>
+
+    <p class="subtitle">
+      From fast labeling to customized analysis workflows.
+    </p>
 
     <div class="cta-row">
       <a class="button button-primary" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20Early%20Access">
@@ -176,7 +187,7 @@
 
       <div class="feature">
         <h2>3. Run annotation</h2>
-        <p>Cell type and state labels are assigned to your data using transfer learning.</p>
+        <p>Cell type and state labels are assigned using state-of-the-art reference mapping.</p>
       </div>
 
       <div class="feature">
