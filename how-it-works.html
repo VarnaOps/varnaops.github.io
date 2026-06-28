@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How it works — VarnaOps</title>
+  <meta name="description" content="Add your data, pick a reference atlas, choose your analyses — VarnaOps maps your cells and returns one shareable report." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <img class="mark" src="mark.svg" alt="" />
+        <span class="brand-text">
+          <span class="word">Varna<span class="ops">Ops</span></span>
+          <span class="tagline">Single-Cell Analysis Platform</span>
+        </span>
+      </a>
+      <nav class="nav-links">
+        <a href="how-it-works.html" class="active">How it works</a>
+        <a href="vision.html">Vision</a>
+        <a href="tech.html">Tech</a>
+        <a href="data.html">Data</a>
+        <a href="contact.html">Contact</a>
+        <a class="cta cta-sm" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20access">Request access</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <h1>How it works</h1>
+        <p class="lead">Add your data, pick a reference, choose your analyses. VarnaOps maps your
+          cells to a curated atlas and returns one self-contained report.</p>
+      </div>
+    </section>
+
+    <section class="flow">
+      <div class="wrap">
+        <!-- STEP 1 — add data -->
+        <div class="step-head"><span class="num">1</span> Add your data</div>
+        <div class="drop" id="drop">
+          <svg class="upic" viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+          <span class="drop-txt" id="dropTxt">Drop your <code>.h5ad</code> to run the pipeline</span>
+        </div>
+
+        <!-- STEP 2 — context -->
+        <div class="step-head"><span class="num">2</span> Choose your biological context</div>
+        <div class="organ-row" id="organRow"></div>
+        <div class="card preview atlas">
+          <div class="pv-svg">
+            <svg id="atlasSvg" viewBox="0 0 340 230" role="img" aria-label="Reference atlas preview"></svg>
+            <span class="illus">illustrative — real atlas views coming soon</span>
+          </div>
+          <div class="pv-text">
+            <h3 id="atlasName"></h3>
+            <p id="atlasDesc"></p>
+            <div class="legend-head" id="atlasLegendHead"></div>
+            <div class="legend" id="atlasLegend"></div>
+          </div>
+        </div>
+
+        <!-- STEP 3 — analyses -->
+        <div class="step-head"><span class="num">3</span> Choose your analyses</div>
+        <div class="compute">
+          <ul class="mod-list" id="modList"></ul>
+          <div class="card">
+            <div class="pv-svg"><svg id="modSvg" viewBox="0 0 340 230" role="img" aria-label="Analysis output preview"></svg></div>
+            <div class="pv-text">
+              <h3 id="modName"></h3>
+              <p id="modDesc"></p>
+              <span class="illus">illustrative — real outputs coming soon</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="closing">
+          <span class="micro">Uploads open during the alpha — free while it lasts.</span>
+          <a class="cta" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20access">Request access</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot-inner">
+      <span>© 2026 VarnaOps · Reference data via the CZI CELLxGENE Census (CC BY 4.0)</span>
+      <a href="mailto:leonardo@varnaops.com">leonardo@varnaops.com</a>
+    </div>
+  </footer>
+
+  <script src="walkthrough.js" defer></script>
+</body>
+</html>

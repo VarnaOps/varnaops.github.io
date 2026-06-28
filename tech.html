@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tech — VarnaOps</title>
+  <meta name="description" content="The methods behind VarnaOps and the open-source software we build on, with license attributions." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <img class="mark" src="mark.svg" alt="" />
+        <span class="brand-text">
+          <span class="word">Varna<span class="ops">Ops</span></span>
+          <span class="tagline">Single-Cell Analysis Platform</span>
+        </span>
+      </a>
+      <nav class="nav-links">
+        <a href="how-it-works.html">How it works</a>
+        <a href="vision.html">Vision</a>
+        <a href="tech.html" class="active">Tech</a>
+        <a href="data.html">Data</a>
+        <a href="contact.html">Contact</a>
+        <a class="cta cta-sm" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20access">Request access</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <h1>Tech</h1>
+        <p class="lead">What's under the hood — the methods, and the open-source software we build on.</p>
+      </div>
+    </section>
+
+    <section class="prose">
+      <div class="wrap">
+        <h2>Methods</h2>
+        <p>
+          <strong>Embedding &amp; mapping.</strong> A reference atlas is embedded into a
+          batch-corrected latent space with <strong>scVI / scANVI</strong>. Your query is projected
+          into that same space with <strong>scArches</strong> — no retraining of the reference
+          required.
+        </p>
+        <p>
+          <strong>Label transfer &amp; confidence.</strong> Cell types are assigned by
+          <strong>k-nearest-neighbour transfer</strong> in the latent space, each with a per-cell
+          confidence score. Cells that sit far from the reference manifold are flagged as
+          <strong>deviant</strong> rather than forced into the nearest known type.
+        </p>
+        <p>
+          <strong>Downstream analysis.</strong> <strong>Leiden</strong> community detection for
+          clustering; per-cell-type <strong>differential expression</strong>;
+          <strong>pyDESeq2</strong> pseudobulk for disease-state comparisons; and
+          <strong>decoupler</strong> for pathway and transcription-factor activity.
+        </p>
+        <p>
+          <strong>GPU acceleration.</strong> The heavy steps run on a single GPU via
+          <strong>RAPIDS</strong> (cuML, CuPy) and <strong>rapids-singlecell</strong>, with chunked,
+          lazy data paths designed to scale toward atlas size.
+        </p>
+
+        <h2>Open-source acknowledgements</h2>
+        <p>
+          VarnaOps is built on open-source software. We comply with each project's license and are
+          grateful to these communities. Licenses below reflect the versions we currently run; the
+          full pinned dependency list ships with every run.
+        </p>
+
+        <div class="tbl-card">
+          <table class="ltable">
+            <thead>
+              <tr><th>Library</th><th>Role</th><th>License</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>scanpy</td><td class="role">Single-cell analysis toolkit</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>AnnData</td><td class="role">Annotated data structures</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>scvi-tools</td><td class="role">scVI / scANVI latent models</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>scArches</td><td class="role">Reference mapping</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>rapids-singlecell</td><td class="role">GPU single-cell ops</td><td class="lic">MIT</td></tr>
+              <tr><td>RAPIDS cuML</td><td class="role">GPU machine learning</td><td class="lic">Apache-2.0</td></tr>
+              <tr><td>CuPy</td><td class="role">GPU array computing</td><td class="lic">MIT</td></tr>
+              <tr><td>PyTorch</td><td class="role">Deep-learning framework</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>Lightning</td><td class="role">Training framework</td><td class="lic">Apache-2.0</td></tr>
+              <tr><td>scikit-learn</td><td class="role">ML utilities</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>umap-learn</td><td class="role">Dimensionality reduction</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>leidenalg</td><td class="role">Community detection</td><td class="lic">GPL-3.0</td></tr>
+              <tr><td>python-igraph</td><td class="role">Graph algorithms</td><td class="lic">GPL-2.0-or-later</td></tr>
+              <tr><td>decoupler</td><td class="role">Pathway / TF activity</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>pyDESeq2</td><td class="role">Pseudobulk differential expression</td><td class="lic">MIT</td></tr>
+              <tr><td>gseapy</td><td class="role">Enrichment analysis</td><td class="lic">MIT</td></tr>
+              <tr><td>NumPy · SciPy · pandas</td><td class="role">Scientific Python core</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>statsmodels</td><td class="role">Statistics</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>Zarr</td><td class="role">Chunked array storage</td><td class="lic">MIT</td></tr>
+              <tr><td>Dask</td><td class="role">Parallel / lazy computing</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>Matplotlib</td><td class="role">Plotting</td><td class="lic">Matplotlib (BSD-style)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note warn">
+          <strong>Maintainer note:</strong> licenses verified against the installed package metadata
+          on 2026-06-28. Re-verify when upgrading dependencies, and regenerate this table from the
+          locked environment before each public release.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot-inner">
+      <span>© 2026 VarnaOps · Reference data via the CZI CELLxGENE Census (CC BY 4.0)</span>
+      <a href="mailto:leonardo@varnaops.com">leonardo@varnaops.com</a>
+    </div>
+  </footer>
+</body>
+</html>

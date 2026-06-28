@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data &amp; licensing — VarnaOps</title>
+  <meta name="description" content="Where VarnaOps reference atlases come from and how we handle data licensing: CZI CELLxGENE Census (CC BY 4.0), Cell Ontology, commercial-use filtering." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <img class="mark" src="mark.svg" alt="" />
+        <span class="brand-text">
+          <span class="word">Varna<span class="ops">Ops</span></span>
+          <span class="tagline">Single-Cell Analysis Platform</span>
+        </span>
+      </a>
+      <nav class="nav-links">
+        <a href="how-it-works.html">How it works</a>
+        <a href="vision.html">Vision</a>
+        <a href="tech.html">Tech</a>
+        <a href="data.html" class="active">Data</a>
+        <a href="contact.html">Contact</a>
+        <a class="cta cta-sm" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20access">Request access</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <h1>Data &amp; licensing</h1>
+        <p class="lead">Where our reference atlases come from, and how we handle licensing and attribution.</p>
+      </div>
+    </section>
+
+    <section class="prose">
+      <div class="wrap">
+        <h2>Reference source: CZI CELLxGENE Census</h2>
+        <p>
+          VarnaOps reference atlases are built from the
+          <a href="https://cellxgene.cziscience.com/" target="_blank" rel="noopener">CZI CELLxGENE
+          Census</a> — a standardized, openly available corpus of single-cell data. All data
+          distributed through CELLxGENE is released under <strong>CC&nbsp;BY&nbsp;4.0</strong>. That
+          license permits commercial use; its one obligation is <strong>attribution</strong>, which we
+          carry into every reference manifest and report.
+        </p>
+
+        <h2>Commercial-use filtering</h2>
+        <p>
+          Beyond the uniform CELLxGENE policy, source studies can carry their own terms — some are
+          non-commercial (<code>CC&nbsp;BY-NC</code>) or no-derivatives (<code>CC&nbsp;BY-ND</code>),
+          which are <strong>not</strong> usable in a paid product. Our ingestion filters datasets by
+          license <strong>on by default, and fails loudly</strong> if a dataset's terms can't be
+          confirmed — so non-commercial or no-derivatives data never enters a reference used in the
+          product.
+        </p>
+
+        <h2>Ontology &amp; markers</h2>
+        <p>
+          Cell-type labels are harmonized to the <a href="https://obofoundry.org/ontology/cl.html"
+          target="_blank" rel="noopener">Cell Ontology (CL)</a>, and curated marker panels draw on
+          <strong>CZ CellGuide</strong> — both released under <strong>CC&nbsp;BY&nbsp;4.0</strong>,
+          with attribution.
+        </p>
+
+        <h2>Per-dataset attribution</h2>
+        <p>
+          Every reference ships a <strong>manifest</strong> that lists each contributing dataset — its
+          title, collection, DOI, and citation — so the full provenance travels with the model and
+          appears in the report. The live <strong>human-brain</strong> reference is built from CZI
+          CELLxGENE Census human-brain datasets.
+        </p>
+        <div class="note warn">
+          <strong>Maintainer note:</strong> the complete per-dataset citation list should be generated
+          from the reference manifest (<code>reference_manifest.json</code> / <code>metadata.csv</code>)
+          rather than hand-written, and embedded here at publish time so it stays in sync with the
+          shipped reference.
+        </div>
+
+        <h2>Your data</h2>
+        <p>
+          Data you upload is processed in an <strong>isolated per-run job</strong> and is
+          <strong>not</strong> used to train our models. Your inputs and results are yours.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot-inner">
+      <span>© 2026 VarnaOps · Reference data via the CZI CELLxGENE Census (CC BY 4.0)</span>
+      <a href="mailto:leonardo@varnaops.com">leonardo@varnaops.com</a>
+    </div>
+  </footer>
+</body>
+</html>
