@@ -87,8 +87,9 @@
     .mod-item:last-child { border-bottom: none; }
     .mod-item:hover { background: var(--subtle); }
     .mod-item.active { background: var(--accent-soft); }
-    .mod-item .chk { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid var(--accent); flex: none; position: relative; }
-    .mod-item .chk::after { content: ""; position: absolute; left: 5px; top: 1.5px; width: 4px; height: 8.5px; border: solid var(--accent); border-width: 0 1.7px 1.7px 0; transform: rotate(45deg); }
+    .mod-item .chk { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid #c4c9d2; background: #fff; flex: none; position: relative; transition: .12s; }
+    .mod-item .chk.on { border-color: var(--accent); background: var(--accent); }
+    .mod-item .chk.on::after { content: ""; position: absolute; left: 5px; top: 1.5px; width: 4px; height: 8.5px; border: solid #fff; border-width: 0 1.7px 1.7px 0; transform: rotate(45deg); }
     .mod-item .mt { font-size: 0.95rem; color: var(--muted); }
     .mod-item.active .mt { color: var(--text); font-weight: 600; }
     .compute .pv-svg { margin-bottom: 14px; }
@@ -130,8 +131,15 @@
   <main>
     <section class="flow">
       <div class="wrap">
-        <!-- STEP 1 -->
-        <div class="step-head"><span class="num">1</span> Choose your biological context</div>
+        <!-- STEP 1 — add data -->
+        <div class="step-head"><span class="num">1</span> Add your data</div>
+        <div class="drop" id="drop">
+          <svg class="upic" viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+          <span class="drop-txt" id="dropTxt">Drop your <code>.h5ad</code> to run the pipeline</span>
+        </div>
+
+        <!-- STEP 2 — context -->
+        <div class="step-head"><span class="num">2</span> Choose your biological context</div>
         <div class="organ-row" id="organRow"></div>
         <div class="card preview atlas">
           <div class="pv-svg">
@@ -146,8 +154,8 @@
           </div>
         </div>
 
-        <!-- STEP 2 -->
-        <div class="step-head"><span class="num">2</span> Choose what to compute</div>
+        <!-- STEP 3 — analyses -->
+        <div class="step-head"><span class="num">3</span> Choose your analyses</div>
         <div class="compute">
           <ul class="mod-list" id="modList"></ul>
           <div class="card">
@@ -160,12 +168,6 @@
           </div>
         </div>
 
-        <!-- STEP 3 -->
-        <div class="step-head"><span class="num">3</span> Add your data</div>
-        <div class="drop" id="drop">
-          <svg class="upic" viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
-          <span class="drop-txt" id="dropTxt">Drop your <code>.h5ad</code> to run the pipeline</span>
-        </div>
         <div class="closing">
           <span class="micro">Uploads open during the alpha — free while it lasts.</span>
           <a class="cta" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20access">Request access</a>
@@ -229,10 +231,14 @@
         return s;
       }
       function buildDotplot(W,H){
+        // marker dotplot: each cell type (row) lights up its own marker genes (cols) → diagonal band
         var rand=prng(3), rows=6, cols=8, padL=14, padT=14, gw=(W-padL-12)/cols, gh=(H-padT-14)/rows, s='';
         for(var r=0;r<rows;r++) for(var c=0;c<cols;c++){
-          var cx=padL+gw*(c+0.5), cy=padT+gh*(r+0.5), v=rand(), rad=2+v*v*7.5, t=rand();
-          s+='<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="'+rad.toFixed(1)+'" fill="'+(t>0.5?GREEN:BLUE)+'" fill-opacity="'+(0.35+v*0.5).toFixed(2)+'"/>';
+          var cx=padL+gw*(c+0.5), cy=padT+gh*(r+0.5);
+          var expected=(r+0.5)*cols/rows, onDiag=Math.abs((c+0.5)-expected)<1.1;
+          var v=onDiag?(0.72+rand()*0.28):(rand()*0.30), rad=1.5+v*v*7.5;
+          var col=onDiag?GREEN:BLUE, op=onDiag?(0.78+rand()*0.18):(0.22+rand()*0.18);
+          s+='<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="'+rad.toFixed(1)+'" fill="'+col+'" fill-opacity="'+op.toFixed(2)+'"/>';
         }
         return s;
       }
@@ -329,12 +335,17 @@
         } else { head.style.display='none'; }
       }
 
+      var selected = MODULES.map(function(){ return true; });   // all analyses on by default
       var modList=document.getElementById('modList');
       MODULES.forEach(function(m,i){
         var li=document.createElement('li');
         li.className='mod-item'+(i===DEFAULT_MOD?' active':'');
-        li.innerHTML='<span class="chk"></span><span class="mt">'+m.t+'</span>';
-        li.addEventListener('click', function(){ setMod(i); });
+        li.innerHTML='<span class="chk'+(selected[i]?' on':'')+'"></span><span class="mt">'+m.t+'</span>';
+        li.addEventListener('click', function(){
+          selected[i]=!selected[i];                              // toggle the tick on/off
+          this.querySelector('.chk').classList.toggle('on', selected[i]);
+          setMod(i);                                             // and preview what was clicked
+        });
         modList.appendChild(li);
       });
       function setMod(i){
