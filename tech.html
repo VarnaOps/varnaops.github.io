@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tech — VarnaOps</title>
-  <meta name="description" content="The methods behind VarnaOps and the open-source ecosystems we build on — scverse, NVIDIA RAPIDS, PyTorch — with license attributions." />
+  <meta name="description" content="The open-source software VarnaOps builds on, grouped by ecosystem, with license attributions." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -18,7 +18,6 @@
         </span>
       </a>
       <nav class="nav-links">
-        <a href="vision.html">Vision</a>
         <a href="tech.html" class="active">Tech</a>
         <a href="data.html">Data</a>
         <a href="careers.html">Careers</a>
@@ -32,46 +31,11 @@
     <section class="page-head">
       <div class="wrap">
         <h1>Tech</h1>
-        <p class="lead">What's under the hood — the methods, and the open-source ecosystems we build on.</p>
       </div>
     </section>
 
     <section class="prose">
       <div class="wrap">
-        <h2>Methods</h2>
-        <p>
-          <strong>Embedding &amp; mapping.</strong> A reference atlas is embedded into a
-          batch-corrected latent space with <strong>scVI / scANVI</strong>. Your query is projected
-          into that same space with <strong>scArches</strong> — no retraining of the reference
-          required. Reference models are trained by streaming minibatches from sharded Zarr with
-          <strong>annbatch</strong>, so training scales beyond memory.
-        </p>
-        <p>
-          <strong>Label transfer &amp; confidence.</strong> Cell types are assigned by
-          <strong>k-nearest-neighbour transfer</strong> in the latent space, each with a per-cell
-          confidence score. Cells that sit far from the reference manifold are flagged as
-          <strong>deviant</strong> rather than forced into the nearest known type.
-        </p>
-        <p>
-          <strong>Downstream analysis.</strong> <strong>Leiden</strong> community detection for
-          clustering; per-cell-type <strong>differential expression</strong>;
-          <strong>pyDESeq2</strong> pseudobulk for disease-state comparisons; and
-          <strong>decoupler</strong> for pathway and transcription-factor activity.
-        </p>
-        <p>
-          <strong>GPU acceleration.</strong> The heavy steps run on a single GPU through
-          <strong>rapids-singlecell</strong> on top of <strong>NVIDIA RAPIDS</strong>, with chunked,
-          lazy data paths designed to scale toward atlas size.
-        </p>
-
-        <h2>Open-source software</h2>
-        <p>
-          VarnaOps is built on open-source software — we don't reinvent what these ecosystems already
-          do well. We comply with each project's license and are grateful to these communities.
-          Licenses below were verified against our installed package metadata; the full pinned
-          dependency list ships with every run.
-        </p>
-
         <h3>scverse &amp; the AnnData ecosystem</h3>
         <div class="tbl-card">
           <table class="ltable">
@@ -79,37 +43,40 @@
             <tbody>
               <tr><td>AnnData</td><td class="role">Annotated data structures</td><td class="lic">BSD-3-Clause</td></tr>
               <tr><td>scanpy</td><td class="role">Single-cell analysis toolkit</td><td class="lic">BSD-3-Clause</td></tr>
-              <tr><td>scvi-tools</td><td class="role">scVI / scANVI latent models</td><td class="lic">BSD-3-Clause</td></tr>
-              <tr><td>scArches</td><td class="role">Reference mapping</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>scvi-tools</td><td class="role">scVI / scANVI + scArches reference mapping</td><td class="lic">BSD-3-Clause</td></tr>
               <tr><td>rapids-singlecell</td><td class="role">GPU single-cell (built on RAPIDS)</td><td class="lic">MIT</td></tr>
               <tr><td>decoupler</td><td class="role">Pathway / TF activity</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>scib-metrics</td><td class="role">Integration-quality metrics</td><td class="lic">BSD-3-Clause</td></tr>
               <tr><td>annbatch</td><td class="role">Streaming minibatches from sharded Zarr (training)</td><td class="lic">MIT</td></tr>
             </tbody>
           </table>
         </div>
 
-        <h3>NVIDIA RAPIDS</h3>
+        <h3>NVIDIA</h3>
         <div class="tbl-card">
           <table class="ltable">
             <thead><tr><th>Library</th><th>Role</th><th>License</th></tr></thead>
             <tbody>
+              <tr><td>RAPIDS</td><td class="role">GPU data-science suite</td><td class="lic">Apache-2.0</td></tr>
               <tr><td>cuML</td><td class="role">GPU machine learning</td><td class="lic">Apache-2.0</td></tr>
               <tr><td>cuGraph</td><td class="role">GPU graph analytics (Leiden)</td><td class="lic">Apache-2.0</td></tr>
               <tr><td>cuDF</td><td class="role">GPU dataframes</td><td class="lic">Apache-2.0</td></tr>
               <tr><td>RMM</td><td class="role">GPU memory management</td><td class="lic">Apache-2.0</td></tr>
-              <tr><td>pylibraft</td><td class="role">GPU primitives (neighbours)</td><td class="lic">Apache-2.0</td></tr>
+              <tr><td>pynvjitlink</td><td class="role">CUDA JIT linking</td><td class="lic">Apache-2.0</td></tr>
               <tr><td>CuPy</td><td class="role">GPU array computing</td><td class="lic">MIT</td></tr>
             </tbody>
           </table>
         </div>
 
-        <h3>PyTorch</h3>
+        <h3>Deep learning</h3>
         <div class="tbl-card">
           <table class="ltable">
             <thead><tr><th>Library</th><th>Role</th><th>License</th></tr></thead>
             <tbody>
               <tr><td>PyTorch</td><td class="role">Tensors / autograd</td><td class="lic">BSD-3-Clause</td></tr>
               <tr><td>Lightning</td><td class="role">Training framework</td><td class="lic">Apache-2.0</td></tr>
+              <tr><td>JAX</td><td class="role">Accelerated arrays (metrics)</td><td class="lic">Apache-2.0</td></tr>
+              <tr><td>transformers</td><td class="role">SapBERT label matching</td><td class="lic">Apache-2.0</td></tr>
             </tbody>
           </table>
         </div>
@@ -123,14 +90,15 @@
               <tr><td>SciPy</td><td class="role">Scientific computing</td><td class="lic">BSD-3-Clause</td></tr>
               <tr><td>pandas</td><td class="role">Data frames</td><td class="lic">BSD-3-Clause</td></tr>
               <tr><td>scikit-learn</td><td class="role">ML utilities</td><td class="lic">BSD-3-Clause</td></tr>
-              <tr><td>statsmodels</td><td class="role">Statistics</td><td class="lic">BSD-3-Clause</td></tr>
               <tr><td>numba</td><td class="role">JIT compilation</td><td class="lic">BSD-2-Clause</td></tr>
+              <tr><td>h5py</td><td class="role">HDF5 / .h5ad I/O</td><td class="lic">BSD-3-Clause</td></tr>
               <tr><td>Matplotlib</td><td class="role">Plotting</td><td class="lic">Matplotlib (BSD-style)</td></tr>
+              <tr><td>seaborn</td><td class="role">Statistical plots</td><td class="lic">BSD-3-Clause</td></tr>
             </tbody>
           </table>
         </div>
 
-        <h3>Specialized analysis &amp; data</h3>
+        <h3>Clustering, embedding &amp; statistics</h3>
         <div class="tbl-card">
           <table class="ltable">
             <thead><tr><th>Library</th><th>Role</th><th>License</th></tr></thead>
@@ -139,17 +107,41 @@
               <tr><td>leidenalg</td><td class="role">Community detection</td><td class="lic">GPL-3.0</td></tr>
               <tr><td>python-igraph</td><td class="role">Graph algorithms</td><td class="lic">GPL-2.0-or-later</td></tr>
               <tr><td>pyDESeq2</td><td class="role">Pseudobulk differential expression</td><td class="lic">MIT</td></tr>
-              <tr><td>gseapy</td><td class="role">Enrichment analysis</td><td class="lic">MIT</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Data, storage &amp; cloud</h3>
+        <div class="tbl-card">
+          <table class="ltable">
+            <thead><tr><th>Library</th><th>Role</th><th>License</th></tr></thead>
+            <tbody>
               <tr><td>Zarr</td><td class="role">Chunked array storage</td><td class="lic">MIT</td></tr>
               <tr><td>Dask</td><td class="role">Parallel / lazy computing</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>cellxgene-census</td><td class="role">CZI Census access</td><td class="lic">MIT</td></tr>
+              <tr><td>TileDB-SOMA</td><td class="role">Census storage backend</td><td class="lic">MIT</td></tr>
+              <tr><td>PyArrow</td><td class="role">Columnar data</td><td class="lic">Apache-2.0</td></tr>
+              <tr><td>fsspec</td><td class="role">Filesystem abstraction</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>s3fs</td><td class="role">S3 filesystem</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>boto3</td><td class="role">AWS SDK</td><td class="lic">Apache-2.0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Interface</h3>
+        <div class="tbl-card">
+          <table class="ltable">
+            <thead><tr><th>Library</th><th>Role</th><th>License</th></tr></thead>
+            <tbody>
+              <tr><td>Jinja2</td><td class="role">HTML report templating</td><td class="lic">BSD-3-Clause</td></tr>
+              <tr><td>Gradio</td><td class="role">App UI</td><td class="lic">Apache-2.0</td></tr>
             </tbody>
           </table>
         </div>
 
         <div class="note warn">
-          <strong>Maintainer note:</strong> licenses verified against installed package metadata on
-          2026-06-28. Re-verify when upgrading dependencies, and regenerate these tables from the
-          locked environment before each public release.
+          <strong>Maintainer note:</strong> licenses verified against installed package metadata
+          (2026-06-28). Regenerate from the locked environment before each public release.
         </div>
       </div>
     </section>

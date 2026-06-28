@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Data &amp; licensing — VarnaOps</title>
-  <meta name="description" content="Where VarnaOps reference atlases come from and how we handle data licensing: CZI CELLxGENE Census (CC BY 4.0), Cell Ontology, commercial-use filtering." />
+  <meta name="description" content="VarnaOps reference data sources and licensing: the CZI CELLxGENE Census collections (CC BY 4.0) behind the human-brain reference, with attribution." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -18,7 +18,6 @@
         </span>
       </a>
       <nav class="nav-links">
-        <a href="vision.html">Vision</a>
         <a href="tech.html">Tech</a>
         <a href="data.html" class="active">Data</a>
         <a href="careers.html">Careers</a>
@@ -38,53 +37,57 @@
 
     <section class="prose">
       <div class="wrap">
-        <h2>Reference source: CZI CELLxGENE Census</h2>
-        <p>
-          VarnaOps reference atlases are built from the
-          <a href="https://cellxgene.cziscience.com/" target="_blank" rel="noopener">CZI CELLxGENE
-          Census</a> — a standardized, openly available corpus of single-cell data. All data
-          distributed through CELLxGENE is released under <strong>CC&nbsp;BY&nbsp;4.0</strong>. That
-          license permits commercial use; its one obligation is <strong>attribution</strong>, which we
-          carry into every reference manifest and report.
-        </p>
-
-        <h2>Commercial-use filtering</h2>
-        <p>
-          Beyond the uniform CELLxGENE policy, source studies can carry their own terms — some are
-          non-commercial (<code>CC&nbsp;BY-NC</code>) or no-derivatives (<code>CC&nbsp;BY-ND</code>),
-          which are <strong>not</strong> usable in a paid product. Our ingestion filters datasets by
-          license <strong>on by default, and fails loudly</strong> if a dataset's terms can't be
-          confirmed — so non-commercial or no-derivatives data never enters a reference used in the
-          product.
-        </p>
-
-        <h2>Ontology &amp; markers</h2>
-        <p>
-          Cell-type labels are harmonized to the <a href="https://obofoundry.org/ontology/cl.html"
-          target="_blank" rel="noopener">Cell Ontology (CL)</a>, and curated marker panels draw on
-          <strong>CZ CellGuide</strong> — both released under <strong>CC&nbsp;BY&nbsp;4.0</strong>,
-          with attribution.
-        </p>
-
-        <h2>Per-dataset attribution</h2>
-        <p>
-          Every reference ships a <strong>manifest</strong> that lists each contributing dataset — its
-          title, collection, DOI, and citation — so the full provenance travels with the model and
-          appears in the report. The live <strong>human-brain</strong> reference is built from CZI
-          CELLxGENE Census human-brain datasets.
-        </p>
-        <div class="note warn">
-          <strong>Maintainer note:</strong> the complete per-dataset citation list should be generated
-          from the reference manifest (<code>reference_manifest.json</code> / <code>metadata.csv</code>)
-          rather than hand-written, and embedded here at publish time so it stays in sync with the
-          shipped reference.
+        <h3>Licensing &amp; data handling</h3>
+        <div class="tbl-card">
+          <table class="ltable">
+            <thead><tr><th>Item</th><th>Policy</th></tr></thead>
+            <tbody>
+              <tr><td>Source corpus</td><td class="role">CZI CELLxGENE Census — all data is CC&nbsp;BY&nbsp;4.0; attribution required and carried into every reference manifest and report.</td></tr>
+              <tr><td>Commercial use</td><td class="role">Filtered at ingestion, on by default and fail-loud; CC&nbsp;BY-NC / CC&nbsp;BY-ND data is excluded from references used in the product.</td></tr>
+              <tr><td>Cell-type ontology</td><td class="role">Labels harmonized to the Cell Ontology (CC&nbsp;BY).</td></tr>
+              <tr><td>Marker panels</td><td class="role">Curated from CZ CellGuide (CC&nbsp;BY&nbsp;4.0).</td></tr>
+              <tr><td>Your data</td><td class="role">Processed in an isolated per-run job; not used to train our models.</td></tr>
+            </tbody>
+          </table>
         </div>
 
-        <h2>Your data</h2>
+        <h3>Reference data sources — human brain</h3>
         <p>
-          Data you upload is processed in an <strong>isolated per-run job</strong> and is
-          <strong>not</strong> used to train our models. Your inputs and results are yours.
+          The live human-brain reference is a model trained on CC&nbsp;BY&nbsp;4.0 data from the
+          following CZI CELLxGENE Census collections (135 datasets, Census version 2025-11-08).
         </p>
+        <div class="tbl-card">
+          <table class="ltable">
+            <thead><tr><th>Collection</th><th>DOI</th><th>Datasets</th><th>License</th></tr></thead>
+            <tbody>
+              <tr><td>Human Brain Cell Atlas v1.0</td><td class="role"><a href="https://doi.org/10.1126/science.add7046" target="_blank" rel="noopener">10.1126/science.add7046</a></td><td>101</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Transcriptomic cytoarchitecture reveals principles of human neocortex organization</td><td class="role"><a href="https://doi.org/10.1126/science.adf6812" target="_blank" rel="noopener">10.1126/science.adf6812</a></td><td>7</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Single-nucleus transcriptome analysis across reward circuitry in the human brain</td><td class="role"><a href="https://doi.org/10.1016/j.neuron.2021.09.001" target="_blank" rel="noopener">10.1016/j.neuron.2021.09.001</a></td><td>5</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Cortical samples from C9-ALS, C9-ALS/FTD, C9-FTD patients and matched controls</td><td class="role"><a href="https://doi.org/10.1007/s00401-023-02599-5" target="_blank" rel="noopener">10.1007/s00401-023-02599-5</a></td><td>4</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Population-scale cross-disorder atlas of the human prefrontal cortex</td><td class="role"><a href="https://doi.org/10.1101/2024.10.31.24316513" target="_blank" rel="noopener">10.1101/2024.10.31.24316513</a></td><td>3</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Molecular characterization of selectively vulnerable neurons in Alzheimer's Disease</td><td class="role"><a href="https://doi.org/10.1038/s41593-020-00764-7" target="_blank" rel="noopener">10.1038/s41593-020-00764-7</a></td><td>2</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>SEA-AD: Seattle Alzheimer's Disease Brain Cell Atlas</td><td class="role"><a href="https://doi.org/10.1038/s41593-024-01774-5" target="_blank" rel="noopener">10.1038/s41593-024-01774-5</a></td><td>2</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Brain matters: region, age, and sex contributions to glia diversity and CNS function</td><td class="role"><a href="https://doi.org/10.1186/s40478-023-01568-z" target="_blank" rel="noopener">10.1186/s40478-023-01568-z</a></td><td>1</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Brain vascular single-cell multi-omics elucidates disease-risk associations</td><td class="role">—</td><td>1</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Deciphering glial contributions to CSF1R-related disorder</td><td class="role"><a href="https://doi.org/10.1186/s40478-024-01853-5" target="_blank" rel="noopener">10.1186/s40478-024-01853-5</a></td><td>1</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Transcriptional responses of the human dorsal striatum in opioid use disorder</td><td class="role"><a href="https://doi.org/10.1038/s41467-024-45165-7" target="_blank" rel="noopener">10.1038/s41467-024-45165-7</a></td><td>1</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Neuron type-specific effects of human aging and sex on DNA methylation and transcription</td><td class="role"><a href="https://doi.org/10.1016/j.neuron.2024.05.013" target="_blank" rel="noopener">10.1016/j.neuron.2024.05.013</a></td><td>1</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Molecular and cellular evolution of the primate dorsolateral prefrontal cortex</td><td class="role"><a href="https://doi.org/10.1126/science.abo7257" target="_blank" rel="noopener">10.1126/science.abo7257</a></td><td>1</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Cross-dementia human brain snRNA-seq (Rexach et al. 2024)</td><td class="role"><a href="https://doi.org/10.1016/j.cell.2024.08.019" target="_blank" rel="noopener">10.1016/j.cell.2024.08.019</a></td><td>1</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>HYPOMAP: a spatio-cellular map of the human hypothalamus</td><td class="role"><a href="https://doi.org/10.1038/s41586-024-08504-8" target="_blank" rel="noopener">10.1038/s41586-024-08504-8</a></td><td>1</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Molecular signatures of resilience to Alzheimer's Disease in neocortical layer-4 neurons</td><td class="role"><a href="https://doi.org/10.1101/2024.11.03.621787" target="_blank" rel="noopener">10.1101/2024.11.03.621787</a></td><td>1</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>Automatic cell-type harmonization and integration across Human Cell Atlas datasets</td><td class="role"><a href="https://doi.org/10.1016/j.cell.2023.11.026" target="_blank" rel="noopener">10.1016/j.cell.2023.11.026</a></td><td>1</td><td class="lic">CC BY 4.0</td></tr>
+              <tr><td>A multi-region single-nucleus transcriptomic atlas of Parkinson's disease</td><td class="role"><a href="https://doi.org/10.1038/s41597-024-04117-y" target="_blank" rel="noopener">10.1038/s41597-024-04117-y</a></td><td>1</td><td class="lic">CC BY 4.0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note warn">
+          <strong>Maintainer note:</strong> this table is generated from
+          <code>data/refs/brain/reference_manifest.json</code> + <code>data/metadata.csv</code>
+          (2026-06-28). Regenerate it whenever the reference cohort changes so attribution stays in
+          sync with the shipped model.
+        </div>
       </div>
     </section>
   </main>
