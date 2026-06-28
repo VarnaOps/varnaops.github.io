@@ -58,13 +58,15 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .page-head h1 { margin: 0 0 10px; font-size: clamp(1.8rem, 3.6vw, 2.4rem); letter-spacing: -0.03em; }
 .page-head .lead { margin: 0; color: var(--muted); font-size: 1.15rem; max-width: 70ch; }
 .prose { padding: 26px 0 80px; }
-.prose .wrap { max-width: 780px; }
-.prose h2 { font-size: 1.3rem; margin: 36px 0 10px; letter-spacing: -0.02em; }
-.prose p { color: var(--ink-soft); margin: 0 0 14px; }
-.prose ul { color: var(--ink-soft); padding-left: 20px; margin: 0 0 14px; }
+.prose h2 { font-size: 1.3rem; margin: 38px 0 10px; letter-spacing: -0.02em; }
+.prose h3 { font-size: 1.04rem; margin: 28px 0 8px; }
+.prose p { color: var(--ink-soft); margin: 0 0 14px; max-width: 760px; }
+.prose ul { color: var(--ink-soft); padding-left: 20px; margin: 0 0 14px; max-width: 760px; }
 .prose li { margin-bottom: 7px; }
 .prose strong { color: var(--text); font-weight: 600; }
 .prose a { color: var(--accent); }
+.prose .pull { font-size: 1.4rem; line-height: 1.3; font-weight: 600; color: var(--text); letter-spacing: -0.02em; margin: 26px 0; max-width: 760px; }
+.prose .pull .ops { color: var(--accent); }
 
 /* note / callout */
 .note { background: var(--accent-soft); border: 1px solid rgba(29,158,117,0.25); border-radius: 10px; padding: 14px 16px; color: #2f5d4f; font-size: 0.92rem; margin: 18px 0; }
