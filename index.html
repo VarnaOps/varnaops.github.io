@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VarnaOps — Single-Cell Analysis Platform</title>
-  <meta name="description" content="Reference-mapped single-cell annotation with per-cell confidence — plus QC, markers, clustering, differential expression, and a shareable report." />
+  <meta name="description" content="Add your data, pick a reference atlas, choose your analyses — VarnaOps maps your cells and returns one shareable report." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -18,7 +18,6 @@
         </span>
       </a>
       <nav class="nav-links">
-        <a href="how-it-works.html">How it works</a>
         <a href="vision.html">Vision</a>
         <a href="tech.html">Tech</a>
         <a href="data.html">Data</a>
@@ -29,38 +28,56 @@
   </header>
 
   <main>
-    <section class="hero">
+    <section class="page-head">
       <div class="wrap">
-        <h1>Single-cell annotation, end to end.</h1>
-        <p class="lead">
-          Reference-mapped cell typing with a confidence score on every cell — plus QC, marker
-          validation, clustering, differential expression, and deviant-population detection.
-          One upload, one shareable report.
-        </p>
-        <div class="hero-cta">
-          <a class="cta" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20access">Request access</a>
-          <a class="ghost" href="how-it-works.html">See how it works →</a>
-        </div>
+        <h1>Analyze your single-cell data</h1>
+        <p class="lead">Add your data, pick a reference, choose your analyses — get one report.</p>
       </div>
     </section>
 
-    <section class="cards-sec">
-      <div class="wrap cards">
-        <a class="ucard" href="how-it-works.html">
-          <h3>How it works</h3>
-          <p>Add your data, pick a reference, choose your analyses — get one report.</p>
-          <span class="more">Explore →</span>
-        </a>
-        <a class="ucard" href="vision.html">
-          <h3>Vision</h3>
-          <p>A reference factory for single-cell biology, built organ by organ.</p>
-          <span class="more">Read →</span>
-        </a>
-        <a class="ucard" href="data.html">
-          <h3>Data &amp; licensing</h3>
-          <p>Built on the CZI CELLxGENE Census, Cell-Ontology-aligned, commercial-use filtered.</p>
-          <span class="more">Details →</span>
-        </a>
+    <section class="flow">
+      <div class="wrap">
+        <!-- STEP 1 — add data -->
+        <div class="step-head"><span class="num">1</span> Add your data</div>
+        <div class="drop" id="drop">
+          <svg class="upic" viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+          <span class="drop-txt" id="dropTxt">Drop your <code>.h5ad</code> to run the pipeline</span>
+        </div>
+
+        <!-- STEP 2 — context -->
+        <div class="step-head"><span class="num">2</span> Choose your biological context</div>
+        <div class="organ-row" id="organRow"></div>
+        <div class="card preview atlas">
+          <div class="pv-svg">
+            <svg id="atlasSvg" viewBox="0 0 340 230" role="img" aria-label="Reference atlas preview"></svg>
+            <span class="illus">illustrative — real atlas views coming soon</span>
+          </div>
+          <div class="pv-text">
+            <h3 id="atlasName"></h3>
+            <p id="atlasDesc"></p>
+            <div class="legend-head" id="atlasLegendHead"></div>
+            <div class="legend" id="atlasLegend"></div>
+          </div>
+        </div>
+
+        <!-- STEP 3 — analyses -->
+        <div class="step-head"><span class="num">3</span> Choose your analyses</div>
+        <div class="compute">
+          <ul class="mod-list" id="modList"></ul>
+          <div class="card">
+            <div class="pv-svg"><svg id="modSvg" viewBox="0 0 340 230" role="img" aria-label="Analysis output preview"></svg></div>
+            <div class="pv-text">
+              <h3 id="modName"></h3>
+              <p id="modDesc"></p>
+              <span class="illus">illustrative — real outputs coming soon</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="closing">
+          <span class="micro">Uploads open during the alpha — free while it lasts.</span>
+          <a class="cta" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20access">Request access</a>
+        </div>
       </div>
     </section>
   </main>
@@ -71,5 +88,7 @@
       <a href="mailto:leonardo@varnaops.com">leonardo@varnaops.com</a>
     </div>
   </footer>
+
+  <script src="walkthrough.js" defer></script>
 </body>
 </html>
