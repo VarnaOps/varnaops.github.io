@@ -6,6 +6,7 @@
   <title>Methods — VarnaOps</title>
   <meta name="description" content="How VarnaOps builds reference atlases, trains scVI/scANVI models, maps queries, and benchmarks results — written as a methods section, with provenance and per-atlas parameters." />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="vendor/katex/katex.min.css" />
 </head>
 <body>
   <header class="nav">
@@ -95,8 +96,9 @@
           to bound memory.
         </p>
         <div class="formula">
-          MAD = median<sub>i</sub> | x<sub>i</sub> − median(x) | &nbsp;&nbsp;⟶&nbsp;&nbsp; flag cell i if &nbsp; | x<sub>i</sub> − median(x) | &gt; n<sub>MAD</sub> · MAD<br>
-          <span class="fn">x = a per-cell QC metric (counts, genes detected, % mitochondrial); n<sub>MAD</sub> = sensitivity (default 5)</span>
+          \[ \mathrm{MAD} = \operatorname{median}_i \left| x_i - \operatorname{median}(x) \right| \]
+          \[ \text{flag cell } i \ \text{ if } \ \left| x_i - \operatorname{median}(x) \right| > n_{\mathrm{MAD}} \cdot \mathrm{MAD} \]
+          <div class="fn">\(x\) is a per-cell QC metric (counts, genes detected, % mitochondrial); \(n_{\mathrm{MAD}}\) is the sensitivity (default 5).</div>
         </div>
 
         <h2 id="features"><span class="secnum">4</span>Gene &amp; feature selection</h2>
@@ -130,8 +132,8 @@
           in over a warm-up schedule to avoid posterior collapse:
         </p>
         <div class="formula">
-          ℒ(x) = 𝔼<sub>q(z|x)</sub>[ log p(x | z) ] − β · D<sub>KL</sub>( q(z | x) ‖ p(z) )<br>
-          <span class="fn">β ramps 0 ⟶ β* over the warm-up epochs; β* is tuned per atlas (recorded in the manifest) and reduced where the latent space is prone to collapse</span>
+          \[ \mathcal{L}(x) = \mathbb{E}_{q(z \mid x)}\!\left[\log p(x \mid z)\right] - \beta \, D_{\mathrm{KL}}\!\left(q(z \mid x) \,\|\, p(z)\right) \]
+          <div class="fn">\(\beta\) ramps \(0 \to \beta^{*}\) over the warm-up epochs; \(\beta^{*}\) is tuned per atlas (recorded in the manifest) and reduced where the latent space is prone to collapse.</div>
         </div>
         <p>
           Labels are incorporated with scANVI <span class="role">[2]</span>, which extends the trained
@@ -140,8 +142,8 @@
           swamped by abundant ones:
         </p>
         <div class="formula">
-          ℒ<sub>cls</sub> = − Σ<sub>c</sub> w<sub>c</sub> · y<sub>c</sub> · log ŷ<sub>c</sub> , &nbsp;&nbsp; w<sub>c</sub> ∝ 1 / n<sub>c</sub><br>
-          <span class="fn">n<sub>c</sub> = number of reference cells of type c; the weighting upweights rare types</span>
+          \[ \mathcal{L}_{\mathrm{cls}} = -\sum_{c} w_c \, y_c \log \hat{y}_c, \qquad w_c \propto \frac{1}{n_c} \]
+          <div class="fn">\(n_c\) is the number of reference cells of type \(c\); the weighting upweights rare types.</div>
         </div>
 
         <h2 id="mapping"><span class="secnum">7</span>Reference mapping &amp; label transfer</h2>
@@ -154,7 +156,7 @@
           n<sub>ref</sub> = 10,000), tuned for high recall:
         </p>
         <div class="formula">
-          n<sub>list</sub> = max( 64, ⌊√n<sub>ref</sub>⌋ ) , &nbsp;&nbsp; n<sub>probe</sub> = ⌊ n<sub>list</sub> / 4 ⌋
+          \[ n_{\mathrm{list}} = \max\!\left(64,\ \left\lfloor \sqrt{n_{\mathrm{ref}}} \right\rfloor\right), \qquad n_{\mathrm{probe}} = \left\lfloor \frac{n_{\mathrm{list}}}{4} \right\rfloor \]
         </div>
         <p>
           Each query cell receives a distance-weighted vote over its neighbours' labels, yielding a
@@ -162,9 +164,9 @@
           neighbourhood are flagged separately as candidate novel populations (§8).
         </p>
         <div class="formula">
-          p(c | x) = ( Σ<sub>i ∈ N<sub>k</sub>(x)</sub> w<sub>i</sub> · 𝟙[ y<sub>i</sub> = c ] ) ⁄ ( Σ<sub>i ∈ N<sub>k</sub>(x)</sub> w<sub>i</sub> ) , &nbsp;&nbsp; w<sub>i</sub> = 1 ⁄ d(x, x<sub>i</sub>)<br>
-          ŷ(x) = argmax<sub>c</sub> p(c | x) , &nbsp;&nbsp; confidence = max<sub>c</sub> p(c | x)<br>
-          <span class="fn">N<sub>k</sub>(x) = k nearest reference cells to query cell x in the latent space; d = Euclidean distance</span>
+          \[ p(c \mid x) = \frac{\sum_{i \in N_k(x)} w_i \, \mathbf{1}[\,y_i = c\,]}{\sum_{i \in N_k(x)} w_i}, \qquad w_i = \frac{1}{d(x, x_i)} \]
+          \[ \hat{y}(x) = \operatorname*{arg\,max}_c \ p(c \mid x), \qquad \text{confidence} = \max_c \ p(c \mid x) \]
+          <div class="fn">\(N_k(x)\) is the set of \(k\) nearest reference cells to query cell \(x\) in the latent space; \(d\) is Euclidean distance.</div>
         </div>
 
         <h2 id="novelty"><span class="secnum">8</span>Novelty detection</h2>
@@ -184,10 +186,10 @@
           normally are:
         </p>
         <div class="formula">
-          s(x) = (1 ⁄ k) Σ<sub>i ∈ N<sub>k</sub>(x)</sub> d(x, x<sub>i</sub>) &nbsp;&nbsp;&nbsp; (query → reference)<br>
-          τ = Q<sub>1−α</sub>( { s<sub>ref</sub>(r) : r ∈ R } ) , &nbsp;&nbsp; s<sub>ref</sub>(r) = mean kNN distance of reference cell r to other reference cells<br>
-          novelty(x) = 𝟙[ s(x) &gt; τ ]<br>
-          <span class="fn">R = reference cells; α = tail mass (e.g. 0.01); d = Euclidean distance in the latent space</span>
+          \[ s(x) = \frac{1}{k} \sum_{i \in N_k(x)} d(x, x_i) \qquad (\text{query} \to \text{reference}) \]
+          \[ \tau = Q_{1-\alpha}\!\left(\left\{\, s_{\mathrm{ref}}(r) : r \in R \,\right\}\right), \qquad s_{\mathrm{ref}}(r) = \frac{1}{k} \sum_{j \in N_k(r)} d(r, r_j) \]
+          \[ \operatorname{novelty}(x) = \mathbf{1}\!\left[\, s(x) > \tau \,\right] \]
+          <div class="fn">\(R\) = reference cells; \(\alpha\) = tail mass (e.g. 0.01); \(d\) = Euclidean distance in the latent space.</div>
         </div>
         <p>
           The flagged fraction is a <strong>lower bound</strong> on the query's true out-of-reference
@@ -199,9 +201,10 @@
           <em>not</em> certified as covered.
         </p>
         <div class="formula">
-          let &nbsp; T = { query cells whose true identity is absent from the reference } , &nbsp; D = { x : novelty(x) = 1 }<br>
-          low false-positive threshold &nbsp;⇒&nbsp; D ⊆ T &nbsp;(approx.)&nbsp; ⇒ &nbsp; | D | ≤ | T |<br>
-          <span class="fn">the reported novelty fraction reads as "at least this much is uncharacterized," not a calibrated estimate</span>
+          \[ T = \{\, \text{query cells whose true identity is absent from the reference} \,\} \]
+          \[ D = \{\, x : \operatorname{novelty}(x) = 1 \,\} \]
+          \[ \text{low false-positive threshold} \ \Longrightarrow\ D \subseteq T \ \ (\text{approx.}) \ \Longrightarrow\ \lvert D \rvert \le \lvert T \rvert \]
+          <div class="fn">The reported novelty fraction reads as &ldquo;at least this much is uncharacterized,&rdquo; not a calibrated estimate.</div>
         </div>
         <p>
           The score does not separate biological novelty from strong technical shift — both place a cell
@@ -222,8 +225,8 @@
           an unweighted per-class mean is balanced across abundant and rare cell types:
         </p>
         <div class="formula">
-          F1<sub>macro</sub> = (1 ⁄ C) Σ<sub>c=1</sub><sup>C</sup> 2 · P<sub>c</sub> · R<sub>c</sub> ⁄ ( P<sub>c</sub> + R<sub>c</sub> )<br>
-          <span class="fn">P<sub>c</sub>, R<sub>c</sub> = precision and recall for cell type c; C = number of harmonized types</span>
+          \[ \mathrm{F1}_{\mathrm{macro}} = \frac{1}{C} \sum_{c=1}^{C} \frac{2 \, P_c \, R_c}{P_c + R_c} \]
+          <div class="fn">\(P_c, R_c\) = precision and recall for cell type \(c\); \(C\) = number of harmonized types.</div>
         </div>
         <p>
           Integration quality — how well batches mix while biological structure is preserved — is
@@ -332,5 +335,19 @@
       <a href="mailto:leonardo@varnaops.com">leonardo@varnaops.com</a>
     </div>
   </footer>
+
+  <script defer src="vendor/katex/katex.min.js"></script>
+  <script defer src="vendor/katex/contrib/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "\\(", right: "\\)", display: false }
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
 </body>
 </html>
