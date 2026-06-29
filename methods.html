@@ -32,7 +32,7 @@
     <section class="page-head">
       <div class="wrap">
         <h1>Methods</h1>
-        <p class="lead">How a result is produced, end to end — written as a methods section so it can be read, cited, and reproduced. The methods below are organ-agnostic; the parameters that vary per atlas are stratified in §11.</p>
+        <p class="lead">How a result is produced, end to end — written as a methods section so it can be read, cited, and reproduced. The methods below are organ-agnostic; the parameters that vary per atlas are stratified in §12.</p>
       </div>
     </section>
 
@@ -49,6 +49,7 @@
             <li><a href="#labels">Label harmonization</a></li>
             <li><a href="#model">Latent model: scVI / scANVI</a></li>
             <li><a href="#mapping">Reference mapping &amp; label transfer</a></li>
+            <li><a href="#novelty">Novelty detection</a></li>
             <li><a href="#benchmark">Model selection &amp; benchmarking</a></li>
             <li><a href="#downstream">Downstream analysis</a></li>
             <li><a href="#provenance">Reproducibility &amp; provenance</a></li>
@@ -64,7 +65,7 @@
           surfacing marker genes, differential expression, and deviant populations in a single
           self-contained report. Each reference is built once from a public corpus and reused across
           queries; a query is mapped in without retraining the reference. Every stage records its
-          parameters into a per-run provenance manifest (§10), so a result can be traced back to the
+          parameters into a per-run provenance manifest (§11), so a result can be traced back to the
           inputs and decisions that produced it.
         </p>
 
@@ -79,7 +80,7 @@
         <p>
           References use a <strong>healthy backbone</strong>: cells are filtered to normal / control
           condition, so the atlas captures baseline cell-type structure. Disease is handled as a
-          per-query layer at annotation time (§9), not baked into the reference. Genes are reconciled
+          per-query layer at annotation time (§10), not baked into the reference. Genes are reconciled
           by a strict inner join across the constituent datasets, yielding a common gene space shared
           by every cell in the reference.
         </p>
@@ -116,7 +117,7 @@
           <span class="role">[10]</span> and then rolled up to a coarse, atlas-level set of cell types.
           The crosswalk (original label → CL identifier → harmonized cell type) ships with each build
           as a label registry. The same harmonization is applied to a held-out query before scoring
-          (§8), so benchmark numbers compare like with like.
+          (§9), so benchmark numbers compare like with like.
         </p>
 
         <h2 id="model"><span class="secnum">6</span>Latent model: scVI / scANVI</h2>
@@ -157,9 +158,8 @@
         </div>
         <p>
           Each query cell receives a distance-weighted vote over its neighbours' labels, yielding a
-          predicted type and a calibrated confidence. A novelty score, derived from the reference's own
-          self-distance distribution, flags query cells that sit far from any reference neighbourhood —
-          candidate populations the reference does not cover.
+          predicted type and a calibrated confidence. Cells that map far from any reference
+          neighbourhood are flagged separately as candidate novel populations (§8).
         </p>
         <div class="formula">
           p(c | x) = ( Σ<sub>i ∈ N<sub>k</sub>(x)</sub> w<sub>i</sub> · 𝟙[ y<sub>i</sub> = c ] ) ⁄ ( Σ<sub>i ∈ N<sub>k</sub>(x)</sub> w<sub>i</sub> ) , &nbsp;&nbsp; w<sub>i</sub> = 1 ⁄ d(x, x<sub>i</sub>)<br>
@@ -167,7 +167,51 @@
           <span class="fn">N<sub>k</sub>(x) = k nearest reference cells to query cell x in the latent space; d = Euclidean distance</span>
         </div>
 
-        <h2 id="benchmark"><span class="secnum">8</span>Model selection &amp; benchmarking</h2>
+        <h2 id="novelty"><span class="secnum">8</span>Novelty detection</h2>
+        <p>
+          Reference mapping places every query cell somewhere in the reference latent space, but a query
+          may contain cell types or states the reference never saw. Because the encoder can only project
+          into the existing manifold, such cells are not given a "no match" output — they receive a
+          nearest-neighbour label like any other (§7). Novelty detection is the safeguard: it scores how
+          well each query cell is actually explained by the reference, independent of the label assigned.
+        </p>
+        <p>
+          The score reuses the latent kNN distances from §7. For a query cell x it is the mean distance
+          to its k nearest reference neighbours, compared against how far reference cells typically sit
+          from one another. We precompute the reference's own self-distance distribution — each reference
+          cell's mean distance to its k nearest reference neighbours — and set a threshold τ at a high
+          quantile of that distribution. A cell is flagged when it is more isolated than reference cells
+          normally are:
+        </p>
+        <div class="formula">
+          s(x) = (1 ⁄ k) Σ<sub>i ∈ N<sub>k</sub>(x)</sub> d(x, x<sub>i</sub>) &nbsp;&nbsp;&nbsp; (query → reference)<br>
+          τ = Q<sub>1−α</sub>( { s<sub>ref</sub>(r) : r ∈ R } ) , &nbsp;&nbsp; s<sub>ref</sub>(r) = mean kNN distance of reference cell r to other reference cells<br>
+          novelty(x) = 𝟙[ s(x) &gt; τ ]<br>
+          <span class="fn">R = reference cells; α = tail mass (e.g. 0.01); d = Euclidean distance in the latent space</span>
+        </div>
+        <p>
+          The flagged fraction is a <strong>lower bound</strong> on the query's true out-of-reference
+          content, for two reasons. First, the encoder maps a novel population into the convex hull of
+          the existing manifold rather than onto a new island, so some genuinely novel cells land near
+          reference cells and score below τ — they evade the flag. Second, τ is deliberately placed in
+          the reference's own upper tail to suppress false positives. Detection is therefore
+          conservative: a flagged cell is reliably outside reference coverage, but an unflagged cell is
+          <em>not</em> certified as covered.
+        </p>
+        <div class="formula">
+          let &nbsp; T = { query cells whose true identity is absent from the reference } , &nbsp; D = { x : novelty(x) = 1 }<br>
+          low false-positive threshold &nbsp;⇒&nbsp; D ⊆ T &nbsp;(approx.)&nbsp; ⇒ &nbsp; | D | ≤ | T |<br>
+          <span class="fn">the reported novelty fraction reads as "at least this much is uncharacterized," not a calibrated estimate</span>
+        </div>
+        <p>
+          The score does not separate biological novelty from strong technical shift — both place a cell
+          outside the reference manifold — so a large novelty fraction on an unseen or zero-shot query is
+          expected, and shrinks as the reference broadens. Flagged cells feed the discovery workflow
+          (§10): in the joint embedding they are clustered, where genuinely novel populations form
+          coherent groups rather than scattering as isolated outliers.
+        </p>
+
+        <h2 id="benchmark"><span class="secnum">9</span>Model selection &amp; benchmarking</h2>
         <p>
           Models are checkpointed every epoch and selected on the metric actually deployed — kNN
           label-transfer accuracy on a harmonized, held-out, in-distribution query — rather than on a
@@ -200,7 +244,7 @@
           <div class="fig-cap"><b>Figure 3.</b> kNN label-transfer macro-F1 on the harmonized held-out query, per epoch; the promoted model is the argmax.</div>
         </div>
 
-        <h2 id="downstream"><span class="secnum">9</span>Downstream analysis</h2>
+        <h2 id="downstream"><span class="secnum">10</span>Downstream analysis</h2>
         <p>
           Beyond annotation, each run optionally computes: marker-gene validation against curated,
           Cell-Ontology-mediated panels (sourced from CZ CellGuide); differential expression by
@@ -213,7 +257,7 @@
           against normalized or under-powered input.
         </p>
 
-        <h2 id="provenance"><span class="secnum">10</span>Reproducibility &amp; provenance</h2>
+        <h2 id="provenance"><span class="secnum">11</span>Reproducibility &amp; provenance</h2>
         <p>
           References are versioned and pinned to a Census snapshot; each runs in a locked,
           version-pinned software environment, isolated per run. Re-running the same input against the
@@ -239,7 +283,7 @@
           </table>
         </div>
 
-        <h2 id="atlases"><span class="secnum">11</span>Per-atlas parameters</h2>
+        <h2 id="atlases"><span class="secnum">12</span>Per-atlas parameters</h2>
         <p>
           The methods above are shared across organs. The parameters that vary per atlas are stratified
           here; each new reference appends a row.
@@ -254,15 +298,15 @@
           </table>
         </div>
         <div class="note warn">
-          <strong>Maintainer note:</strong> the §10 record mirrors
+          <strong>Maintainer note:</strong> the §11 record mirrors
           <code>varnaops/reference_manifest.py</code> (<code>write_reference_provenance</code>) and the
-          §11 row values come from each atlas's <code>reference_manifest.json</code> + benchmark card.
+          §12 row values come from each atlas's <code>reference_manifest.json</code> + benchmark card.
           Regenerate both whenever a reference is rebuilt so the page stays in sync with the shipped
           models, and swap the Figure placeholders for the real training-curve / scib / benchmark plots
           when they are exported.
         </div>
 
-        <h2 id="refs"><span class="secnum">12</span>References</h2>
+        <h2 id="refs"><span class="secnum">13</span>References</h2>
         <ol class="refs">
           <li>Lopez R, Regier J, Cole MB, Jordan MI, Yosef N. Deep generative modeling for single-cell transcriptomics. <em>Nat Methods</em> 2018.</li>
           <li>Xu C, Lopez R, Mehlman E, Regier J, Jordan MI, Yosef N. Probabilistic harmonization and annotation of single-cell transcriptomics data with deep generative models. <em>Mol Syst Biol</em> 2021.</li>
