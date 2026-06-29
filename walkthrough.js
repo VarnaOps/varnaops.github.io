@@ -41,16 +41,16 @@
     {name:'More organs', status:'planned', desc:'New references are added organ by organ. Working on a specific tissue? Tell us — it helps us prioritize.', build:buildPlanned, labels:null}
   ];
   var MODULES = [
-    {t:'Data QC', d:'Per-sample quality control — flags low-quality cells and doublets before mapping, with MAD-based thresholds.'},
-    {t:'Annotate cells or use your own labels', d:'Map cells to the reference for predicted types plus a per-cell confidence score — or bring your own labels and drive everything downstream from those.'},
-    {t:'Marker gene validation', d:'Checks canonical markers per predicted cell type, so you can see the calls are backed by the right genes.'},
-    {t:'Cluster analysis', d:'Unsupervised clustering of your query, resolved at multiple resolutions and characterized cluster by cluster.'},
-    {t:'Differential expression', d:'Genes up- and down-regulated between groups, per cell type — shown as standard volcano plots.'},
-    {t:'Identify deviant populations', d:'Flags cells that fall outside the reference, and surfaces shifts associated with disease state.'},
-    {t:'Shareable report', d:'Every run is packaged into one self-contained HTML report — all plots, tables, and a plain-language summary, ready to share by link.'},
-    {t:'LLM-generated interpretation', d:'An optional plain-language write-up of the run — it narrates the figures and statistics produced, cites the numbers, and never changes the underlying results.'}
+    {t:'Check data quality', d:'Per-sample quality control — flags low-quality cells and doublets before mapping, with MAD-based thresholds.'},
+    {t:'Call cell types', d:'Map cells to the reference for predicted types plus a per-cell confidence score — or bring your own labels and drive everything downstream from those.'},
+    {t:'Validate cell type calls with marker genes', d:'Checks canonical marker genes per predicted cell type, so you can see the calls are backed by the right genes.'},
+    {t:'Find subpopulations', d:'Unsupervised clustering of your query, resolved at multiple resolutions and characterized cluster by cluster.'},
+    {t:'Find signature genes', d:'The genes that define each cell type or state — found by differential expression and shown as standard volcano plots.'},
+    {t:'Compute cell abnormality score', d:'Scores how far each cell sits from the reference — flagging novel populations and shifts associated with disease state.'},
+    {t:'Generate a report', d:'Every run is packaged into one self-contained HTML report — all plots, tables, and a plain-language summary, ready to share by link.'},
+    {t:'Interpret results with an LLM', d:'An optional plain-language write-up of the run — it narrates the figures and statistics produced, cites the numbers, and never changes the underlying results.'}
   ];
-  var STEPS = ['Biological context','Outputs','Your data','Run'];
+  var STEPS = ['Biological context','Desired outcomes','Your data','Run'];
   var COLOR = function(i,n){ return 'hsl('+Math.round(i*360/n)+',58%,45%)'; };
 
   // ---- stepper (dots joined by a progress connector that fills as you advance) ----
@@ -139,7 +139,7 @@
   // ---- step 4: run (mock status) ----
   var runSum=document.getElementById('runSum'), runBtn=document.getElementById('runBtn'), statusEl=document.getElementById('status');
   function refreshRunSummary(){
-    runSum.innerHTML='<b>'+ORGANS[activeOrgan].name+'</b> reference · <b>'+selectedCount()+'</b> output'+(selectedCount()===1?'':'s')+' selected · '+(hasFile?'<b>your_data.h5ad</b>':'no file loaded yet');
+    runSum.innerHTML='<b>'+ORGANS[activeOrgan].name+'</b> reference · <b>'+selectedCount()+'</b> outcome'+(selectedCount()===1?'':'s')+' selected · '+(hasFile?'<b>your_data.h5ad</b>':'no file loaded yet');
   }
   var STAGES=['Uploading your data','Queued','Mapping cells to the reference','Transferring labels','Computing selected outputs','Building report'];
   var timer=null;
