@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Changelog — VarnaOps</title>
+  <meta name="description" content="Version history for VarnaOps references, models, and methods — so every result can be tied to a specific, citable version." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <img class="mark" src="mark.svg" alt="" />
+        <span class="brand-text">
+          <span class="word">Varna<span class="ops">Ops</span></span>
+          <span class="tagline">Single-Cell Analysis Platform</span>
+        </span>
+      </a>
+      <nav class="nav-links">
+        <a href="mission.html">Mission</a>
+        <details class="nav-dd active">
+          <summary>Reproducibility</summary>
+          <div class="nav-dd-menu">
+            <a href="methods.html">Methods</a>
+            <a href="tech.html">Tech</a>
+            <a href="data.html">Data</a>
+            <a href="changelog.html" class="active">Changelog</a>
+          </div>
+        </details>
+        <a href="blog.html">Blog</a>
+        <a href="careers.html">Careers</a>
+        <a href="contact.html">Contact</a>
+        <a class="cta cta-sm" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20access">Request access</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <h1>Changelog</h1>
+        <p class="lead">Version history for references, models, and methods. Every run records the exact versions it used, so a result can always be tied to a specific, citable state.</p>
+      </div>
+    </section>
+
+    <section class="prose">
+      <div class="wrap">
+        <h3>References &amp; models</h3>
+        <p>
+          References are versioned independently of the data they are built from: the model is
+          versioned, and it cites the immutable CZI CELLxGENE Census snapshot it was trained on. A new
+          version is cut when the cohort, gene space, harmonization, or training recipe changes.
+        </p>
+        <div class="tbl-card">
+          <table class="ltable">
+            <thead><tr><th>Component</th><th>Version</th><th>Status</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Human brain reference</td><td class="lic">v0.2</td><td class="role">Live</td><td class="role">CZI Census 2025-11-08 · 135 datasets · 15 harmonized cell types · healthy backbone.</td></tr>
+              <tr><td>Immune reference (cross-organ)</td><td class="lic">v0.1</td><td class="role">In preparation</td><td class="role">18 harmonized cell types; label registry defined, training pending.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Platform &amp; methods</h3>
+        <div class="tbl-card">
+          <table class="ltable">
+            <thead><tr><th>Date</th><th>Change</th></tr></thead>
+            <tbody>
+              <tr><td class="lic">2026-06</td><td class="role">Public <a href="methods.html">Methods</a> section, per-analysis documentation, and reproducibility pages (Methods · Tech · Data · Changelog).</td></tr>
+              <tr><td class="lic">2026-06</td><td class="role">Human-brain reference v0.2 served; benchmark card published alongside the provenance manifest.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note">
+          Versioning is part of the product, not a label on this page: each run's report and manifest
+          carry the exact reference version, Census snapshot, and pipeline commit. This page is the
+          human-readable summary of that history.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot-inner">
+      <span>© 2026 VarnaOps · Reference data via the CZI CELLxGENE Census (CC BY 4.0)</span>
+      <a href="mailto:leonardo@varnaops.com">leonardo@varnaops.com</a>
+    </div>
+  </footer>
+
+  <script src="nav.js" defer></script>
+</body>
+</html>

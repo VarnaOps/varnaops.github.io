@@ -98,6 +98,22 @@
     [0.72,0.5].forEach(function(lw){ s+='<rect x="'+x0.toFixed(1)+'" y="'+y+'" width="'+(w*lw).toFixed(1)+'" height="5" rx="2.5" fill="#dfe3e8"/>'; y+=11; });
     return s;
   }
+  function buildInterpret(W,H){
+    var px=W*0.18, pw=W*0.64, x0=px+16, w=pw-32, y=24, s='';
+    s+='<rect x="'+px.toFixed(1)+'" y="10" width="'+pw.toFixed(1)+'" height="'+(H-20)+'" rx="7" fill="#ffffff" stroke="#e6e8ec"/>';
+    var sx=x0+5, sy=y-3;   // AI spark + heading line
+    s+='<path d="M'+sx+' '+(sy-7)+' L'+(sx+2.2)+' '+(sy-2.2)+' L'+(sx+7)+' '+sy+' L'+(sx+2.2)+' '+(sy+2.2)+' L'+sx+' '+(sy+7)+' L'+(sx-2.2)+' '+(sy+2.2)+' L'+(sx-7)+' '+sy+' L'+(sx-2.2)+' '+(sy-2.2)+' Z" fill="'+GREEN+'"/>';
+    s+='<rect x="'+(x0+16).toFixed(1)+'" y="'+(sy-3.5)+'" width="'+(w*0.44).toFixed(1)+'" height="7" rx="3.5" fill="'+GREEN+'"/>';
+    y+=18;
+    [0.96,0.9,0.84].forEach(function(lw){ s+='<rect x="'+x0.toFixed(1)+'" y="'+y+'" width="'+(w*lw).toFixed(1)+'" height="5" rx="2.5" fill="#dfe3e8"/>'; y+=11; });
+    y+=7; var bh=H*0.20;
+    s+='<rect x="'+x0.toFixed(1)+'" y="'+y+'" width="'+w.toFixed(1)+'" height="'+bh.toFixed(1)+'" rx="6" fill="rgba(29,158,117,0.08)" stroke="rgba(29,158,117,0.3)"/>';
+    var iy=y+11;
+    [0.82,0.64].forEach(function(lw){ s+='<rect x="'+(x0+9).toFixed(1)+'" y="'+iy+'" width="'+(w*lw).toFixed(1)+'" height="5" rx="2.5" fill="'+GREEN+'" fill-opacity="0.55"/>'; iy+=11; });
+    y+=bh+12;
+    [0.9,0.6].forEach(function(lw){ s+='<rect x="'+x0.toFixed(1)+'" y="'+y+'" width="'+(w*lw).toFixed(1)+'" height="5" rx="2.5" fill="#dfe3e8"/>'; y+=11; });
+    return s;
+  }
 
   // ---- data ----
   var W=340, H=230;
@@ -117,7 +133,8 @@
     {t:'Cluster analysis', d:'Unsupervised clustering of your query, resolved at multiple resolutions and characterized cluster by cluster.', build:buildCluster},
     {t:'Differential expression', d:'Genes up- and down-regulated between groups, per cell type — shown as standard volcano plots.', build:buildVolcano},
     {t:'Identify deviant populations', d:'Flags cells that fall outside the reference, and surfaces shifts associated with disease state.', build:buildNovel},
-    {t:'Shareable report', d:'Every run is packaged into one self-contained HTML report — all plots, tables, and a plain-language summary, ready to share by link.', build:buildReport}
+    {t:'Shareable report', d:'Every run is packaged into one self-contained HTML report — all plots, tables, and a plain-language summary, ready to share by link.', build:buildReport},
+    {t:'LLM-generated interpretation', d:'An optional plain-language write-up of the run — it narrates the figures and statistics that were produced, cites the numbers behind them, and never changes the underlying results.', build:buildInterpret}
   ];
   var DEFAULT_MOD = 1;
   var COLOR = function(i,n){ return 'hsl('+Math.round(i*360/n)+',58%,45%)'; };

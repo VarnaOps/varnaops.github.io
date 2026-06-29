@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mission — VarnaOps</title>
+  <meta name="description" content="VarnaOps makes atlas-scale single-cell annotation reproducible, accessible, and trustworthy — so any lab can map its cells against the best references and get publication-ready answers." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <img class="mark" src="mark.svg" alt="" />
+        <span class="brand-text">
+          <span class="word">Varna<span class="ops">Ops</span></span>
+          <span class="tagline">Single-Cell Analysis Platform</span>
+        </span>
+      </a>
+      <nav class="nav-links">
+        <a href="mission.html" class="active">Mission</a>
+        <details class="nav-dd">
+          <summary>Reproducibility</summary>
+          <div class="nav-dd-menu">
+            <a href="methods.html">Methods</a>
+            <a href="tech.html">Tech</a>
+            <a href="data.html">Data</a>
+            <a href="changelog.html">Changelog</a>
+          </div>
+        </details>
+        <a href="blog.html">Blog</a>
+        <a href="careers.html">Careers</a>
+        <a href="contact.html">Contact</a>
+        <a class="cta cta-sm" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20access">Request access</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <h1>Mission</h1>
+        <p class="lead">Make atlas-scale single-cell annotation reproducible, accessible, and trustworthy — so any lab can map its cells against the best available references and get publication-ready answers.</p>
+      </div>
+    </section>
+
+    <section class="prose">
+      <div class="wrap">
+        <p class="pull">
+          Reference atlases hold hard-won biological knowledge. Our job is to make that knowledge
+          <span class="ops">reusable</span> — for every dataset, on everyday hardware.
+        </p>
+
+        <h2>The bottleneck we work on</h2>
+        <p>
+          Single-cell biology is generating data faster than any lab can interpret it. The hard part is
+          no longer producing cells — it is turning them into reliable, comparable answers: which cell
+          types are present, how they shift in disease, and how this dataset relates to everything
+          measured before. Community reference atlases encode an enormous amount of that knowledge.
+          VarnaOps exists to put it to work on your data, consistently and at scale.
+        </p>
+
+        <h2>How we approach it</h2>
+        <p>
+          We build references organ by organ from open, properly licensed data, train models that map
+          new data into them, and return predicted cell types, confidence, markers, differential
+          expression, and a shareable report. Three principles guide the engineering:
+        </p>
+        <ul>
+          <li><strong>Reproducibility as a feature.</strong> Every reference is versioned and every run
+            is provenance-stamped, so a result can be traced, explained, and re-run — the foundation for
+            using these answers in a publication or a regulated setting.</li>
+          <li><strong>Built to scale down, not just up.</strong> The pipeline is designed to handle
+            atlas-scale data on a single commodity GPU, so capability isn't gated by a compute budget.</li>
+          <li><strong>Standards over bespoke.</strong> We stay close to the field's accepted methods,
+            labels, and statistics, so results are interpretable and comparable rather than locked into
+            one tool's conventions.</li>
+        </ul>
+
+        <h2>Where we're headed</h2>
+        <p>
+          A growing library of high-quality, benchmarked references across tissues — each one a
+          reusable, citable foundation — and an annotation engine simple enough that the analysis is the
+          easy part. If a particular tissue matters to your work,
+          <a href="contact.html">tell us</a>; it helps us decide what to build next.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot-inner">
+      <span>© 2026 VarnaOps · Reference data via the CZI CELLxGENE Census (CC BY 4.0)</span>
+      <a href="mailto:leonardo@varnaops.com">leonardo@varnaops.com</a>
+    </div>
+  </footer>
+
+  <script src="nav.js" defer></script>
+</body>
+</html>

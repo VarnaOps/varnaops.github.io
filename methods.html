@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Methods — VarnaOps</title>
-  <meta name="description" content="How VarnaOps builds reference atlases, trains scVI/scANVI models, maps queries, and benchmarks results — written as a methods section, with provenance and per-atlas parameters." />
+  <meta name="description" content="How VarnaOps builds reference atlases, trains scVI/scANVI models, maps queries, runs each downstream analysis, and benchmarks results — written as a methods section." />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="vendor/katex/katex.min.css" />
 </head>
@@ -19,9 +19,17 @@
         </span>
       </a>
       <nav class="nav-links">
-        <a href="tech.html">Tech</a>
-        <a href="data.html">Data</a>
-        <a href="methods.html" class="active">Methods</a>
+        <a href="mission.html">Mission</a>
+        <details class="nav-dd active">
+          <summary>Reproducibility</summary>
+          <div class="nav-dd-menu">
+            <a href="methods.html" class="active">Methods</a>
+            <a href="tech.html">Tech</a>
+            <a href="data.html">Data</a>
+            <a href="changelog.html">Changelog</a>
+          </div>
+        </details>
+        <a href="blog.html">Blog</a>
         <a href="careers.html">Careers</a>
         <a href="contact.html">Contact</a>
         <a class="cta cta-sm" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20access">Request access</a>
@@ -33,11 +41,11 @@
     <section class="page-head">
       <div class="wrap">
         <h1>Methods</h1>
-        <p class="lead">How a result is produced, end to end — written as a methods section so it can be read, cited, and reproduced. The methods below are organ-agnostic; the parameters that vary per atlas are stratified in §12.</p>
+        <p class="lead">How a result is produced, end to end — written as a methods section so it can be read, cited, and reproduced. The methods below are organ-agnostic; the parameters that vary per atlas are stratified at the end.</p>
       </div>
     </section>
 
-    <section class="prose">
+    <section class="prose numbered">
       <div class="wrap">
 
         <nav class="toc" aria-label="Contents">
@@ -52,25 +60,30 @@
             <li><a href="#mapping">Reference mapping &amp; label transfer</a></li>
             <li><a href="#novelty">Novelty detection</a></li>
             <li><a href="#benchmark">Model selection &amp; benchmarking</a></li>
-            <li><a href="#downstream">Downstream analysis</a></li>
+            <li><a href="#markers">Marker-gene validation</a></li>
+            <li><a href="#de">Differential expression</a></li>
+            <li><a href="#cluster">Cluster analysis</a></li>
+            <li><a href="#activity">Pathway &amp; TF activity</a></li>
+            <li><a href="#disease">Disease-state analysis</a></li>
+            <li><a href="#report">Report &amp; interpretation</a></li>
             <li><a href="#provenance">Reproducibility &amp; provenance</a></li>
             <li><a href="#atlases">Per-atlas parameters</a></li>
             <li><a href="#refs">References</a></li>
           </ol>
         </nav>
 
-        <h2 id="overview"><span class="secnum">1</span>Overview</h2>
+        <h2 id="overview">Overview</h2>
         <p>
           VarnaOps annotates a query single-cell dataset by mapping it onto a versioned reference
           atlas in a shared latent space, transferring cell-type labels by nearest neighbours, and
           surfacing marker genes, differential expression, and deviant populations in a single
           self-contained report. Each reference is built once from a public corpus and reused across
           queries; a query is mapped in without retraining the reference. Every stage records its
-          parameters into a per-run provenance manifest (§11), so a result can be traced back to the
-          inputs and decisions that produced it.
+          parameters into a per-run <a href="#provenance">provenance manifest</a>, so a result can be
+          traced back to the inputs and decisions that produced it.
         </p>
 
-        <h2 id="reference"><span class="secnum">2</span>Reference data &amp; cohort selection</h2>
+        <h2 id="reference">Reference data &amp; cohort selection</h2>
         <p>
           Reference atlases are built from the CZI CELLxGENE Census <span class="role">[11]</span>, a
           harmonized corpus of public single-cell data. A build is pinned to a fixed Census snapshot
@@ -81,12 +94,12 @@
         <p>
           References use a <strong>healthy backbone</strong>: cells are filtered to normal / control
           condition, so the atlas captures baseline cell-type structure. Disease is handled as a
-          per-query layer at annotation time (§10), not baked into the reference. Genes are reconciled
-          by a strict inner join across the constituent datasets, yielding a common gene space shared
-          by every cell in the reference.
+          per-query layer at annotation time (<a href="#disease">Disease-state analysis</a>), not
+          baked into the reference. Genes are reconciled by a strict inner join across the constituent
+          datasets, yielding a common gene space shared by every cell in the reference.
         </p>
 
-        <h2 id="qc"><span class="secnum">3</span>Quality control</h2>
+        <h2 id="qc">Quality control</h2>
         <p>
           Quality control is applied per sample. Cells are flagged on standard QC metrics — total
           counts, number of genes detected, and fraction of mitochondrial counts — using a
@@ -101,7 +114,7 @@
           <div class="fn">\(x\) is a per-cell QC metric (counts, genes detected, % mitochondrial); \(n_{\mathrm{MAD}}\) is the sensitivity (default 5).</div>
         </div>
 
-        <h2 id="features"><span class="secnum">4</span>Gene &amp; feature selection</h2>
+        <h2 id="features">Gene &amp; feature selection</h2>
         <p>
           The latent model is trained on a panel of highly variable genes (HVG), selected with the
           <code>seurat_v3</code> variance-stabilizing method <span class="role">[5]</span> in a
@@ -112,17 +125,17 @@
           embedding — the panel shapes the latent space, not the downstream biology.
         </p>
 
-        <h2 id="labels"><span class="secnum">5</span>Label harmonization</h2>
+        <h2 id="labels">Label harmonization</h2>
         <p>
           Author cell-type labels differ across studies, so they are harmonized to a controlled
           vocabulary. Each original label is mapped to a Cell Ontology (CL) term
           <span class="role">[10]</span> and then rolled up to a coarse, atlas-level set of cell types.
           The crosswalk (original label → CL identifier → harmonized cell type) ships with each build
-          as a label registry. The same harmonization is applied to a held-out query before scoring
-          (§9), so benchmark numbers compare like with like.
+          as a label registry. The same harmonization is applied to a held-out query before
+          <a href="#benchmark">scoring</a>, so benchmark numbers compare like with like.
         </p>
 
-        <h2 id="model"><span class="secnum">6</span>Latent model: scVI / scANVI</h2>
+        <h2 id="model">Latent model: scVI / scANVI</h2>
         <p>
           The reference embedding is a single-cell variational inference (scVI) model
           <span class="role">[1]</span>: a variational autoencoder over <strong>raw counts</strong>
@@ -146,7 +159,7 @@
           <div class="fn">\(n_c\) is the number of reference cells of type \(c\); the weighting upweights rare types.</div>
         </div>
 
-        <h2 id="mapping"><span class="secnum">7</span>Reference mapping &amp; label transfer</h2>
+        <h2 id="mapping">Reference mapping &amp; label transfer</h2>
         <p>
           A query is mapped onto the reference with scArches <span class="role">[3]</span>, which
           fine-tunes the encoder online (covariates encoded) to project query cells into the existing
@@ -161,7 +174,7 @@
         <p>
           Each query cell receives a distance-weighted vote over its neighbours' labels, yielding a
           predicted type and a calibrated confidence. Cells that map far from any reference
-          neighbourhood are flagged separately as candidate novel populations (§8).
+          neighbourhood are flagged separately as candidate <a href="#novelty">novel populations</a>.
         </p>
         <div class="formula">
           \[ p(c \mid x) = \frac{\sum_{i \in N_k(x)} w_i \, \mathbf{1}[\,y_i = c\,]}{\sum_{i \in N_k(x)} w_i}, \qquad w_i = \frac{1}{d(x, x_i)} \]
@@ -169,21 +182,22 @@
           <div class="fn">\(N_k(x)\) is the set of \(k\) nearest reference cells to query cell \(x\) in the latent space; \(d\) is Euclidean distance.</div>
         </div>
 
-        <h2 id="novelty"><span class="secnum">8</span>Novelty detection</h2>
+        <h2 id="novelty">Novelty detection</h2>
         <p>
           Reference mapping places every query cell somewhere in the reference latent space, but a query
           may contain cell types or states the reference never saw. Because the encoder can only project
           into the existing manifold, such cells are not given a "no match" output — they receive a
-          nearest-neighbour label like any other (§7). Novelty detection is the safeguard: it scores how
-          well each query cell is actually explained by the reference, independent of the label assigned.
+          nearest-neighbour label like any other (<a href="#mapping">reference mapping</a>). Novelty
+          detection is the safeguard: it scores how well each query cell is actually explained by the
+          reference, independent of the label assigned.
         </p>
         <p>
-          The score reuses the latent kNN distances from §7. For a query cell x it is the mean distance
-          to its k nearest reference neighbours, compared against how far reference cells typically sit
-          from one another. We precompute the reference's own self-distance distribution — each reference
-          cell's mean distance to its k nearest reference neighbours — and set a threshold τ at a high
-          quantile of that distribution. A cell is flagged when it is more isolated than reference cells
-          normally are:
+          The score reuses the latent kNN distances from <a href="#mapping">reference mapping</a>. For a
+          query cell x it is the mean distance to its k nearest reference neighbours, compared against
+          how far reference cells typically sit from one another. We precompute the reference's own
+          self-distance distribution — each reference cell's mean distance to its k nearest reference
+          neighbours — and set a threshold τ at a high quantile of that distribution. A cell is flagged
+          when it is more isolated than reference cells normally are:
         </p>
         <div class="formula">
           \[ s(x) = \frac{1}{k} \sum_{i \in N_k(x)} d(x, x_i) \qquad (\text{query} \to \text{reference}) \]
@@ -209,12 +223,13 @@
         <p>
           The score does not separate biological novelty from strong technical shift — both place a cell
           outside the reference manifold — so a large novelty fraction on an unseen or zero-shot query is
-          expected, and shrinks as the reference broadens. Flagged cells feed the discovery workflow
-          (§10): in the joint embedding they are clustered, where genuinely novel populations form
-          coherent groups rather than scattering as isolated outliers.
+          expected, and shrinks as the reference broadens. Flagged cells feed the
+          <a href="#cluster">cluster-analysis</a> workflow: in the joint embedding they are clustered,
+          where genuinely novel populations form coherent groups rather than scattering as isolated
+          outliers.
         </p>
 
-        <h2 id="benchmark"><span class="secnum">9</span>Model selection &amp; benchmarking</h2>
+        <h2 id="benchmark">Model selection &amp; benchmarking</h2>
         <p>
           Models are checkpointed every epoch and selected on the metric actually deployed — kNN
           label-transfer accuracy on a harmonized, held-out, in-distribution query — rather than on a
@@ -247,20 +262,84 @@
           <div class="fig-cap"><b>Figure 3.</b> kNN label-transfer macro-F1 on the harmonized held-out query, per epoch; the promoted model is the argmax.</div>
         </div>
 
-        <h2 id="downstream"><span class="secnum">10</span>Downstream analysis</h2>
+        <h2 id="markers">Marker-gene validation</h2>
         <p>
-          Beyond annotation, each run optionally computes: marker-gene validation against curated,
-          Cell-Ontology-mediated panels (sourced from CZ CellGuide); differential expression by
-          regularized one-vs-rest logistic regression on GPU, or Wilcoxon rank-sum on CPU; community
-          detection by Leiden clustering <span class="role">[7]</span> on the joint query–reference
-          neighbour graph; and deviant / disease-state populations via donor-level pseudobulk
-          aggregation followed by negative-binomial differential testing (pyDESeq2
-          <span class="role">[8]</span>), with protein–protein interaction context from STRING
-          <span class="role">[12]</span>. Disease comparisons require replicate donors and are guarded
-          against normalized or under-powered input.
+          Predicted cell types are checked against canonical markers. Panels are curated through the
+          Cell Ontology and sourced from CZ CellGuide: a marker set attached to an ontology term is
+          inherited by its descendants via <code>is_a</code> relationships, so each harmonized type
+          carries an appropriate panel. For every annotated type we score its panel across the query
+          and report the standard <code>scanpy</code> / <code>decoupler</code> marker score together
+          with an adjusted p-value, shown as produced rather than reduced to a bespoke statistic.
         </p>
 
-        <h2 id="provenance"><span class="secnum">11</span>Reproducibility &amp; provenance</h2>
+        <h2 id="de">Differential expression</h2>
+        <p>
+          Per-cell-type differential expression is computed one-vs-rest. On GPU it is a regularized
+          logistic-regression ranking (<code>rapids-singlecell</code>,
+          <code>rank_genes_groups_logreg</code>) executed as chunked binary one-vs-rest with a
+          per-group cell cap to bound VRAM; on CPU it is the Wilcoxon rank-sum test
+          (<code>scanpy.tl.rank_genes_groups</code>, <code>method="wilcoxon"</code>). Either path emits
+          the native ranked-gene tables — scores, log fold-changes, and adjusted p-values. These
+          per-cell tests treat cells as replicates; donor-level inference is reserved for
+          <a href="#disease">Disease-state analysis</a>.
+        </p>
+
+        <h2 id="cluster">Cluster analysis</h2>
+        <p>
+          Query and reference are embedded together, a joint k-nearest-neighbour graph is built, and
+          communities are detected with Leiden clustering on GPU (<code>rapids-singlecell</code> over
+          cuGraph), visualized on a joint UMAP. Because query and reference share the latent space,
+          populations the reference does not cover (<a href="#novelty">Novelty detection</a>) surface
+          as coherent clusters instead of scattering. To keep the chosen granularity defensible, we
+          report resolution diagnostics across a range of Leiden resolutions — silhouette width, and
+          adjusted Rand / normalized mutual information between neighbouring resolutions — reusing the
+          precomputed clusterings.
+        </p>
+
+        <h2 id="activity">Pathway &amp; transcription-factor activity</h2>
+        <p>
+          Functional activity is scored with <code>decoupler</code> over curated gene-set collections
+          (e.g. GO Biological Process, MSigDB) and transcription-factor regulons. Activity is computed
+          once on a bounded, representative subsample and then aggregated across groupings rather than
+          re-scored per cluster or resolution, which keeps the GPU pass bounded at atlas scale. Outputs
+          are per-type activity scores with the canonical enrichment heatmap.
+        </p>
+
+        <h2 id="disease">Disease-state analysis</h2>
+        <p>
+          When donor metadata is present, disease-versus-control contrasts are tested at the donor
+          level rather than per cell. Counts are aggregated into pseudobulk profiles per donor × cell
+          type, then modelled with <code>pyDESeq2</code> <span class="role">[8]</span> (a
+          negative-binomial generalized linear model with a Wald test) — the standard bulk RNA-seq
+          approach, which avoids the pseudoreplication of treating individual cells as independent
+          replicates.
+        </p>
+        <div class="formula">
+          \[ Y_{g,\,(d,t)} = \sum_{c \,\in\, \mathrm{cells}(d,t)} X_{g,c} \]
+          <div class="fn">\(X_{g,c}\) = raw count of gene \(g\) in cell \(c\); cells are summed within each donor \(d\) × cell type \(t\) before testing.</div>
+        </div>
+        <p>
+          Results are presented as volcano plots with protein–protein interaction context from STRING
+          <span class="role">[12]</span>. The path is guarded: it requires integer counts (rejecting
+          normalized input), drops donors with fewer than 10 cells in a given cell type, and needs at
+          least three donors per group for a contrast to run.
+        </p>
+
+        <h2 id="report">Report &amp; interpretation</h2>
+        <p>
+          Every run renders a single self-contained HTML report (<code>Jinja2</code>) that bundles the
+          figures, tables, and provenance into one file — portable, viewable offline, and shareable by
+          link without the platform. The report is produced in audience-specific variants (customer,
+          query-developer, reference) from one template.
+        </p>
+        <p>
+          Optionally, an LLM-generated interpretation accompanies the report: it summarizes the computed
+          results in plain language, narrating the figures and statistics that were produced and citing
+          the numbers behind them. The interpretation is descriptive only — it never alters or
+          recomputes a result, so the underlying analysis remains the single source of truth.
+        </p>
+
+        <h2 id="provenance">Reproducibility &amp; provenance</h2>
         <p>
           References are versioned and pinned to a Census snapshot; each runs in a locked,
           version-pinned software environment, isolated per run. Re-running the same input against the
@@ -268,7 +347,8 @@
           drives it is pinned and recorded. Results are reproducible at the level of methods and
           versions, not bit-identical floating point, since GPU kernels are not deterministic. Each
           reference build ships a provenance manifest beside the model; the per-run report carries the
-          same record, making it a publication-ready methods trail.
+          same record, making it a publication-ready methods trail. Version history is tracked in the
+          <a href="changelog.html">changelog</a>.
         </p>
         <div class="tbl-card">
           <table class="ltable">
@@ -286,7 +366,7 @@
           </table>
         </div>
 
-        <h2 id="atlases"><span class="secnum">12</span>Per-atlas parameters</h2>
+        <h2 id="atlases">Per-atlas parameters</h2>
         <p>
           The methods above are shared across organs. The parameters that vary per atlas are stratified
           here; each new reference appends a row.
@@ -301,15 +381,15 @@
           </table>
         </div>
         <div class="note warn">
-          <strong>Maintainer note:</strong> the §11 record mirrors
+          <strong>Maintainer note:</strong> the <a href="#provenance">provenance record</a> mirrors
           <code>varnaops/reference_manifest.py</code> (<code>write_reference_provenance</code>) and the
-          §12 row values come from each atlas's <code>reference_manifest.json</code> + benchmark card.
-          Regenerate both whenever a reference is rebuilt so the page stays in sync with the shipped
-          models, and swap the Figure placeholders for the real training-curve / scib / benchmark plots
-          when they are exported.
+          <a href="#atlases">per-atlas</a> row values come from each atlas's
+          <code>reference_manifest.json</code> + benchmark card. Regenerate both whenever a reference is
+          rebuilt so the page stays in sync with the shipped models, and swap the Figure placeholders
+          for the real training-curve / scib / benchmark plots when they are exported.
         </div>
 
-        <h2 id="refs"><span class="secnum">13</span>References</h2>
+        <h2 id="refs">References</h2>
         <ol class="refs">
           <li>Lopez R, Regier J, Cole MB, Jordan MI, Yosef N. Deep generative modeling for single-cell transcriptomics. <em>Nat Methods</em> 2018.</li>
           <li>Xu C, Lopez R, Mehlman E, Regier J, Jordan MI, Yosef N. Probabilistic harmonization and annotation of single-cell transcriptomics data with deep generative models. <em>Mol Syst Biol</em> 2021.</li>
@@ -338,6 +418,7 @@
 
   <script defer src="vendor/katex/katex.min.js"></script>
   <script defer src="vendor/katex/contrib/auto-render.min.js"></script>
+  <script src="nav.js" defer></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       renderMathInElement(document.body, {
