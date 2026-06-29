@@ -172,15 +172,18 @@ footer a:hover { color: var(--accent); }
 /* ===== home app box (stepper) ===== */
 .app { padding: 26px 0 60px; }
 .app-box { border: 1px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: 0 1px 2px rgba(17,24,39,0.04), 0 18px 50px rgba(17,24,39,0.06); overflow: hidden; }
-.stepper { display: flex; align-items: center; gap: 2px; padding: 13px 14px; border-bottom: 1px solid var(--line); background: var(--subtle); flex-wrap: wrap; }
-.stepper .step { display: inline-flex; align-items: center; gap: 9px; padding: 6px 10px; border: 0; background: transparent; border-radius: 10px; cursor: pointer; color: var(--muted); font-family: inherit; font-size: 0.92rem; transition: .12s; }
-.stepper .step:hover { background: rgba(17,24,39,0.04); color: var(--text); }
+.stepper { display: flex; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--line); background: var(--subtle); }
+.stepper .step { display: inline-flex; align-items: center; gap: 9px; flex: none; padding: 2px; border: 0; background: transparent; cursor: pointer; color: var(--muted); font-family: inherit; font-size: 0.92rem; transition: color .12s; }
+.stepper .step:hover { color: var(--text); }
+.stepper .step:hover .sdot { border-color: var(--accent); }
 .stepper .step.active { color: var(--text); font-weight: 600; }
-.stepper .sdot { width: 23px; height: 23px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.82rem; font-weight: 700; background: #fff; border: 1.5px solid #d3d7dd; color: var(--muted); flex: none; transition: .12s; }
-.stepper .step.active .sdot { background: var(--accent); border-color: var(--accent); color: #fff; }
-.stepper .step.done .sdot { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
-.stepper .sarrow { color: #c4cad3; flex: none; display: inline-flex; }
-.stepper .sarrow svg { width: 15px; height: 15px; display: block; }
+.stepper .sdot { position: relative; width: 27px; height: 27px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.84rem; font-weight: 700; background: #fff; border: 1.5px solid #d3d7dd; color: var(--muted); flex: none; transition: .18s ease; }
+.stepper .step.active .sdot { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 0 0 4px var(--accent-soft); }
+.stepper .step.done .sdot { background: var(--accent); border-color: var(--accent); color: transparent; }
+.stepper .step.done .sdot::after { content: ""; position: absolute; width: 5px; height: 9px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg) translateY(-1px); }
+.sconn { flex: 1; height: 2px; min-width: 12px; margin: 0 8px; background: var(--line); border-radius: 2px; transition: background .3s ease; }
+.sconn.done { background: var(--accent); }
+.slabel { white-space: nowrap; }
 
 .panels { padding: 20px 22px; }
 .panel { display: none; }
@@ -244,6 +247,10 @@ footer a:hover { color: var(--accent); }
   .preview.atlas, .compute { grid-template-columns: 1fr; gap: 18px; }
   .cards { grid-template-columns: 1fr; }
   .ctx-body, .login-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 660px) {
+  .slabel { display: none; }                 /* stepper collapses to dots + connectors */
+  .stepper { padding: 15px 18px; }
 }
 @media (max-width: 540px) {
   .out-grid { grid-template-columns: 1fr; }

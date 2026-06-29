@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data privacy — VarnaOps</title>
+  <meta name="description" content="How VarnaOps handles your data today — isolated per-run jobs, never used for training — and the direction we're building toward for clinical, patient, and proprietary data." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <img class="mark" src="mark.svg" alt="" />
+        <span class="brand-text">
+          <span class="word">Varna<span class="ops">Ops</span></span>
+          <span class="tagline">Single-Cell Analysis Platform</span>
+        </span>
+      </a>
+      <nav class="nav-links">
+        <a href="mission.html">Mission</a>
+        <details class="nav-dd active">
+          <summary>Reproducibility</summary>
+          <div class="nav-dd-menu">
+            <a href="methods.html">Methods</a>
+            <a href="tech.html">Tech</a>
+            <a href="data.html">Data</a>
+            <a href="privacy.html" class="active">Privacy</a>
+            <a href="changelog.html">Changelog</a>
+          </div>
+        </details>
+        <a href="careers.html">Careers</a>
+        <a href="contact.html">Contact</a>
+        <a class="signin" href="login.html">Sign in</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <h1>Data privacy</h1>
+        <p class="lead">How your data is handled today, and the direction we're committed to for clinical, patient, and proprietary data.</p>
+      </div>
+    </section>
+
+    <section class="prose">
+      <div class="wrap">
+        <h3>Today</h3>
+        <p>
+          The platform is built around a simple principle: your data is processed to produce your
+          result, and nothing else. The table below reflects how the current pipeline works.
+        </p>
+        <div class="tbl-card">
+          <table class="ltable">
+            <thead><tr><th>Aspect</th><th>How it works today</th></tr></thead>
+            <tbody>
+              <tr><td>Your data</td><td class="role">Processed in an isolated, per-run job. One run never shares data with another.</td></tr>
+              <tr><td>Model training</td><td class="role">Your data is never used to train or improve our models. Models are trained only on public reference atlases.</td></tr>
+              <tr><td>Reference atlases</td><td class="role">Built solely from public, properly-licensed data (the CZI CELLxGENE Census, CC&nbsp;BY&nbsp;4.0) — never from customer data.</td></tr>
+              <tr><td>In transit &amp; at rest</td><td class="role">Uploads and results move over encrypted connections and are stored encrypted in cloud object storage.</td></tr>
+              <tr><td>Your results</td><td class="role">Returned to you as a self-contained, reproducible report; the run records its own provenance.</td></tr>
+              <tr><td>What we need</td><td class="role">The pipeline operates on expression matrices and sample metadata — not personal identifiers.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Where we're headed</h3>
+        <p>
+          Single-cell data increasingly carries clinical, patient, and proprietary information.
+          Our direction is to let the most sensitive data be analyzed <strong>without ever leaving the
+          environment you control</strong>, backed by the controls regulated work requires. Concretely,
+          we're building toward three deployment tiers:
+        </p>
+        <div class="tbl-card">
+          <table class="ltable">
+            <thead><tr><th>Deployment</th><th>What it means</th></tr></thead>
+            <tbody>
+              <tr><td>Managed cloud</td><td class="role">We run the analysis in our cloud, isolated per customer — the simplest option for non-sensitive data.</td></tr>
+              <tr><td>Your cloud (VPC / BYOC)</td><td class="role">The engine runs inside your own cloud account; your data never leaves your environment, and we never see it.</td></tr>
+              <tr><td>Air-gapped / on-prem</td><td class="role">Runs fully offline on your hardware for the most sensitive data — no external calls, with the models and dependencies bundled locally.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Alongside those, the controls we're working toward for clinical and proprietary data:</p>
+        <ul>
+          <li><strong>Access &amp; audit</strong> — role-based access control, encryption with managed keys, and audit logs for every run.</li>
+          <li><strong>Agreements &amp; residency</strong> — data-processing agreements and configurable data residency, so data stays in the region you require.</li>
+          <li><strong>Retention &amp; deletion</strong> — explicit retention windows and on-request deletion of inputs and outputs.</li>
+          <li><strong>De-identification</strong> — guidance and tooling to keep inputs de-identified, since the analysis needs expression and metadata, not identities.</li>
+          <li><strong>Standards</strong> — building toward the frameworks that govern health and enterprise data (e.g. HIPAA-aligned handling, SOC&nbsp;2, GDPR).</li>
+          <li><strong>Ownership</strong> — your data and the results derived from it remain yours; we won't use them to improve shared models without your explicit, opt-in consent.</li>
+        </ul>
+
+        <div class="note">
+          This page describes how the platform works <strong>today</strong> and the direction we're
+          committed to. The forward-looking items are roadmap — capabilities we're building, not
+          certifications we already hold. Need a specific guarantee for a pilot?
+          <a href="contact.html">Talk to us</a>.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot-inner">
+      <span>© 2026 VarnaOps · Reference data via the CZI CELLxGENE Census (CC BY 4.0)</span>
+      <a href="mailto:leonardo@varnaops.com">leonardo@varnaops.com</a>
+    </div>
+  </footer>
+
+  <script src="nav.js" defer></script>
+</body>
+</html>

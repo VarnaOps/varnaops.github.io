@@ -53,24 +53,26 @@
   var STEPS = ['Biological context','Outputs','Your data','Run'];
   var COLOR = function(i,n){ return 'hsl('+Math.round(i*360/n)+',58%,45%)'; };
 
-  // ---- stepper ----
-  var ARROW = '<span class="sarrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>';
+  // ---- stepper (dots joined by a progress connector that fills as you advance) ----
   var stepper = document.getElementById('stepper');
   var panels = document.querySelectorAll('.panel');
   var current = 0;
   var html='';
   STEPS.forEach(function(t,i){
-    if(i) html+=ARROW;
-    html+='<button class="step" data-i="'+i+'"><span class="sdot">'+(i+1)+'</span>'+t+'</button>';
+    if(i) html+='<span class="sconn"></span>';
+    html+='<button class="step" data-i="'+i+'"><span class="sdot">'+(i+1)+'</span><span class="slabel">'+t+'</span></button>';
   });
   stepper.innerHTML=html;
   var stepBtns = stepper.querySelectorAll('.step');
+  var connEls = stepper.querySelectorAll('.sconn');
   function goStep(i){
-    current=i;
+    i=+i; current=i;
     for(var j=0;j<stepBtns.length;j++){
-      stepBtns[j].classList.toggle('active', j===i);
-      stepBtns[j].classList.toggle('done', j<i);
+      stepBtns[j].classList.remove('active','done');
+      if(j===i) stepBtns[j].classList.add('active');
+      else if(j<i) stepBtns[j].classList.add('done');
     }
+    for(var c=0;c<connEls.length;c++) connEls[c].classList.toggle('done', c<i);
     panels.forEach(function(p){ p.classList.toggle('show', +p.getAttribute('data-p')===i); });
     if(i===3) refreshRunSummary();
   }
