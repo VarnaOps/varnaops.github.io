@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Methods — VarnaOps</title>
+  <meta name="description" content="How VarnaOps builds reference atlases, trains scVI/scANVI models, maps queries, and benchmarks results — written as a methods section, with provenance and per-atlas parameters." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <img class="mark" src="mark.svg" alt="" />
+        <span class="brand-text">
+          <span class="word">Varna<span class="ops">Ops</span></span>
+          <span class="tagline">Single-Cell Analysis Platform</span>
+        </span>
+      </a>
+      <nav class="nav-links">
+        <a href="tech.html">Tech</a>
+        <a href="data.html">Data</a>
+        <a href="methods.html" class="active">Methods</a>
+        <a href="careers.html">Careers</a>
+        <a href="contact.html">Contact</a>
+        <a class="cta cta-sm" href="mailto:leonardo@varnaops.com?subject=VarnaOps%20access">Request access</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <h1>Methods</h1>
+        <p class="lead">How a result is produced, end to end — written as a methods section so it can be read, cited, and reproduced. The methods below are organ-agnostic; the parameters that vary per atlas are stratified in §11.</p>
+      </div>
+    </section>
+
+    <section class="prose">
+      <div class="wrap">
+
+        <nav class="toc" aria-label="Contents">
+          <div class="toc-h">Contents</div>
+          <ol>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#reference">Reference data &amp; cohort selection</a></li>
+            <li><a href="#qc">Quality control</a></li>
+            <li><a href="#features">Gene &amp; feature selection</a></li>
+            <li><a href="#labels">Label harmonization</a></li>
+            <li><a href="#model">Latent model: scVI / scANVI</a></li>
+            <li><a href="#mapping">Reference mapping &amp; label transfer</a></li>
+            <li><a href="#benchmark">Model selection &amp; benchmarking</a></li>
+            <li><a href="#downstream">Downstream analysis</a></li>
+            <li><a href="#provenance">Reproducibility &amp; provenance</a></li>
+            <li><a href="#atlases">Per-atlas parameters</a></li>
+            <li><a href="#refs">References</a></li>
+          </ol>
+        </nav>
+
+        <h2 id="overview"><span class="secnum">1</span>Overview</h2>
+        <p>
+          VarnaOps annotates a query single-cell dataset by mapping it onto a versioned reference
+          atlas in a shared latent space, transferring cell-type labels by nearest neighbours, and
+          surfacing marker genes, differential expression, and deviant populations in a single
+          self-contained report. Each reference is built once from a public corpus and reused across
+          queries; a query is mapped in without retraining the reference. Every stage records its
+          parameters into a per-run provenance manifest (§10), so a result can be traced back to the
+          inputs and decisions that produced it.
+        </p>
+
+        <h2 id="reference"><span class="secnum">2</span>Reference data &amp; cohort selection</h2>
+        <p>
+          Reference atlases are built from the CZI CELLxGENE Census <span class="role">[11]</span>, a
+          harmonized corpus of public single-cell data. A build is pinned to a fixed Census snapshot
+          so the reference never changes underneath downstream results. A commercial-use license
+          filter is applied at ingestion (on by default, fail-loud): only data whose license permits
+          the intended use enters a reference.
+        </p>
+        <p>
+          References use a <strong>healthy backbone</strong>: cells are filtered to normal / control
+          condition, so the atlas captures baseline cell-type structure. Disease is handled as a
+          per-query layer at annotation time (§9), not baked into the reference. Genes are reconciled
+          by a strict inner join across the constituent datasets, yielding a common gene space shared
+          by every cell in the reference.
+        </p>
+
+        <h2 id="qc"><span class="secnum">3</span>Quality control</h2>
+        <p>
+          Quality control is applied per sample. Cells are flagged on standard QC metrics — total
+          counts, number of genes detected, and fraction of mitochondrial counts — using a
+          median-absolute-deviation (MAD) criterion, which adapts thresholds to each sample's own
+          distribution rather than imposing fixed cutoffs. Predicted doublets are removed with Scrublet
+          <span class="role">[6]</span>. At Census scale, QC runs as a single streaming pass over cells
+          to bound memory.
+        </p>
+        <div class="formula">
+          MAD = median<sub>i</sub> | x<sub>i</sub> − median(x) | &nbsp;&nbsp;⟶&nbsp;&nbsp; flag cell i if &nbsp; | x<sub>i</sub> − median(x) | &gt; n<sub>MAD</sub> · MAD<br>
+          <span class="fn">x = a per-cell QC metric (counts, genes detected, % mitochondrial); n<sub>MAD</sub> = sensitivity (default 5)</span>
+        </div>
+
+        <h2 id="features"><span class="secnum">4</span>Gene &amp; feature selection</h2>
+        <p>
+          The latent model is trained on a panel of highly variable genes (HVG), selected with the
+          <code>seurat_v3</code> variance-stabilizing method <span class="role">[5]</span> in a
+          batch-aware manner (batch = dataset of origin), so the panel is not dominated by any single
+          study. The full reconciled gene space is retained alongside the panel: the embedding is
+          learned on the HVG panel, while biological readouts (marker genes, differential expression)
+          are computed on the full genes. Cells are therefore independent of the gene subset used for
+          embedding — the panel shapes the latent space, not the downstream biology.
+        </p>
+
+        <h2 id="labels"><span class="secnum">5</span>Label harmonization</h2>
+        <p>
+          Author cell-type labels differ across studies, so they are harmonized to a controlled
+          vocabulary. Each original label is mapped to a Cell Ontology (CL) term
+          <span class="role">[10]</span> and then rolled up to a coarse, atlas-level set of cell types.
+          The crosswalk (original label → CL identifier → harmonized cell type) ships with each build
+          as a label registry. The same harmonization is applied to a held-out query before scoring
+          (§8), so benchmark numbers compare like with like.
+        </p>
+
+        <h2 id="model"><span class="secnum">6</span>Latent model: scVI / scANVI</h2>
+        <p>
+          The reference embedding is a single-cell variational inference (scVI) model
+          <span class="role">[1]</span>: a variational autoencoder over <strong>raw counts</strong>
+          with a negative-binomial likelihood and the batch covariate supplied to encoder and decoder.
+          Training streams minibatches directly from the sharded on-disk reference, so memory is
+          independent of atlas size. The objective is the evidence lower bound, with the KL term ramped
+          in over a warm-up schedule to avoid posterior collapse:
+        </p>
+        <div class="formula">
+          ℒ(x) = 𝔼<sub>q(z|x)</sub>[ log p(x | z) ] − β · D<sub>KL</sub>( q(z | x) ‖ p(z) )<br>
+          <span class="fn">β ramps 0 ⟶ β* over the warm-up epochs; β* is tuned per atlas (recorded in the manifest) and reduced where the latent space is prone to collapse</span>
+        </div>
+        <p>
+          Labels are incorporated with scANVI <span class="role">[2]</span>, which extends the trained
+          scVI model with a semi-supervised classification head over the harmonized cell types. The
+          head is trained with a class-frequency-weighted cross-entropy so that rare cell types are not
+          swamped by abundant ones:
+        </p>
+        <div class="formula">
+          ℒ<sub>cls</sub> = − Σ<sub>c</sub> w<sub>c</sub> · y<sub>c</sub> · log ŷ<sub>c</sub> , &nbsp;&nbsp; w<sub>c</sub> ∝ 1 / n<sub>c</sub><br>
+          <span class="fn">n<sub>c</sub> = number of reference cells of type c; the weighting upweights rare types</span>
+        </div>
+
+        <h2 id="mapping"><span class="secnum">7</span>Reference mapping &amp; label transfer</h2>
+        <p>
+          A query is mapped onto the reference with scArches <span class="role">[3]</span>, which
+          fine-tunes the encoder online (covariates encoded) to project query cells into the existing
+          reference latent space without retraining the reference. Labels are then transferred by
+          weighted k-nearest-neighbours in that latent space. For large references, neighbours are
+          found with an approximate inverted-file index (exact brute-force search below
+          n<sub>ref</sub> = 10,000), tuned for high recall:
+        </p>
+        <div class="formula">
+          n<sub>list</sub> = max( 64, ⌊√n<sub>ref</sub>⌋ ) , &nbsp;&nbsp; n<sub>probe</sub> = ⌊ n<sub>list</sub> / 4 ⌋
+        </div>
+        <p>
+          Each query cell receives a distance-weighted vote over its neighbours' labels, yielding a
+          predicted type and a calibrated confidence. A novelty score, derived from the reference's own
+          self-distance distribution, flags query cells that sit far from any reference neighbourhood —
+          candidate populations the reference does not cover.
+        </p>
+        <div class="formula">
+          p(c | x) = ( Σ<sub>i ∈ N<sub>k</sub>(x)</sub> w<sub>i</sub> · 𝟙[ y<sub>i</sub> = c ] ) ⁄ ( Σ<sub>i ∈ N<sub>k</sub>(x)</sub> w<sub>i</sub> ) , &nbsp;&nbsp; w<sub>i</sub> = 1 ⁄ d(x, x<sub>i</sub>)<br>
+          ŷ(x) = argmax<sub>c</sub> p(c | x) , &nbsp;&nbsp; confidence = max<sub>c</sub> p(c | x)<br>
+          <span class="fn">N<sub>k</sub>(x) = k nearest reference cells to query cell x in the latent space; d = Euclidean distance</span>
+        </div>
+
+        <h2 id="benchmark"><span class="secnum">8</span>Model selection &amp; benchmarking</h2>
+        <p>
+          Models are checkpointed every epoch and selected on the metric actually deployed — kNN
+          label-transfer accuracy on a harmonized, held-out, in-distribution query — rather than on a
+          validation-loss proxy alone. The procedure is pre-committed: shortlist candidates by
+          validation ELBO (scVI) and total validation loss (scANVI), score the survivors by macro-F1 on
+          the held-out query, and promote the argmax (validation loss breaks ties). Macro-F1 is used
+          because the product deploys nearest-neighbour transfer, not the classifier head, and because
+          an unweighted per-class mean is balanced across abundant and rare cell types:
+        </p>
+        <div class="formula">
+          F1<sub>macro</sub> = (1 ⁄ C) Σ<sub>c=1</sub><sup>C</sup> 2 · P<sub>c</sub> · R<sub>c</sub> ⁄ ( P<sub>c</sub> + R<sub>c</sub> )<br>
+          <span class="fn">P<sub>c</sub>, R<sub>c</sub> = precision and recall for cell type c; C = number of harmonized types</span>
+        </div>
+        <p>
+          Integration quality — how well batches mix while biological structure is preserved — is
+          reported with scib-metrics <span class="role">[9]</span> on a reference subsample. Each
+          reference ships a benchmark card alongside its provenance manifest; the metrics are published
+          openly, the trained weights are not.
+        </p>
+        <div class="figure">
+          <div class="fig-ph">Training curves — coming soon</div>
+          <div class="fig-cap"><b>Figure 1.</b> Validation ELBO (scVI) and total loss (scANVI) per epoch, with the promoted checkpoint marked.</div>
+        </div>
+        <div class="figure">
+          <div class="fig-ph">scib-metrics — coming soon</div>
+          <div class="fig-cap"><b>Figure 2.</b> Integration quality (scib-metrics): bio-conservation and batch-correction scores on a reference subsample.</div>
+        </div>
+        <div class="figure">
+          <div class="fig-ph">Benchmark — coming soon</div>
+          <div class="fig-cap"><b>Figure 3.</b> kNN label-transfer macro-F1 on the harmonized held-out query, per epoch; the promoted model is the argmax.</div>
+        </div>
+
+        <h2 id="downstream"><span class="secnum">9</span>Downstream analysis</h2>
+        <p>
+          Beyond annotation, each run optionally computes: marker-gene validation against curated,
+          Cell-Ontology-mediated panels (sourced from CZ CellGuide); differential expression by
+          regularized one-vs-rest logistic regression on GPU, or Wilcoxon rank-sum on CPU; community
+          detection by Leiden clustering <span class="role">[7]</span> on the joint query–reference
+          neighbour graph; and deviant / disease-state populations via donor-level pseudobulk
+          aggregation followed by negative-binomial differential testing (pyDESeq2
+          <span class="role">[8]</span>), with protein–protein interaction context from STRING
+          <span class="role">[12]</span>. Disease comparisons require replicate donors and are guarded
+          against normalized or under-powered input.
+        </p>
+
+        <h2 id="provenance"><span class="secnum">10</span>Reproducibility &amp; provenance</h2>
+        <p>
+          References are versioned and pinned to a Census snapshot; each runs in a locked,
+          version-pinned software environment, isolated per run. Re-running the same input against the
+          same reference and pipeline version reproduces the same analysis — every parameter that
+          drives it is pinned and recorded. Results are reproducible at the level of methods and
+          versions, not bit-identical floating point, since GPU kernels are not deterministic. Each
+          reference build ships a provenance manifest beside the model; the per-run report carries the
+          same record, making it a publication-ready methods trail.
+        </p>
+        <div class="tbl-card">
+          <table class="ltable">
+            <thead><tr><th>Recorded</th><th>Detail</th></tr></thead>
+            <tbody>
+              <tr><td>Census snapshot</td><td class="role">The exact CZI CELLxGENE Census version the reference was built from.</td></tr>
+              <tr><td>Cohort</td><td class="role">The datasets and collections composing the reference, with DOIs and CC&nbsp;BY&nbsp;4.0 attribution.</td></tr>
+              <tr><td>Filtering</td><td class="role">The licensing and condition filters applied at ingestion.</td></tr>
+              <tr><td>Gene space</td><td class="role">The reconciled gene universe and the HVG panel the model was trained on.</td></tr>
+              <tr><td>Quality control</td><td class="role">The per-sample QC metrics and thresholds.</td></tr>
+              <tr><td>Label maps</td><td class="role">Original study labels → Cell Ontology IDs → harmonized cell types.</td></tr>
+              <tr><td>Model</td><td class="role">Architecture, latent dimensionality, and the per-build training hyperparameters.</td></tr>
+              <tr><td>Code version</td><td class="role">The exact pipeline commit that produced the build.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="atlases"><span class="secnum">11</span>Per-atlas parameters</h2>
+        <p>
+          The methods above are shared across organs. The parameters that vary per atlas are stratified
+          here; each new reference appends a row.
+        </p>
+        <div class="tbl-card">
+          <table class="ltable">
+            <thead><tr><th>Atlas</th><th>Census</th><th>Datasets</th><th>Cells</th><th>Genes</th><th>HVG</th><th>Latent</th><th>Labels</th><th>Held-out query</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Human brain</td><td class="role">2025-11-08</td><td>135</td><td>10.05M</td><td>~13.3k</td><td>3,000</td><td>30</td><td>15</td><td class="role">Cortex snRNA-seq</td><td class="lic">Live</td></tr>
+              <tr><td>Immune (cross-organ)</td><td class="role">—</td><td>—</td><td>—</td><td>—</td><td>3,000</td><td>—</td><td>18</td><td class="role">—</td><td class="lic">In preparation</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note warn">
+          <strong>Maintainer note:</strong> the §10 record mirrors
+          <code>varnaops/reference_manifest.py</code> (<code>write_reference_provenance</code>) and the
+          §11 row values come from each atlas's <code>reference_manifest.json</code> + benchmark card.
+          Regenerate both whenever a reference is rebuilt so the page stays in sync with the shipped
+          models, and swap the Figure placeholders for the real training-curve / scib / benchmark plots
+          when they are exported.
+        </div>
+
+        <h2 id="refs"><span class="secnum">12</span>References</h2>
+        <ol class="refs">
+          <li>Lopez R, Regier J, Cole MB, Jordan MI, Yosef N. Deep generative modeling for single-cell transcriptomics. <em>Nat Methods</em> 2018.</li>
+          <li>Xu C, Lopez R, Mehlman E, Regier J, Jordan MI, Yosef N. Probabilistic harmonization and annotation of single-cell transcriptomics data with deep generative models. <em>Mol Syst Biol</em> 2021.</li>
+          <li>Lotfollahi M, et al. Mapping single-cell data to reference atlases by transfer learning (scArches). <em>Nat Biotechnol</em> 2022.</li>
+          <li>Wolf FA, Angerer P, Theis FJ. SCANPY: large-scale single-cell gene expression data analysis. <em>Genome Biol</em> 2018.</li>
+          <li>Stuart T, et al. Comprehensive integration of single-cell data (HVG seurat_v3). <em>Cell</em> 2019.</li>
+          <li>Wolock SL, Lopez R, Klein AM. Scrublet: computational identification of cell doublets. <em>Cell Syst</em> 2019.</li>
+          <li>Traag VA, Waltman L, van Eck NJ. From Louvain to Leiden: guaranteeing well-connected communities. <em>Sci Rep</em> 2019.</li>
+          <li>Muzellec B, Telenczuk M, Cabeli V, Andreux M. PyDESeq2: a Python package for bulk RNA-seq differential expression analysis. <em>Bioinformatics</em> 2023. (DESeq2: Love MI, Huber W, Anders S. <em>Genome Biol</em> 2014.)</li>
+          <li>Luecken MD, et al. Benchmarking atlas-level data integration in single-cell genomics (scib). <em>Nat Methods</em> 2022.</li>
+          <li>Diehl AD, et al. The Cell Ontology 2016: enhanced content, modularization, and ontology interoperability. <em>J Biomed Semantics</em> 2016.</li>
+          <li>CZI Single-Cell Biology Program. CELLxGENE Discover &amp; the Census. Chan Zuckerberg Initiative.</li>
+          <li>Szklarczyk D, et al. The STRING database in 2023. <em>Nucleic Acids Res</em> 2023.</li>
+        </ol>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot-inner">
+      <span>© 2026 VarnaOps · Reference data via the CZI CELLxGENE Census (CC BY 4.0)</span>
+      <a href="mailto:leonardo@varnaops.com">leonardo@varnaops.com</a>
+    </div>
+  </footer>
+</body>
+</html>
