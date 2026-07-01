@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Values — VarnaOps</title>
+  <meta name="description" content="What VarnaOps optimizes for: reproducibility, adherence to scientific consensus, accuracy and scalability, unbiased benchmarking, a clear-eyed stance on generative AI, and a lean, outcome-based business." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <img class="mark" src="mark.svg" alt="" />
+        <span class="brand-text">
+          <span class="word">Varna<span class="ops">Ops</span></span>
+          <span class="tagline">Single-Cell Analysis Platform</span>
+        </span>
+      </a>
+      <nav class="nav-links">
+        <a href="values.html" class="active">Values</a>
+        <details class="nav-dd">
+          <summary>Reproducibility</summary>
+          <div class="nav-dd-menu">
+            <a href="methods.html">Methods</a>
+            <a href="tech.html">Tech</a>
+            <a href="data.html">Data</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="changelog.html">Changelog</a>
+          </div>
+        </details>
+        <a href="careers.html">Careers</a>
+        <a href="contact.html">Contact</a>
+        <a class="signin" href="login.html">Sign in</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <h1>Values</h1>
+        <p class="lead">What we optimize for, and why: reproducibility, adherence to scientific consensus, a balance of accuracy and scalability, unbiased benchmarking, a clear-eyed stance on generative AI, an outcome-based platform, a lean, profitable way of running the company, and where we're headed next.</p>
+      </div>
+    </section>
+
+    <section class="prose">
+      <div class="wrap">
+        <h2>1. Reproducibility</h2>
+        <p>
+          Reproducibility means an independent party, given the same data and the same
+          documented procedure, arrives at the same result <span class="role">[1]</span>.
+          It is the property that turns a result into evidence. At VarnaOps we are transparent
+          about which workflows we use, how they are configured, and why they were chosen over
+          the alternatives — that transparency is both a scientific obligation and how we build
+          trust with the research community.
+        </p>
+        <p>
+          Generative AI makes this harder, not easier. An LLM or an agent given the same
+          objective, or even the same prompt, can take any of an unbounded number of paths to
+          get there, and slightly different paths tend to produce different answers. That
+          variability is fine when it's the point — exploring alternatives, stress-testing a
+          hypothesis — but it is corrosive when it enters a production pipeline unnoticed. We
+          use generative AI deliberately, never as an unversioned step in a result researchers
+          rely on.
+        </p>
+
+        <h2>2. Follow scientific consensus</h2>
+        <p>
+          If many paths can reach a similar result, the practical fix isn't to find the one
+          true path — it's to shrink the space of paths worth taking. Scientific consensus, i.e.
+          a field's accepted best practices, does exactly that: it's the accumulated,
+          peer-reviewed answer to "which of the many reasonable choices actually works." We stay
+          as close as possible to that consensus in our workflows, so results are reproducible
+          by construction and comparable across experiments, labs, and time, rather than tied to
+          one tool's private conventions.
+        </p>
+
+        <h2>3. Balance accuracy and scalability</h2>
+        <p>
+          Within that consensus we optimize for two things at once: accuracy — results that are
+          correct both biologically and computationally — and scalability, so the same workflow
+          holds up from a pilot dataset to an atlas. Cell annotation, one of our core products,
+          is a case in point: assigning a cell type or state to a cell from its transcriptional
+          profile is, formally, a classification problem, and the field has proposed many ways
+          to solve it. VAE-based methods (scVI/scANVI) remain the state of the art for batch
+          correction and cell-type classification in single-cell data <span class="role">[2,3]</span>,
+          and are far cheaper to run than foundation-model or LLM-based approaches, which have
+          repeatedly underperformed on single-cell tasks relative to the compute they demand
+          <span class="role">[4,5,6]</span>.
+        </p>
+        <p>
+          That said, our philosophy is method-agnostic: we use whatever performs best for a
+          given task within our infrastructure, not whatever is fashionable. We don't just wrap
+          pre-trained models unmodified — depending on the task, we train small, efficient models
+          from scratch, or fine-tune larger pre-trained models, tuning either path where we find
+          gaps rather than accepting a vendor's defaults. This also means leaning on open models
+          rather than betting the platform on one proprietary architecture: designing a new model
+          from scratch is a high-variance bet few labs can consistently win, so instead of picking
+          one horse we build on the field's accumulated, peer-reviewed progress — open source is
+          still the dominant source of innovation in this field, for the same reproducibility
+          reasons described above.
+        </p>
+
+        <h2>4. Trust independent benchmarks, verify internally</h2>
+        <p>
+          Comparing model performance is genuinely hard, and a new method's reported numbers are
+          often — consciously or not — optimistic. We start from unbiased, independent
+          benchmarks to shortlist candidates for a given task, then run our own internal
+          benchmarks for two purposes: choosing which model to deploy, and tuning it for
+          performance. Our current scVI/scANVI configuration, for example, departs from the
+          textbook training parameters and loss function in specific, measured ways; that final
+          configuration isn't proprietary folklore — it's documented in our reference reports and
+          reproducibility pages. Other configurations are tried and set aside internally along the
+          way, for under-performing or not scaling, before a model ever reaches production. Nothing
+          here is final: workflows change as the field
+          moves and as user feedback tells us where a step doesn't hold up, and we track that
+          evolution internally with versioning, changelogs, and a containerized build, so a result
+          stays reproducible on our platform even after the stack underneath it has changed.
+        </p>
+
+        <h2>5. Our stance on generative AI</h2>
+        <p>
+          The platform is not a computational engine conjured fresh by a prompt. It pre-exists,
+          has been extensively validated, and changes only when the field advances or a bug is
+          found — that's what keeps it reproducible, close to best practices, accurate, and
+          scalable. Generative AI has a real role at VarnaOps, just not as the analysis engine
+          itself: we use LLMs and agentic tooling for brainstorming, for writing and reviewing
+          our own code, for speeding up day-to-day development and business operations, for
+          parsing and formatting inputs, and for generating custom interpretations of results
+          that are already computed by the validated pipeline.
+        </p>
+
+        <h2>6. Code-free, outcome-based</h2>
+        <p>
+          Anyone who works with biological data has watched people lose time to fragile
+          pipelines, sprawling notebooks, and open questions about which parameter or workflow
+          to use — all of it eating into time-to-insight and, often, into reproducibility. Our
+          goal is a platform where researchers start from the conclusion they want to draw, not
+          from the infrastructure required to get there: drag in data, get results, end to end.
+          Removing the pipeline from the researcher's task also makes results easier to compare
+          across datasets and labs, because everyone ran the same validated path.
+        </p>
+
+        <h2>7. A lean, profitable business</h2>
+        <p>
+          Most drug-discovery and bio-AI companies aren't profitable for years — that's not a
+          flaw, it reflects the genuine, high-risk, upfront cost of designing, testing, and
+          approving a drug. VarnaOps isn't a drug-discovery company. We're SaaS and
+          infrastructure for biology: low risk, with profitability built into how we operate
+          rather than deferred to some future scale. We don't own the data we run on (most of it
+          is public, under licenses that permit our use) or the biological conclusions drawn from
+          it — we own the orchestration and the tuning. We stay lean, fully remote, and
+          scale-to-zero on cloud infrastructure, which keeps fixed costs low and prices
+          competitive, and lets us scale up on demand once volume justifies it. We're in the
+          trust business, and reproducibility and transparency are our wedge. Our products are
+          built for the broad research community first, and we're open to partnering with
+          individual labs, biotech, pharma, agtech, and environmental-science groups on
+          customized work.
+        </p>
+
+        <h2>8. Where we're headed</h2>
+        <p>
+          Today we're focused entirely on the single-cell biology vertical, and our priority is
+          finishing what we've started — fully productionizing an end-to-end pipeline, from
+          reference construction through annotation, benchmarking, and reporting. Only once that's
+          done will we look at expanding, one vertical at a time. Spatial biology, twice named
+          Nature Methods' Method of the Year <span class="role">[7,8]</span>, is the natural next
+          vertical we will focus on: it's the same underlying downstream-analysis problem, just
+          applied to data that keeps each cell's position in the tissue. Other verticals will
+          follow the same pattern in time.
+        </p>
+
+        <h2 id="refs">References</h2>
+        <ol class="refs">
+          <li>Goodman SN, Fanelli D, Ioannidis JPA. What does research reproducibility mean? <em>Sci Transl Med</em> 2016.</li>
+          <li>Lopez R, Regier J, Cole MB, Jordan MI, Yosef N. Deep generative modeling for single-cell transcriptomics (scVI). <em>Nat Methods</em> 2018.</li>
+          <li>Xu C, Lopez R, Mehlman E, Regier J, Jordan MI, Yosef N. Probabilistic harmonization and annotation of single-cell transcriptomics data with deep generative models (scANVI). <em>Mol Syst Biol</em> 2021.</li>
+          <li>Kedzierska KZ, Crawford L, Amini AP, Lu AX. Assessing the limits of zero-shot foundation models in single-cell biology. <em>bioRxiv</em> 2023.</li>
+          <li>Ahlmann-Eltze C, Huber W, Anders S. Deep-learning-based gene perturbation effect prediction does not yet outperform simple linear baselines. <em>Nat Methods</em> 2025.</li>
+          <li>DenAdel A, Hughes M, Thoutam A, et al. Evaluating the role of pre-training dataset size and diversity on single-cell foundation model performance. <em>Nat Methods</em> 2026.</li>
+          <li>Method of the Year 2020: spatially resolved transcriptomics. <em>Nat Methods</em> 2021.</li>
+          <li>Method of the Year 2024: spatial proteomics. <em>Nat Methods</em> 2024.</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot-inner">
+      <span>© 2026 VarnaOps · Reference data via the CZI CELLxGENE Census (CC BY 4.0)</span>
+      <a href="mailto:leonardo@varnaops.com">leonardo@varnaops.com</a>
+    </div>
+  </footer>
+
+  <script src="nav.js" defer></script>
+</body>
+</html>
