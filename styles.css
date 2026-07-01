@@ -20,15 +20,22 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .nav { border-bottom: 1px solid var(--line); }
 .nav-inner { position: relative; display: flex; align-items: center; gap: 20px; padding: 22px 0; }
 .brand { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-.mark-link { position: absolute; left: 50%; top: 50%; transform: translate(calc(-50% - 14px), -50%); display: flex; align-items: center; }
+.mark-link { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; }
 .mark { height: 76px; width: 76px; display: block; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.06; }
 .word { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.03em; color: var(--text); }
 .word .ops { color: var(--accent); }
 .tagline { font-size: 0.95rem; color: var(--muted); font-weight: 500; margin-top: 3px; }
-.nav-links { display: flex; align-items: center; gap: 13px; margin-left: auto; padding-right: 6px; }
-.nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; }
-.nav-links a:hover { color: var(--text); }
+.nav-menu { position: relative; margin-left: auto; }
+.nav-menu-btn { list-style: none; cursor: pointer; display: flex; flex-direction: column; justify-content: center; gap: 5px; width: 32px; height: 32px; padding: 0; }
+.nav-menu-btn::-webkit-details-marker { display: none; }
+.nav-menu-btn .bar { display: block; width: 22px; height: 2px; border-radius: 2px; background: var(--text); }
+.nav-menu-panel { position: absolute; top: calc(100% + 12px); right: 0; display: flex; flex-direction: column; min-width: 200px; padding: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 10px 32px rgba(17,24,39,0.13); z-index: 70; }
+.nav-menu-panel a { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--muted); text-decoration: none; font-size: 0.95rem; font-weight: 500; padding: 9px 12px; border-radius: 8px; }
+.nav-menu-panel a:hover { color: var(--text); background: var(--subtle); }
+.nav-menu-panel .nav-dd > summary { padding: 9px 12px; border-radius: 8px; }
+.nav-menu-panel .nav-dd > summary:hover { background: var(--subtle); }
+.nav-menu-panel .nav-dd-menu { position: static; transform: none; box-shadow: none; border: none; padding: 0 0 0 14px; background: transparent; margin-top: 2px; }
 
 /* buttons */
 .cta { display: inline-block; padding: 11px 22px; border-radius: 9px; background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; transition: .18s ease; }
@@ -154,9 +161,9 @@ footer a:hover { color: var(--accent); }
 
 /* nav dropdown (native <details>, no JS required to open) */
 .nav-dd { position: relative; }
-.nav-dd > summary { list-style: none; cursor: pointer; color: var(--muted); font-size: 0.85rem; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+.nav-dd > summary { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; list-style: none; cursor: pointer; color: var(--muted); font-size: 0.95rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .nav-dd > summary::-webkit-details-marker { display: none; }
-.nav-dd > summary::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translateY(-1px); opacity: 0.55; transition: transform .15s ease; }
+.nav-dd > summary::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translateY(-1px); opacity: 0.55; transition: transform .15s ease; flex: none; }
 .nav-dd[open] > summary::after { transform: rotate(225deg) translateY(-1px); }
 .nav-dd > summary:hover { color: var(--text); }
 .nav-dd-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; min-width: 186px; padding: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 10px 32px rgba(17,24,39,0.13); z-index: 60; }
@@ -255,7 +262,7 @@ footer a:hover { color: var(--accent); }
 }
 @media (max-width: 760px) {
   .nav-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
-  .nav-links { flex-wrap: wrap; gap: 16px; margin-left: 0; }
+  .nav-menu { margin-left: 0; align-self: flex-end; }
   .mark-link { position: static; transform: none; order: -1; }
 }
 @media (max-width: 560px) {
