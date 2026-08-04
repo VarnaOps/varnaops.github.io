@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attribution · VarnaOps</title>
+  <meta name="description" content="Full CC BY 4.0 attribution for every dataset behind the VarnaOps reference atlases, with the statement that the material was modified." />
+  <link rel="canonical" href="https://varnaops.com/attribution.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="VarnaOps" />
+  <meta property="og:title" content="Attribution · VarnaOps" />
+  <meta property="og:description" content="Full CC BY 4.0 attribution for every dataset behind the VarnaOps reference atlases, with the statement that the material was modified." />
+  <meta property="og:url" content="https://varnaops.com/attribution.html" />
+  <meta property="og:image" content="https://varnaops.com/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Attribution · VarnaOps" />
+  <meta name="twitter:description" content="Full CC BY 4.0 attribution for every dataset behind the VarnaOps reference atlases, with the statement that the material was modified." />
+  <meta name="twitter:image" content="https://varnaops.com/og.png" />
+
+  <style>
+/* VarnaOps — shared styles (light theme, brand palette) */
+:root {
+  --bg: #ffffff; --surface: #ffffff; --canvas: #f5f6f8; --subtle: #f7f8fa;
+  --text: #111827; --muted: #586072; --faint: #97a0ad; --line: #e6e8ec;
+  --accent: #1d9e75; --accent-ink: #ffffff; --accent-soft: rgba(29,158,117,0.08);
+  --red: #e24b4a; --ink-soft: #303846;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scrollbar-gutter: stable; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.92em; }
+.wrap { width: 100%; max-width: 860px; margin: 0 auto; padding: 0 28px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* nav / brand lockup */
+.nav { border-bottom: 1px solid var(--line); }
+.nav-inner { position: relative; display: flex; align-items: center; gap: 20px; padding: 14px 0; }
+/* Brand lockup — same measures as the reference/query report header
+   (report.html.j2 .report-mark/.report-word): spiral at 76px height with its
+   native aspect preserved, wordmark pulled up tight beneath it (−14px). */
+/* compact, left-aligned lockup: small spiral to the left of the wordmark, 1px gap */
+.brand { display: flex; flex-direction: row; align-items: center; gap: 1px; text-decoration: none; }
+.mark { height: 42px; width: auto; display: block; }
+.word { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); line-height: 1; }
+.word .ops { color: var(--accent); }
+
+/* explicit top nav (replaces the hamburger dropdown) */
+.nav-links { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; margin-left: auto; }
+.nav-links > a { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--muted); text-decoration: none; font-size: 0.86rem; font-weight: 500; }
+.nav-links > a:hover { color: var(--text); }
+.nav-links a.signin { padding: 8px 16px; border: 1px solid var(--line); border-radius: 9px; color: var(--text); }
+.nav-links a.signin:hover { background: var(--subtle); }
+
+/* buttons */
+.cta { display: inline-block; padding: 11px 22px; border-radius: 9px; background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; transition: .18s ease; }
+.cta:hover { background: #178b66; transform: translateY(-1px); box-shadow: 0 8px 20px rgba(29,158,117,0.22); }
+.cta-sm { padding: 9px 16px; font-size: 0.9rem; }
+.ghost { color: var(--muted); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+.ghost:hover { color: var(--accent); }
+.micro { color: var(--faint); font-size: 0.88rem; margin: 0; }
+
+/* home hero */
+.hero { padding: 64px 0 36px; }
+.hero h1 { margin: 0 0 16px; font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1.08; letter-spacing: -0.04em; max-width: 18ch; }
+.hero .lead { margin: 0 0 28px; color: var(--muted); font-size: 1.15rem; max-width: 62ch; }
+.hero-cta { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+
+/* home cards */
+.cards-sec { padding: 8px 0 80px; }
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.ucard { display: block; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); text-decoration: none; color: inherit; transition: .16s ease; box-shadow: 0 1px 2px rgba(17,24,39,0.04); }
+.ucard:hover { border-color: #cfd3da; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(17,24,39,0.07); }
+.ucard h3 { margin: 0 0 8px; font-size: 1.08rem; }
+.ucard p { margin: 0 0 14px; color: var(--muted); font-size: 0.94rem; }
+.ucard .more { color: var(--accent); font-weight: 600; font-size: 0.9rem; }
+
+/* generic page header + prose */
+.page-head { padding: 52px 0 6px; }
+.page-head h1 { margin: 0 0 10px; font-size: clamp(1.8rem, 3.6vw, 2.4rem); letter-spacing: -0.03em; }
+.page-head .lead { margin: 0; color: var(--muted); font-size: 1.15rem; max-width: 70ch; }
+.prose { padding: 26px 0 80px; }
+.prose h2 { font-size: 1.3rem; margin: 38px 0 10px; letter-spacing: -0.02em; }
+.prose h3 { font-size: 1.04rem; margin: 28px 0 8px; }
+.prose p { color: var(--ink-soft); margin: 0 0 14px; max-width: 72ch; }
+.prose ul { color: var(--ink-soft); padding-left: 20px; margin: 0 0 14px; max-width: 72ch; }
+.prose .wrap > h2:first-child, .prose .wrap > h3:first-child { margin-top: 4px; }
+.prose li { margin-bottom: 7px; }
+.prose strong { color: var(--text); font-weight: 600; }
+.prose a { color: var(--accent); }
+.prose .pull { font-size: 1.4rem; line-height: 1.3; font-weight: 600; color: var(--text); letter-spacing: -0.02em; margin: 26px 0; }
+.prose .pull .ops { color: var(--accent); }
+
+/* note / callout */
+.note { background: var(--accent-soft); border: 1px solid rgba(29,158,117,0.25); border-radius: 10px; padding: 14px 16px; color: #2f5d4f; font-size: 0.92rem; margin: 18px 0; }
+.note.warn { background: #fff7ed; border-color: #fed7aa; color: #9a3412; }
+.note strong { color: inherit; }
+
+/* license / data tables */
+.tbl-card { padding: 6px 4px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow-x: auto; box-shadow: 0 1px 2px rgba(17,24,39,0.04); margin: 16px 0; }
+.ltable { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.ltable th, .ltable td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.ltable thead th { color: var(--muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.ltable tbody tr:last-child td { border-bottom: none; }
+.ltable td.lic { white-space: nowrap; color: var(--ink-soft); font-weight: 500; }
+.ltable td .role { color: var(--muted); }
+/* Verbatim licence text. Reproduced as-is, so it wraps but is never restyled into prose. */
+.licence-text { white-space: pre-wrap; font-size: 0.8rem; line-height: 1.55; color: var(--ink-soft); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin: 14px 0 26px; overflow-x: auto; }
+
+/* ===== interactive walkthrough (Home / app) ===== */
+.flow { padding: 30px 0 80px; }
+.step-head { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 1.08rem; margin: 40px 0 16px; }
+.flow .wrap > .step-head:first-child { margin-top: 8px; }
+.step-head .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: 0.85rem; font-weight: 700; }
+
+.organ-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+.organ { padding: 9px 16px; border: 1px solid #d6d9e0; border-radius: 999px; background: #e7e9ee; color: #3f4756; cursor: pointer; font-size: 0.92rem; font-weight: 600; font-family: inherit; transition: .15s; }
+.organ:hover { border-color: #c2c6cf; background: #dfe2e8; color: var(--text); }
+.organ.active { border-color: var(--accent); color: var(--accent); background: rgba(29,158,117,0.12); }
+.organ .st { color: var(--faint); font-size: 0.74rem; font-weight: 500; margin-left: 7px; text-transform: uppercase; letter-spacing: 0.04em; }
+.organ.active .st { color: var(--accent); }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; box-shadow: 0 1px 2px rgba(17,24,39,0.04), 0 10px 30px rgba(17,24,39,0.05); }
+.preview.atlas { display: grid; grid-template-columns: 340px 1fr; gap: 26px; align-items: start; }
+.pv-svg svg { width: 100%; height: auto; display: block; border-radius: 10px; background: var(--canvas); }
+.pv-text h3 { margin: 0 0 8px; font-size: 1.08rem; }
+.pv-text p { margin: 0; color: var(--muted); font-size: 0.96rem; }
+.illus { display: inline-block; margin-top: 12px; color: var(--faint); font-size: 0.78rem; }
+
+.legend-head { margin: 12px 0 8px; font-size: 0.85rem; color: var(--text); font-weight: 600; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px; }
+.lchip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; font-size: 0.77rem; color: var(--muted); background: var(--subtle); }
+.lchip .ld { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+
+.compute { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 24px; align-items: start; }
+.mod-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); }
+.mod-item { display: flex; align-items: center; gap: 13px; padding: 13px 16px; cursor: pointer; border-bottom: 1px solid var(--line); transition: .12s; }
+.mod-item:last-child { border-bottom: none; }
+.mod-item:hover { background: var(--subtle); }
+.mod-item.active { background: var(--accent-soft); }
+.mod-item .chk { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid #c4c9d2; background: #fff; flex: none; position: relative; transition: .12s; }
+.mod-item .chk.on { border-color: var(--accent); background: var(--accent); }
+.mod-item .chk.on::after { content: ""; position: absolute; left: 5px; top: 1.5px; width: 4px; height: 8.5px; border: solid #fff; border-width: 0 1.7px 1.7px 0; transform: rotate(45deg); }
+.mod-item .mt { font-size: 0.95rem; color: var(--muted); }
+.mod-item.active .mt { color: var(--text); font-weight: 600; }
+.compute .pv-svg { margin-bottom: 14px; }
+
+.drop { display: flex; align-items: center; justify-content: center; gap: 12px; border: 1.5px dashed #c9ced6; border-radius: 12px; padding: 18px 22px; background: var(--subtle); transition: .18s ease; }
+.drop.drag { border-color: var(--accent); background: var(--accent-soft); }
+.drop .upic { width: 22px; height: 22px; stroke: var(--accent); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.drop .drop-txt { font-size: 0.96rem; color: var(--muted); }
+.drop .drop-txt code { color: var(--accent); }
+.drop-notes { margin-top: 10px; }
+.drop-formats { margin: 0 0 6px; font-size: 0.82rem; color: var(--faint); }
+.drop-formats code { color: var(--muted); font-size: 0.9em; }
+.drop-privacy { display: flex; align-items: flex-start; gap: 7px; margin: 0; font-size: 0.82rem; line-height: 1.5; color: var(--faint); }
+.drop-privacy .lockic { width: 14px; height: 14px; flex: none; margin-top: 2px; stroke: var(--faint); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.drop-privacy a { color: var(--accent); font-weight: 600; text-decoration: none; white-space: nowrap; }
+.drop-privacy a:hover { text-decoration: underline; }
+/* bring-your-own labels (optional, step 3) */
+.byo { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+.byo-toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 0.92rem; color: var(--text); cursor: pointer; }
+.byo-toggle input, .byo-check input { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; flex: none; }
+.byo-fields { margin-top: 12px; padding-left: 23px; }
+.byo-field { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--muted); }
+.byo-field code { color: var(--accent); }
+.byo-field input { flex: 1; max-width: 240px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: 0.9rem; color: var(--text); background: var(--surface); }
+.byo-field input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.byo-help { margin: 8px 0 12px; font-size: 0.82rem; color: var(--faint); }
+.byo-check { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text); cursor: pointer; }
+.byo-check.disabled { color: var(--faint); cursor: not-allowed; }
+.byo-sub { color: var(--faint); font-size: 0.86em; }
+.closing { display: flex; align-items: center; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+
+/* footer */
+footer { border-top: 1px solid var(--line); padding: 26px 0; color: var(--faint); font-size: 0.85rem; }
+.foot-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
+footer a { color: var(--muted); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+.foot-links { display: inline-flex; gap: 8px; flex-wrap: wrap; }
+.foot-ruo { margin: 14px 0 0; padding-top: 13px; border-top: 1px solid var(--line); font-size: 0.82rem; color: var(--muted); }
+/* research-use-only compliance callout (terms page + anywhere the boundary is stated) */
+.ruo-callout { margin: 8px 0 26px; padding: 16px 18px; border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 10px; background: var(--subtle); font-size: 0.95rem; line-height: 1.55; color: var(--ink-soft); }
+.ruo-callout strong { color: var(--text); }
+
+/* methods page */
+.toc { border: 1px solid var(--line); border-radius: 14px; background: var(--subtle); padding: 16px 20px; margin: 10px 0 30px; }
+.toc-h { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; margin-bottom: 10px; }
+.toc ol { margin: 0; padding-left: 22px; columns: 2; column-gap: 34px; }
+.toc li { margin: 0 0 7px; break-inside: avoid; }
+.toc a { color: var(--ink-soft); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+.prose h2 { scroll-margin-top: 24px; }
+.prose h2 .secnum { color: var(--accent); font-variant-numeric: tabular-nums; margin-right: 12px; }
+.formula { background: var(--subtle); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px; padding: 10px 18px; margin: 16px 0; color: var(--text); overflow-x: auto; overflow-y: hidden; }
+.formula .katex-display { margin: 10px 0; }
+.formula .fn { color: var(--muted); font-size: 0.86rem; margin-top: 4px; text-align: left; line-height: 1.5; }
+.figure { margin: 22px 0; }
+.fig-ph { border: 1px dashed #c9ced6; border-radius: 12px; background: var(--subtle); height: 210px; display: flex; align-items: center; justify-content: center; color: var(--faint); font-size: 0.85rem; text-align: center; padding: 0 20px; }
+.fig-cap { margin: 9px 2px 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+.fig-cap b { color: var(--text); font-weight: 600; }
+.refs { font-size: 0.88rem; color: var(--muted); padding-left: 26px; }
+.refs li { margin-bottom: 8px; }
+
+/* nav dropdown (native <details>, no JS required to open) */
+.nav-dd { position: relative; }
+.nav-dd > summary { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; list-style: none; cursor: pointer; color: var(--muted); font-size: 0.86rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.nav-dd > summary::-webkit-details-marker { display: none; }
+.nav-dd > summary::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translateY(-1px); opacity: 0.55; transition: transform .15s ease; flex: none; }
+.nav-dd[open] > summary::after { transform: rotate(225deg) translateY(-1px); }
+.nav-dd > summary:hover { color: var(--text); }
+.nav-dd-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; min-width: 186px; padding: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 10px 32px rgba(17,24,39,0.13); z-index: 60; }
+.nav-dd-menu a { padding: 9px 12px; border-radius: 8px; color: var(--muted); font-size: 0.92rem; text-decoration: none; white-space: nowrap; }
+.nav-dd-menu a:hover { background: var(--subtle); color: var(--text); }
+.nav-dd-menu a.active { color: var(--accent); }
+
+/* auto-numbered methods sections (CSS counter — survives reordering) */
+.prose.numbered { counter-reset: sec; }
+.prose.numbered h2 { counter-increment: sec; }
+.prose.numbered h2::before { content: counter(sec); color: var(--accent); font-variant-numeric: tabular-nums; margin-right: 12px; }
+
+/* ===== home intro (above the app box) ===== */
+.alpha-pill { display: inline-flex; align-items: center; gap: 7px; padding: 4px 12px; border-radius: 999px; background: var(--accent-soft); border: 1px solid rgba(29,158,117,0.28); color: #157a5a; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
+.alpha-pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+/* ===== home trust strip (below the app box) ===== */
+.home-trust { padding: 4px 0 64px; }
+.home-trust p { margin: 0 0 14px; color: var(--muted); font-size: 0.96rem; max-width: 68ch; }
+.ht-links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.ht-links a { color: var(--accent); font-weight: 600; font-size: 0.92rem; text-decoration: none; }
+.ht-links a:hover { text-decoration: underline; }
+
+/* full-reference-info link, in the step footer at the height of the Next button */
+.ref-info { font-size: 0.9rem; font-weight: 600; text-decoration: none; color: var(--accent); white-space: nowrap; }
+.ref-info:hover { text-decoration: underline; }
+
+/* ===== example-report CTA (between the lead and the stepper, left-anchored) ===== */
+.app-cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-start; margin-top: 22px; }
+.scta-primary { display: inline-flex; align-items: center; padding: 11px 20px; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: 0.96rem; text-decoration: none; transition: filter .12s; }
+.scta-primary:hover { filter: brightness(1.06); }
+.scta-secondary { display: inline-flex; align-items: center; padding: 11px 20px; border-radius: 10px; background: transparent; color: var(--text); border: 1px solid var(--line); font-weight: 600; font-size: 0.96rem; text-decoration: none; transition: border-color .12s, color .12s; }
+.scta-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+/* step 4 results block (report + downloadable bundle) */
+.results { margin-top: 16px; }
+.results-head { display: flex; align-items: flex-start; gap: 12px; }
+.results-check { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+.results-head strong { display: block; margin-bottom: 2px; }
+.results-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+.results-bundle { margin: 12px 0 0; font-size: 0.85rem; }
+
+/* contact page — prominent email link */
+.contact-email { margin: 2px 0 0; font-size: 1.05rem; font-weight: 400; }
+.contact-email a { color: var(--accent); text-decoration: none; }
+.contact-email a:hover { text-decoration: underline; }
+
+/* ===== home app box (stepper) ===== */
+.app { padding: 20px 0 44px; }
+.app-box { border: 1px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: 0 1px 2px rgba(17,24,39,0.04), 0 18px 50px rgba(17,24,39,0.06); overflow: hidden; }
+/* app-box title bar (title left, actions right) */
+.app-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 15px 22px; background: var(--subtle); border-bottom: 1px solid var(--line); }
+.app-head h2 { margin: 0; font-size: 1.02rem; font-weight: 600; color: var(--text); }
+.app-head .app-cta { margin: 0; }
+.app-head .scta-primary, .app-head .scta-secondary { padding: 8px 14px; font-size: 0.86rem; }
+
+/* app-box header as underline tabs (SaaS tab-bar look) */
+.stepper { display: flex; align-items: stretch; gap: 26px; padding: 0 22px; border-bottom: 1px solid var(--line); background: var(--surface); overflow-x: auto; overflow-y: hidden; }
+.stepper .step { position: relative; display: inline-flex; align-items: center; flex: none; padding: 14px 2px; margin-bottom: -1px; border: 0; border-bottom: 2px solid transparent; background: transparent; cursor: pointer; color: var(--muted); font-family: inherit; font-size: 0.9rem; white-space: nowrap; transition: color .12s, border-color .12s; }
+.stepper .step:hover { color: var(--text); }
+.stepper .step.done { color: var(--text); }
+.stepper .step.active { color: var(--accent); font-weight: 600; border-bottom-color: var(--accent); }
+.stepper .sdot { display: none; }
+.sconn { display: none; }
+.slabel { white-space: nowrap; }
+
+.panels { padding: 20px 22px; }
+.panel { display: none; }
+.panel.show { display: block; }
+.panel-h { font-size: 1.08rem; font-weight: 600; color: var(--text); margin: 0 0 14px; }
+.panel-h-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.panel-h-row .panel-h { margin: 0 0 14px; }
+.mod-toggle-all { background: none; border: none; padding: 0; font: inherit; font-size: 0.82rem; font-weight: 600; color: var(--accent); cursor: pointer; }
+.mod-toggle-all:hover { text-decoration: underline; }
+.ctx-selectors { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 18px; }
+.ctx-field { display: flex; flex-direction: column; gap: 6px; }
+.ctx-field > span { font-size: 0.82rem; font-weight: 500; color: var(--muted); }
+.ctx-field select { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 0.95rem; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: 9px 12px; min-width: 168px; cursor: pointer; }
+.ctx-field select:focus { outline: none; border-color: var(--accent); }
+.panel-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+.pbtn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: 10px; border: 1px solid var(--line); background: #fff; color: var(--text); font-family: inherit; font-size: 0.92rem; cursor: pointer; transition: .12s; }
+.pbtn:hover { border-color: #cfd4db; background: var(--subtle); }
+.pbtn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.pbtn.primary:hover { background: #178b66; }
+.pbtn.ghost { border-color: transparent; color: var(--muted); padding-left: 6px; }
+.pbtn.ghost:hover { background: transparent; color: var(--text); }
+.pbtn[disabled] { opacity: 0.55; cursor: default; }
+.pmute { color: var(--faint); font-size: 0.83rem; }
+.pmute a { color: var(--accent); }
+.feedback-note { margin-top: 14px; }
+
+.ctx-body { margin-top: 8px; }
+.ctx-body h3 { margin: 0 0 6px; font-size: 1rem; }
+.ctx-body p { margin: 0 0 12px; color: var(--muted); font-size: 0.93rem; }
+.ref-figure { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: start; margin: 0 0 16px; }
+.ref-figure .legend { display: block; column-count: 2; column-gap: 16px; }
+.ref-figure .legend .lchip { display: flex; width: fit-content; max-width: 100%; margin: 0 0 6px; break-inside: avoid; }
+.umap-ph { aspect-ratio: 4 / 3; border: 1px dashed var(--line); border-radius: 10px; background-color: var(--subtle); background-image: radial-gradient(var(--line) 1px, transparent 1px); background-size: 15px 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center; }
+.umap-ph-title { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+.umap-ph-note { font-size: 0.78rem; color: var(--muted); }
+.ref-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.ref-table th, .ref-table td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.ref-table th { color: var(--muted); font-weight: 500; white-space: nowrap; width: 46%; }
+.ref-table td { color: var(--text); }
+.ref-table tr:last-child th, .ref-table tr:last-child td { border-bottom: none; }
+
+.outcomes-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: start; }
+.mod-extra { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: var(--subtle); }
+.mod-extra-title { font-size: 0.85rem; font-weight: 600; color: var(--text); margin: 0 0 6px; }
+.mod-extra .pmute { margin: 0 0 10px; }
+.mod-extra-field label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.mod-extra-field .opt-tag { font-weight: 400; color: var(--faint); }
+.mod-extra-field textarea { width: 100%; min-height: 90px; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font: inherit; font-size: 0.88rem; resize: vertical; background: #fff; }
+.mod-extra-field input[type=text] { width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font: inherit; font-size: 0.88rem; background: #fff; box-sizing: border-box; }
+.mod-extra-mode { margin: 4px 0 4px; }
+.mod-extra-radio { display: flex; align-items: flex-start; gap: 8px; font-size: 0.84rem; font-weight: 600; color: var(--text); cursor: pointer; margin: 10px 0 2px; }
+.mod-extra-radio input { margin-top: 2px; flex: none; }
+.mod-extra-radio-note { font-size: 0.8rem; margin: 0 0 4px 24px; }
+/* confirm-columns step (after upload) */
+.confirm-cols { border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; background: #fff; max-width: 520px; }
+.confirm-title { font-size: 0.95rem; font-weight: 700; margin: 0 0 10px; }
+.confirm-field { display: block; margin: 0 0 12px; }
+.confirm-field span { display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 5px; }
+.confirm-field select, .confirm-field input[type=text] { width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font: inherit; font-size: 0.88rem; background: #fff; box-sizing: border-box; }
+.confirm-note { font-size: 0.8rem; margin: 4px 0 10px; }
+.confirm-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.confirm-subtitle { font-size: 0.84rem; font-weight: 600; margin: 14px 0 8px; }
+.confirm-align { border-top: 1px solid var(--line); padding-top: 6px; margin-bottom: 10px; }
+.confirm-alignrow { display: flex; align-items: flex-start; gap: 8px; font-size: 0.85rem; margin: 5px 0; }
+.confirm-alignrow input { margin-top: 3px; flex: none; }
+/* confirm-columns now lives in step 3 (Load your data), inline under the drop zone */
+#confirmCols { margin-top: 16px; }
+.confirm-ok { color: var(--accent); font-weight: 600; margin-bottom: 0; }
+.confirm-err { color: #b91c1c; font-weight: 600; margin-bottom: 0; }
+/* a step the customer has walked past but not finished reads as unfinished, not done */
+.stepper .step.incomplete:not(.active) { color: var(--faint); }
+.stepper .step.incomplete:not(.active)::after { content: '!'; margin-left: 5px; font-weight: 700; color: #b91c1c; }
+
+.resume-banner { border: 1px solid var(--line); border-left: 3px solid var(--accent, #2a6); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.88rem; background: #fff; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.resume-banner--list { flex-direction: column; align-items: stretch; gap: 0; }
+.resume-head { font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.resume-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 0; border-top: 1px solid var(--line); }
+.resume-row:first-of-type { border-top: none; }
+.resume-foot { margin-top: 6px; }
+.resume-banner .muted { color: var(--muted); font-size: 0.8rem; font-weight: 400; }
+.mod-extra-sub { font-size: 0.82rem; font-weight: 600; color: var(--text); margin: 12px 0 8px; }
+.mod-extra-note { font-size: 0.82rem; }
+.mod-extra-chips.legend { gap: 5px; margin-bottom: 2px; }
+.mod-extra-chips .lchip { font-size: 0.73rem; padding: 2px 8px; }
+.mod-extra-list { margin: 0 0 4px; padding-left: 18px; font-size: 0.85rem; color: var(--muted); }
+.mod-extra-list li { margin-bottom: 3px; }
+.mod-extra-toggle { display: flex; align-items: flex-start; gap: 8px; font-size: 0.84rem; color: var(--text); cursor: pointer; margin-bottom: 8px; }
+.mod-extra-toggle input { margin-top: 2px; flex: none; }
+.mod-extra-checklist { margin-bottom: 4px; }
+.mod-extra-file { margin-top: 4px; }
+.mod-extra-drop { display: block; border: 1px dashed var(--line); border-radius: 8px; padding: 12px; text-align: center; font-size: 0.82rem; color: var(--muted); cursor: pointer; background: #fff; }
+.mod-extra-drop:hover { border-color: var(--accent); color: var(--accent); }
+.mod-extra-filename { font-size: 0.78rem; margin: 6px 0 0; }
+
+.run-sum { color: var(--muted); font-size: 0.94rem; margin: 0 0 16px; }
+.run-sum b { color: var(--text); font-weight: 600; }
+
+/* dependency: gated rows are greyed + non-clickable until their prerequisite is on (flat list, no indent) */
+.mod-item.dep-locked { cursor: default; }
+.mod-item.dep-locked:hover { background: transparent; }
+.mod-item.dep-locked .chk { opacity: .45; }
+.mod-item.dep-locked .mt { color: var(--faint); }
+.mod-item.dep-locked .cr-tag-slot { display: none; }               /* no price on a gated row; "requires" takes its place */
+.dep-req { margin-left: auto; font-size: 0.76rem; color: var(--faint); white-space: nowrap; }
+.mod-item:not(.dep-locked) .dep-req { display: none; }              /* only shown while the dependent is gated */
+.dep-req .dep-link { color: var(--accent); cursor: pointer; text-decoration: none; border-bottom: 1px dotted currentColor; }
+.dep-req .dep-link:hover { opacity: .8; }
+.run-hint { color: var(--red); font-size: 0.84rem; }
+.run-hint:empty { display: none; }
+/* greyed sub-option (checklist item gated on its own prerequisite) */
+.mod-extra-toggle.disabled { color: var(--faint); cursor: not-allowed; }
+.mod-extra-toggle.disabled input { cursor: not-allowed; }
+.mod-extra-toggle .dep-req { margin-left: 6px; }
+.mod-extra-toggle .dep-link { color: var(--accent); cursor: pointer; border-bottom: 1px dotted currentColor; }
+/* greyed radio option (mode option gated on the uploaded file carrying .obs columns) */
+.mod-extra-radio.disabled { color: var(--faint); cursor: not-allowed; }
+.mod-extra-radio.disabled input { cursor: not-allowed; }
+
+/* credit-cost tags + running-total bar (shown only when creditsUi is enabled) */
+.mod-item .cr-tag-slot { margin-left: auto; display: inline-flex; }
+/* relative-cost dots (step 2): weight only, never money. The number lives in step 4. */
+.cr-dots { display: inline-flex; align-items: center; gap: 3px; margin-left: 8px; vertical-align: middle; cursor: help; }
+.mod-item .cr-tag-slot .cr-dots { margin-left: 0; }
+.cr-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
+.cr-dot.on { background: var(--accent); }
+.cr-dots--flat .cr-dot.on { background: var(--muted); }
+/* itemized breakdown (step 4 only) */
+.cr-items { margin-top: 10px; width: 100%; font-size: 0.86rem; }
+.cr-item { display: flex; justify-content: space-between; gap: 16px; padding: 3px 0; color: var(--muted); }
+.cr-item b { color: var(--text); font-weight: 600; white-space: nowrap; }
+.cr-item--total { margin-top: 6px; padding-top: 7px; border-top: 1px solid var(--line); }
+/* both live inside .credits-bar (a wrapping flex row), so each takes its own line */
+.cr-legend { flex-basis: 100%; display: flex; align-items: center; gap: 4px; color: var(--faint); font-size: 0.82rem; }
+.cr-legend .cr-dots { margin-left: 0; cursor: default; }
+.cr-items { flex-basis: 100%; }
+.credits-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: 16px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--subtle); font-size: 0.9rem; color: var(--muted); }
+.credits-bar .cr-cost b, .credits-bar .cr-bal b { color: var(--text); font-weight: 700; }
+.credits-bar .cr-bal { margin-left: auto; }
+.credits-bar .cr-note { color: var(--faint); font-weight: 400; font-size: 0.82rem; }
+.credits-bar .cr-over { color: var(--red); font-weight: 600; }
+#runCredits { margin: 0 0 16px; }
+.progress { height: 7px; border-radius: 4px; background: var(--line); overflow: hidden; margin: 18px 0 14px; }
+.progress > i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .5s ease; }
+.status-stage { display: flex; align-items: center; gap: 11px; padding: 6px 0; color: var(--muted); font-size: 0.92rem; }
+.status-stage .ic { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #d3d7dd; flex: none; display: inline-flex; align-items: center; justify-content: center; }
+.status-stage.done { color: var(--text); }
+.status-stage.done .ic { background: var(--accent); border-color: var(--accent); }
+.status-stage.done .ic::after { content: ""; width: 4px; height: 8px; border: solid #fff; border-width: 0 1.6px 1.6px 0; transform: rotate(45deg) translateY(-1px); }
+.status-stage.active { color: var(--text); font-weight: 600; }
+.status-stage.active .ic { border-color: var(--accent); border-right-color: transparent; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+
+/* ===== login page ===== */
+.login-grid { display: grid; grid-template-columns: 320px 1fr; gap: 30px; align-items: start; }
+.card-box { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); padding: 22px; box-shadow: 0 1px 2px rgba(17,24,39,0.04); }
+.card-box h3 { margin: 0 0 14px; font-size: 1.05rem; }
+.field { display: block; margin-bottom: 13px; }
+.field span { display: block; font-size: 0.82rem; color: var(--muted); margin-bottom: 5px; }
+.field input { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; font-family: inherit; font-size: 0.93rem; background: #fff; }
+.field input:focus { outline: none; border-color: var(--accent); }
+.runs-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.runs-table th, .runs-table td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.runs-table thead th { color: var(--muted); font-weight: 600; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.runs-table tbody tr:last-child td { border-bottom: none; }
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 500; }
+.badge.run { background: var(--accent-soft); color: var(--accent); }
+.badge.done { background: #eef2f6; color: var(--muted); }
+.badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
+
+/* responsive */
+@media (max-width: 820px) {
+  .preview.atlas, .compute { grid-template-columns: 1fr; gap: 18px; }
+  .cards { grid-template-columns: 1fr; }
+  .ctx-body, .login-grid, .ref-figure, .outcomes-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 660px) {
+  .stepper { padding: 0 16px; gap: 18px; }   /* underline tabs scroll horizontally on narrow screens */
+}
+@media (max-width: 560px) {
+  .mark { height: 36px; }
+  .word { font-size: 1.2rem; }
+  .nav-links { gap: 14px; }
+}
+
+/* keep the button label white in every context — .nav-links a / .prose a would
+   otherwise win on specificity and grey-out (or green-on-green) the CTA text */
+a.cta, a.cta:hover { color: var(--accent-ink); }
+
+  </style>
+</head>
+<body>
+<main>
+    <section class="page-head">
+      <div class="wrap">
+        <h1>Attribution</h1>
+        <p class="lead">Every dataset behind our reference atlases, who published it, and under what licence.</p>
+      </div>
+    </section>
+
+    <section class="prose">
+      <div class="wrap">
+        <div class="note">
+          <strong>These datasets were modified.</strong> We do not redistribute the source data as
+          published. Building a reference alters it: cells are filtered on quality and on donor and
+          sample metadata, duplicate cells shared between overlapping studies are removed, the gene
+          space is reconciled to a single panel across all contributing datasets, and the original
+          per-study cell-type labels are replaced by a harmonized vocabulary. The models we publish
+          are trained on the result, not on any dataset as its authors released it.
+        </div>
+
+        <p>
+          Our reference atlases are built from public data in the
+          <a href="https://cellxgene.cziscience.com/">CZI CELLxGENE Census</a>. Data published
+          through that platform is made available under
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC&nbsp;BY&nbsp;4.0</a> as a matter
+          of CZI's platform policy, which is where the licence for every dataset below comes from.
+          CC&nbsp;BY&nbsp;4.0 asks for credit to the creator, a link to the licence, and an
+          indication of whether changes were made. This page is where we do all three, and it is the
+          page our reports and downloads link to.
+        </p>
+        <p>
+          Our analyses also draw on ontologies, marker tables, gene-set panels and an interaction
+          network that do not come from the Census. Those carry their own and differing terms, and
+          are listed separately under <a href="#resources">knowledge resources</a>.
+        </p>
+        <p>
+          Both lists are generated rather than maintained by hand. The datasets come from the
+          provenance manifest each reference build writes, so they name what actually went into the
+          shipped models rather than what we intended to use. The two differ: a dataset can be
+          declared in a cohort and then dropped during the build.
+        </p>
+
+        <h2 id="handling">How we source and handle the data</h2>
+        <div class="tbl-card">
+          <table class="ltable">
+            <thead><tr><th>Item</th><th>Policy</th></tr></thead>
+            <tbody>
+              <tr><td>Source corpus</td><td class="role">CZ CELLxGENE Census. Everything submitted to it carries CC&nbsp;BY&nbsp;4.0, so attribution is required, and it is carried into every reference manifest and every report.</td></tr>
+              <tr><td>Commercial use</td><td class="role">Filtered at ingestion, on by default and fail-loud. CC&nbsp;BY-NC and CC&nbsp;BY-ND data is excluded from the references used in the product.</td></tr>
+              <tr><td>Cell-type ontology</td><td class="role">Labels are harmonised to the Cell Ontology. Its terms are under <a href="#resources-cell-ontology">knowledge resources</a> below.</td></tr>
+              <tr><td>Marker panels</td><td class="role">Assembled from two sources with different standings, credited separately at <a href="#resources-hubmap-asctb">HuBMAP ASCT+B</a> and <a href="#resources-cellguide">CZ CELLxGENE CellGuide</a>.</td></tr>
+              <tr><td>Your data</td><td class="role">Processed in an isolated per-run job and never used to train our models. See the privacy notice.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="datasets">Datasets</h2>
+        <!-- BEGIN generated:attribution-table (scripts/build_attribution_page.py) -->
+<div class="tbl-card">
+  <table class="ltable">
+    <tbody>
+      <tr><td>Datasets</td><td class="role">314</td></tr>
+      <tr><td>Collections</td><td class="role">151</td></tr>
+      <tr><td>Reference atlases built from them</td><td class="role">14</td></tr>
+      <tr><td>Licence</td><td class="role">CC BY 4.0, on every dataset. That is the condition CZ CELLxGENE applies to everything submitted to it, not 314 separate determinations we made. It does not extend to the knowledge resources below, which carry four different instruments between them.</td></tr>
+    </tbody>
+  </table>
+</div>
+<p><a class="dl" href="attribution-datasets.csv" download>Download the full list (314 datasets, CSV)</a> with each dataset's collection, DOI and the reference atlases it went into.</p>
+<p class="micro"><b>Modifications we may make.</b> CC BY 4.0 §3(a)(1)(B) asks that modifications be indicated. A reference atlas is a heavily modified derivative rather than a redistribution, and across our builds we apply per-sample quality control, with MAD-based thresholds and doublet removal, so the cell population is a filtered subset of each source study's; restriction to the genes shared across the contributing datasets, then selection of a highly-variable subset for model training; relabelling: each cell's original study label is mapped through Cell Ontology to a coarser subclass vocabulary, so the cell-type labels here are ours and are not the source studies' annotations; concatenation of the remaining cells into a single integrated atlas, and computation of derived representations (latent embedding, UMAP) that are not in the source data. <b>This is the full set, not a description of any one build.</b> What a particular reference or run actually did is stated in that artifact's own notices, which are selected from what the run observed; a run that did less says less. Where the two differ, the artifact governs. Cite the per-study publications in the CSV, not this page, when using a reference.</p>
+<!-- END generated:attribution-table -->
+
+        <h2 id="resources">Knowledge resources</h2>
+        <p>
+          Annotating cells takes more than the reference data. Cell types are named in a shared
+          vocabulary, tissues are selected in an anatomical one, marker panels come from curated
+          biomarker tables, and the pathway and interaction figures are drawn against published
+          gene sets and networks. Those resources are credited here.
+        </p>
+        <p>
+          They do not share a licence. Four different instruments apply across the list below, and
+          one resource carries no licence grant we were able to locate, so it is credited as a
+          source without a licence being claimed for it. Where a resource asks us to disclose
+          changes, the change is stated in the same row.
+        </p>
+        <p>
+          <strong>The changes listed here are everything we may do to a resource, not what any
+          one run did.</strong> Which of them applied is a fact about a particular analysis: a run
+          that never scores pathway activity does not touch PROGENy, and a human run does not use
+          the mouse ortholog table. Every report and reference bundle therefore carries its own
+          notices, listing only the resources that run actually used and only the changes it
+          actually made. Where this page and an artifact differ, the artifact is the accurate one
+          for that run, and this page is the wider set it is drawn from.
+        </p>
+<!-- BEGIN generated:knowledge-resources (scripts/build_attribution_page.py) -->
+<div class="tbl-card">
+  <table class="ltable">
+    <thead><tr><th>Resource</th><th>What we use it for</th><th>Instrument</th><th>Credit</th></tr></thead>
+    <tbody>
+      <tr id="resources-hubmap-asctb"><td><a href="https://humanatlas.io/asctb-tables">HuBMAP ASCT+B tables / Human Reference Atlas</a></td><td class="role">The canonical marker membership behind our cell-type marker panels: which genes are treated as defining for a cell type.</td><td class="lic"><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></td><td class="role">HuBMAP Consortium, Anatomical Structures, Cell Types and Biomarkers (ASCT+B) tables, Human Reference Atlas.<br><span class="pmute">Modified: membership restricted to at most 8 genes per cell type; genes re-ordered by our own contrast statistic against the other cell types in this reference.</span></td></tr>
+      <tr id="resources-cellguide"><td><a href="https://cellxgene.cziscience.com/cellguide">CZ CELLxGENE CellGuide</a></td><td class="role">Republishes the ASCT+B tables as its canonical markers, and supplies the computational marker rankings we order our panels by.</td><td class="lic"><span class="pmute">no licence located</span></td><td class="role">Marker data obtained from CZ CELLxGENE CellGuide.<br><span class="pmute">Modified: top-ranked genes taken per cell type and re-ordered by own-tissue contrast.</span></td></tr>
+      <tr id="resources-cell-ontology"><td><a href="https://obofoundry.org/ontology/cl.html">Cell Ontology (CL)</a></td><td class="role">The controlled vocabulary our cell-type labels are expressed in, and the tree the marker panels are inherited along.</td><td class="lic"><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></td><td class="role">Cell Ontology (CL), OBO Foundry.</td></tr>
+      <tr id="resources-uberon"><td><a href="https://obofoundry.org/ontology/uberon.html">Uberon</a></td><td class="role">The anatomy vocabulary our tissue filters are expressed in. It is what carves an organ out of the multi-tissue atlases in a cohort.</td><td class="lic"><a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></td><td class="role">Uberon multi-species anatomy ontology, OBO Foundry.</td></tr>
+      <tr id="resources-string"><td><a href="https://string-db.org/cgi/access">STRING</a><br><span class="pmute">v12.0</span></td><td class="role">The protein-protein interaction network behind the interaction figures in the query report.</td><td class="lic"><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></td><td class="role">STRING v12.0, https://string-db.org/<br><span class="pmute">Modified: restricted to interactions with a combined score of at least 400; protein identifiers remapped to gene symbols, dropping edges whose identifiers could not be mapped; reciprocal edges deduplicated to their maximum score; scores rescaled from 0-1000 to 0-1; singleton nodes hidden in the rendered figure.</span></td></tr>
+      <tr id="resources-go-msigdb"><td><a href="https://geneontology.org/docs/go-citation-policy/">Gene Ontology, via Broad Institute MSigDB</a></td><td class="role">The gene-set panel behind the pathway-activity scores.</td><td class="lic"><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><br><span class="pmute">CC BY 4.0, Broad Institute MSigDB</span></td><td class="role">Gene Ontology Consortium biological-process terms, obtained through MSigDB. MSigDB is (c) 2004-2025 Broad Institute, MIT and Regents of the University of California.<br><span class="pmute">Modified: restricted to the GO biological-process collection; gene sets outside 15-500 genes dropped; the GOBP_ prefix stripped from set names.</span><br><span class="pmute">Gene Ontology asks to be cited by release date and Zenodo DOI. Our pinned copy of this panel records neither, so this entry credits the Consortium without naming a release.</span></td></tr>
+      <tr id="resources-progeny"><td><a href="https://github.com/saezlab/progeny">PROGENy</a></td><td class="role">The pathway-footprint weights behind the pathway-activity scores.</td><td class="lic"><a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a></td><td class="role">Schubert M et al. 2018, Nature Communications, https://doi.org/10.1038/s41467-017-02391-6<br><span class="pmute">Modified: restricted to the 500 top-weighted genes per pathway.</span></td></tr>
+      <tr id="resources-collectri"><td><a href="https://doi.org/10.5281/zenodo.8192729">CollecTRI</a></td><td class="role">The transcription-factor to target regulons behind the transcription-factor activity scores.</td><td class="lic"><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></td><td class="role">Mueller-Dott S et al. 2023, Nucleic Acids Research, https://doi.org/10.1093/nar/gkad841. Regulons from Zenodo record 8192729, nine named creators.<br><span class="pmute">Modified: every regulon edge attested by TRRUST or DoRothEA-A removed.</span></td></tr>
+      <tr id="resources-mgi"><td><a href="https://www.informatics.jax.org/">Mouse Genome Informatics (MGI), The Jackson Laboratory</a></td><td class="role">The mouse gene nomenclature in our human-mouse ortholog table, which is what lets a human marker panel be applied to a mouse reference.</td><td class="lic"><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></td><td class="role">Mouse gene nomenclature from Mouse Genome Informatics (MGI), The Jackson Laboratory, Bar Harbor, Maine.</td></tr>
+      <tr id="resources-ensembl-biomart"><td><a href="https://www.ensembl.org/biomart/">Ensembl BioMart</a></td><td class="role">The source of the human-mouse ortholog table itself.</td><td class="lic"><span class="pmute">no restriction stated</span></td><td class="role">Human-mouse orthologues exported from Ensembl BioMart.</td></tr>
+    </tbody>
+  </table>
+</div>
+<!-- END generated:knowledge-resources -->
+
+        <h2 id="citing">Citing the underlying work</h2>
+        <p>
+          If you publish results produced with a VarnaOps reference, cite the original studies, not
+          us, for the data. Each collection above links to its publication DOI. The Census provides a
+          full citation string per dataset version, and our reference build manifests carry it
+          verbatim alongside the dataset identifiers, so the exact version used in any run is
+          recoverable from the run itself.
+        </p>
+
+        <h2 id="scope">What this page covers</h2>
+        <p>
+          This page is attribution: the source data and the external resources we build on, with
+          the terms each is available under. It is not a description of how a reference is built.
+          The harmonization that maps each study's original labels onto our cell-type vocabulary,
+          the cohort selection rules and the derivation of the marker panels are our own work and
+          are not published here. The vocabulary a model can actually assign is on the
+          model weights page, and the methods are summarized under
+          methods.
+        </p>
+        <p>
+          Software is credited separately, under
+          third-party notices.
+        </p>
+        <p>
+          Reference data itself is never redistributed by us: neither the run bundle nor the model
+          release contains it. Everything above is obtainable directly from the Census.
+        </p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap foot-inner">
+      <span>&copy; 2026 VarnaOps &middot; Reference data via the CZ CELLxGENE Census (CC BY 4.0)</span>
+      <a href="mailto:leonardo@varnaops.com">leonardo@varnaops.com</a>
+    </div>
+  </footer>
+</body>
+</html>
