@@ -582,6 +582,41 @@ a.cta, a.cta:hover { color: var(--accent-ink); }
 </div>
 <!-- END generated:knowledge-resources -->
 
+        <h2 id="software">Software</h2>
+        <p>
+          The open-source libraries VarnaOps runs on. This is a credit, not a notice: every
+          library below runs on our own servers and none of it is handed to you, so the notice
+          terms in the MIT, BSD and Apache licences never attach. Where a licence obligation
+          does attach, the notice is served with the thing that triggers it, under
+          third-party notices.
+        </p>
+<!-- BEGIN generated:software (scripts/build_attribution_page.py) -->
+<p>VarnaOps runs on <b>39 third-party libraries</b> across 7 areas: scverse and the AnnData ecosystem · NVIDIA RAPIDS · Deep learning · Scientific Python · Clustering, embedding and statistics · Data, storage and cloud · Interface. They are counted here by the licence each installed distribution declares.</p>
+<div class="tbl-card">
+  <table class="ltable">
+    <thead><tr><th>Declared licence</th><th>Libraries</th></tr></thead>
+    <tbody>
+      <tr><td>BSD</td><td class="lic">17</td></tr>
+      <tr><td>Apache-2.0</td><td class="lic">11</td></tr>
+      <tr><td>MIT</td><td class="lic">7</td></tr>
+      <tr><td>GPL</td><td class="lic">2</td></tr>
+      <tr><td>PSF</td><td class="lic">1</td></tr>
+      <tr><td>not stated in package metadata</td><td class="lic">1</td></tr>
+    </tbody>
+  </table>
+</div>
+<p><a href="attribution-software.csv">Download the full list (39 libraries, CSV)</a>. It carries each library's distribution name, version, role, and the licence string exactly as that distribution declares it.</p>
+<p><b>umap-learn</b> declares no specific licence in package metadata, only that it is OSI approved. We credit it here and state no licence for it, the same rule we apply to data sources.</p>
+<p><b>Copyleft.</b> leidenalg (GPL-3.0-or-later), python-igraph (GNU General Public License (GPL)) are copyleft. They run on our servers and are not distributed, so their source-offer terms are not triggered. This is a factual statement about how we run today, not a permanent one: see the note below.</p>
+<!-- END generated:software -->
+        <div class="note">
+          <strong>What would change this.</strong> The line above is drawn at distribution, and
+          we do not distribute today. Shipping a client-side wrapper, or handing out the
+          container image, would make these libraries distributed and move the affected rows
+          from this page into a notice with real conditions attached, including the copyleft
+          ones. Neither has happened. If either does, this page is wrong until it is redone.
+        </div>
+
         <h2 id="citing">Citing the underlying work</h2>
         <p>
           If you publish results produced with a VarnaOps reference, cite the original studies, not
@@ -602,8 +637,9 @@ a.cta, a.cta:hover { color: var(--accent-ink); }
           methods.
         </p>
         <p>
-          Software is credited separately, under
-          third-party notices.
+          The software we build on is credited above, under <a href="#software">software</a>.
+          Only the components we actually serve to a browser carry a notice obligation, and
+          those live under third-party notices.
         </p>
         <p>
           Reference data itself is never redistributed by us: neither the run bundle nor the model

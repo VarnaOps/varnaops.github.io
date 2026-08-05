@@ -1,0 +1,40 @@
+name,distribution,version,group,role,declared_licence,declared_from,environment
+AnnData,anndata,0.11.4,scverse and the AnnData ecosystem,Annotated data structures,BSD-3-Clause,License-Expression,brain-atlas-cli
+scanpy,scanpy,1.11.5,scverse and the AnnData ecosystem,Single-cell analysis toolkit,BSD-3-Clause,License-Expression,brain-atlas-cli
+scvi-tools,scvi-tools,1.3.3,scverse and the AnnData ecosystem,scVI / scANVI + scArches reference mapping,BSD 3-Clause License,License field,brain-atlas-cli
+rapids-singlecell,rapids_singlecell,0.13.1,scverse and the AnnData ecosystem,GPU single-cell (built on RAPIDS),MIT License,License field,brain-atlas-cli
+decoupler,decoupler,2.1.4,scverse and the AnnData ecosystem,Pathway / TF activity,BSD 3-Clause License,License field,brain-atlas-cli
+scib-metrics,scib-metrics,0.5.6,scverse and the AnnData ecosystem,Integration-quality metrics,BSD 3-Clause License,License field,brain-atlas-cli
+annbatch,annbatch,0.1.4,scverse and the AnnData ecosystem,Streaming minibatches from sharded Zarr (training),MIT License,License field,brain-atlas-py312
+cuML,cuml-cu12,24.12.0,NVIDIA RAPIDS,GPU machine learning,Apache 2.0,License field,brain-atlas-cli
+cuGraph,cugraph-cu12,24.12.0,NVIDIA RAPIDS,GPU graph analytics (Leiden),Apache 2.0,License field,brain-atlas-cli
+cuDF,cudf-cu12,24.12.0,NVIDIA RAPIDS,GPU dataframes,Apache Software License,Trove classifier,brain-atlas-cli
+RMM,rmm-cu12,24.12.1,NVIDIA RAPIDS,GPU memory management,Apache Software License,Trove classifier,brain-atlas-cli
+pynvjitlink,pynvjitlink-cu12,0.6.0,NVIDIA RAPIDS,CUDA JIT linking,Apache-2.0,License field,brain-atlas-cli
+CuPy,cupy-cuda12x,12.3.0,NVIDIA RAPIDS,GPU array computing,MIT License,Trove classifier,brain-atlas-cli
+dask-cuda,dask-cuda,24.12.0,NVIDIA RAPIDS,Dask integration for the GPU paths,Apache Software License,Trove classifier,brain-atlas-cli
+PyTorch,torch,2.5.1+cu121,Deep learning,Tensors / autograd,BSD License,Trove classifier,brain-atlas-cli
+Lightning,lightning,2.6.1,Deep learning,Training framework,Apache Software License,Trove classifier,brain-atlas-cli
+JAX,jax,0.6.2,Deep learning,Accelerated arrays (metrics),Apache-2.0,License field,brain-atlas-cli
+NumPy,numpy,1.26.4,Scientific Python,Numerical arrays,BSD License,Trove classifier,brain-atlas-cli
+SciPy,scipy,1.15.2,Scientific Python,Scientific computing,BSD License,Trove classifier,brain-atlas-cli
+pandas,pandas,2.2.3,Scientific Python,Data frames,BSD License,Trove classifier,brain-atlas-cli
+scikit-learn,scikit-learn,1.7.2,Scientific Python,ML utilities,BSD-3-Clause,License-Expression,brain-atlas-cli
+numba,numba,0.61.2,Scientific Python,JIT compilation,BSD License,Trove classifier,brain-atlas-cli
+h5py,h5py,3.16.0,Scientific Python,HDF5 / .h5ad I/O,BSD-3-Clause,License-Expression,brain-atlas-cli
+Matplotlib,matplotlib,3.10.8,Scientific Python,Plotting,Python Software Foundation License,Trove classifier,brain-atlas-cli
+seaborn,seaborn,0.13.2,Scientific Python,Statistical plots,BSD License,Trove classifier,brain-atlas-cli
+umap-learn,umap-learn,0.5.12,"Clustering, embedding and statistics",Dimensionality reduction,OSI Approved,Trove classifier,brain-atlas-cli
+leidenalg,leidenalg,0.11.0,"Clustering, embedding and statistics",Community detection,GPL-3.0-or-later,License-Expression,brain-atlas-cli
+python-igraph,igraph,1.0.0,"Clustering, embedding and statistics",Graph algorithms,GNU General Public License (GPL),License field,brain-atlas-cli
+pyDESeq2,pydeseq2,0.5.2,"Clustering, embedding and statistics",Pseudobulk differential expression,MIT,License field,brain-atlas-cli
+Zarr,zarr,2.18.3,"Data, storage and cloud",Chunked array storage,MIT License,Trove classifier,brain-atlas-cli
+Dask,dask,2024.11.2,"Data, storage and cloud",Parallel / lazy computing,BSD License,Trove classifier,brain-atlas-cli
+cellxgene-census,cellxgene-census,1.17.0,"Data, storage and cloud",CZI Census access,MIT License,Trove classifier,brain-atlas-cli
+TileDB-SOMA,tiledbsoma,2.3.0,"Data, storage and cloud",Census storage backend,MIT,License field,brain-atlas-cli
+PyArrow,pyarrow,18.1.0,"Data, storage and cloud",Columnar data,Apache Software License,Trove classifier,brain-atlas-cli
+fsspec,fsspec,2026.2.0,"Data, storage and cloud",Filesystem abstraction,BSD-3-Clause,License-Expression,brain-atlas-cli
+s3fs,s3fs,2026.2.0,"Data, storage and cloud",S3 filesystem,BSD License,Trove classifier,brain-atlas-cli
+boto3,boto3,1.43.0,"Data, storage and cloud",AWS SDK,Apache-2.0,License field,brain-atlas-cli
+Jinja2,jinja2,3.1.6,Interface,HTML report templating,BSD License,Trove classifier,brain-atlas-cli
+Gradio,gradio,6.13.0,Interface,App UI,Apache-2.0,License-Expression,brain-atlas-cli
