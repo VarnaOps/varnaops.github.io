@@ -307,8 +307,12 @@ footer a:hover { color: var(--accent); }
 .ctx-body { margin-top: 8px; }
 .ctx-body h3 { margin: 0 0 6px; font-size: 1rem; }
 .ctx-body p { margin: 0 0 12px; color: var(--muted); font-size: 0.93rem; }
-#atlasLegend.legend { display: block; column-count: 2; column-gap: 16px; margin: 0 0 16px; }
-#atlasLegend.legend .lchip { display: flex; width: fit-content; max-width: 100%; margin: 0 0 6px; break-inside: avoid; }
+/* Cell-type grid: even card layout (not the pill/wrap look .lchip uses elsewhere) so a
+   20-item reference reads as a scannable spec-sheet, each with the color dot the reference's
+   own UMAP uses for that type (see build_reference_catalog.py::_umap_colors). */
+#atlasLegend.legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin: 0 0 16px; }
+#atlasLegend.legend .lchip { display: flex; align-items: center; gap: 8px; width: auto; padding: 7px 10px; border-radius: 8px; background: var(--surface); color: var(--text); font-size: 0.82rem; white-space: normal; }
+#atlasLegend.legend .ld { width: 9px; height: 9px; }
 .ref-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 .ref-table th, .ref-table td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
 .ref-table th { color: var(--muted); font-weight: 500; white-space: nowrap; width: 46%; }
