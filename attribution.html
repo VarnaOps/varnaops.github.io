@@ -235,10 +235,16 @@ footer a:hover { color: var(--accent); }
 .ht-links a { color: var(--accent); font-weight: 600; font-size: 0.92rem; text-decoration: none; }
 .ht-links a:hover { text-decoration: underline; }
 
-/* full-reference-info link, in the step footer at the height of the Next button */
-.ref-info { font-size: 0.9rem; font-weight: 600; text-decoration: none; color: var(--accent); white-space: nowrap; }
-.ref-info:hover { text-decoration: underline; }
-.ref-info[aria-disabled="true"] { color: var(--faint); cursor: default; pointer-events: none; }
+/* "Explore context": same solid-green .pbtn.primary as Next (a lighter tint tried first was
+   still easy to miss next to it). .ref-info only adds what .primary doesn't already cover. */
+.ref-info { text-decoration: none; white-space: nowrap; }
+/* Deliberately NOT faded while disabled, unlike .pbtn[disabled] elsewhere. This button is
+   disabled for a reason the user cannot act on (the reference-report host isn't deployed
+   yet), not because of anything they did or a state they can change, so dimming it just
+   makes it hard to see while telling them nothing. It keeps .primary's exact green; the
+   "Coming soon" tooltip and the dead click carry the state instead. Revert to the usual
+   opacity: 0.5 if it ever becomes disabled by user-controllable state. */
+.ref-info[aria-disabled="true"] { cursor: default; pointer-events: none; }
 
 /* ===== example-report CTA (between the lead and the stepper, left-anchored) ===== */
 .app-cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-start; margin-top: 22px; }
