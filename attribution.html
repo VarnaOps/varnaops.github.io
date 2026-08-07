@@ -109,6 +109,16 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .ltable tbody tr:last-child td { border-bottom: none; }
 .ltable td.lic { white-space: nowrap; color: var(--ink-soft); font-weight: 500; }
 .ltable td .role { color: var(--muted); }
+/* Weights downloads (weights.html). Every artifact cell is filled by web/weights.js from
+   the published index.json, so the checked-in state is "not yet published" and that is
+   also what a reader sees while referenceReportBaseUrl is unset. The link reuses
+   .ref-info's disabled rule below verbatim: solid, never faded, because the reason it is
+   dark is ours rather than anything the reader can act on. */
+.dl-table td { vertical-align: middle; }
+.dl-table td.lic { white-space: normal; }   /* a build may ship under more than one */
+/* The full 64-hex digest, not a prefix: it is here to be checked against the file. */
+.dl-digest { font-size: 0.72rem; word-break: break-all; color: var(--muted); }
+.dl-table .dl-link { padding: 7px 14px; font-size: 0.86rem; }
 /* Verbatim licence text. Reproduced as-is, so it wraps but is never restyled into prose. */
 .licence-text { white-space: pre-wrap; font-size: 0.8rem; line-height: 1.55; color: var(--ink-soft); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin: 14px 0 26px; overflow-x: auto; }
 
