@@ -401,6 +401,11 @@ footer a:hover { color: var(--accent); }
 .mod-item:not(.dep-locked) .dep-req { display: none; }              /* only shown while the dependent is gated */
 .dep-req .dep-link { color: var(--accent); cursor: pointer; text-decoration: none; border-bottom: 1px dotted currentColor; }
 .dep-req .dep-link:hover { opacity: .8; }
+/* File-side reasons stay visible on an UNLOCKED row. Must sit AFTER the rule above, which
+   hides .dep-req unless the row is locked; equal specificity, so order decides.
+   Rationale: walkthrough.js, roleBlockedReason. */
+.mod-item:not(.dep-locked) .obs-req:not([hidden]) { display: inline; }
+.obs-req.obs-soft { font-style: italic; }                           /* degrades, not blocked */
 .run-hint { color: var(--red); font-size: 0.84rem; }
 .run-hint:empty { display: none; }
 /* greyed sub-option (checklist item gated on its own prerequisite) */
