@@ -182,9 +182,12 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .loaded-name { flex: 1; min-width: 0; font-size: 0.96rem; overflow-wrap: anywhere; }
 .loaded-state { display: block; font-size: 0.8rem; color: var(--faint); }
 .loaded-acts { display: flex; gap: 8px; flex: none; }
-/* Earlier uploads (#8): collapsed, inside step 3, never competing with the run. */
-.prev-uploads { margin-top: 12px; border-top: 1px solid #e6e9ee; padding-top: 10px; }
-.prev-uploads > summary { cursor: pointer; font-size: 0.85rem; color: var(--muted); }
+/* Earlier uploads (#8): inside step 3, never in the run step. Visible enough to be found
+   (#3) — a faint summary line hid the one control that saves a second 100 MB upload — but
+   still a disclosure, so it yields to the file the customer is actually working on. */
+.prev-uploads { margin-top: 14px; border: 1px solid #e6e9ee; border-radius: 12px; padding: 10px 14px; background: var(--surface); }
+.prev-uploads > summary { cursor: pointer; font-size: 0.9rem; color: var(--text); font-weight: 600; }
+.prev-uploads[open] > summary { margin-bottom: 4px; }
 .prev-uploads .resume-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; font-size: 0.9rem; }
 .upbar { height: 6px; margin-top: 10px; border-radius: 999px; background: var(--subtle); overflow: hidden; }
 .upbar i { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--accent); transition: width .15s linear; }
@@ -321,6 +324,21 @@ footer a:hover { color: var(--accent); }
 .panels { padding: 20px 22px; }
 .panel { display: none; }
 .panel.show { display: block; }
+/* Pre-paint step restore (#4). boot.js stamps the saved step on <html> before the body is
+   parsed; these rules put the right panel and the right stepper chips on the FIRST paint,
+   so an F5 on step 2/3/4 no longer flashes step 1. walkthrough.js removes the attribute as
+   soon as it takes over, and `.show` is the only mechanism from then on — two mechanisms
+   both live would fight the moment the customer clicked a step.
+   Enumerated per step because CSS cannot compare an attribute to an index;
+   tests/test_step_restore.py fails if index.html ever grows a panel these rules do not
+   cover, which would otherwise hide the page. */
+html[data-step="1"] .panel[data-p="0"], html[data-step="2"] .panel[data-p="0"], html[data-step="3"] .panel[data-p="0"] { display: none; }
+html[data-step="1"] .panel[data-p="1"], html[data-step="2"] .panel[data-p="2"], html[data-step="3"] .panel[data-p="3"] { display: block; }
+html[data-step="1"] .stepper .step[data-i="0"] { color: var(--text); }
+html[data-step="2"] .stepper .step[data-i="0"], html[data-step="2"] .stepper .step[data-i="1"],
+html[data-step="3"] .stepper .step[data-i="0"], html[data-step="3"] .stepper .step[data-i="1"], html[data-step="3"] .stepper .step[data-i="2"] { color: var(--text); }
+html[data-step="1"] .stepper .step[data-i="0"], html[data-step="2"] .stepper .step[data-i="0"], html[data-step="3"] .stepper .step[data-i="0"] { font-weight: 400; border-bottom-color: transparent; }
+html[data-step="1"] .stepper .step[data-i="1"], html[data-step="2"] .stepper .step[data-i="2"], html[data-step="3"] .stepper .step[data-i="3"] { color: var(--accent); font-weight: 600; border-bottom-color: var(--accent); }
 .panel-h { font-size: 1.08rem; font-weight: 600; color: var(--text); margin: 0 0 14px; }
 .panel-h-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .panel-h-row .panel-h { margin: 0 0 14px; }
