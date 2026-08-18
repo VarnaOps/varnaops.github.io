@@ -176,6 +176,16 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .drop:active { border-color: var(--accent); background: var(--accent-soft); }
 /* Upload progress. Width is set from XHR progress events, so it moves only when bytes
    actually move; an indeterminate animation would claim progress we cannot observe. */
+/* The loaded file, which REPLACES the drop zone (#6). One state, two views. */
+.loaded-file { display: flex; align-items: center; gap: 12px; border: 1.5px solid #c9ced6; border-radius: 12px; padding: 14px 16px; background: var(--subtle); }
+.loaded-file .upic { width: 22px; height: 22px; stroke: var(--accent); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.loaded-name { flex: 1; min-width: 0; font-size: 0.96rem; overflow-wrap: anywhere; }
+.loaded-state { display: block; font-size: 0.8rem; color: var(--faint); }
+.loaded-acts { display: flex; gap: 8px; flex: none; }
+/* Earlier uploads (#8): collapsed, inside step 3, never competing with the run. */
+.prev-uploads { margin-top: 12px; border-top: 1px solid #e6e9ee; padding-top: 10px; }
+.prev-uploads > summary { cursor: pointer; font-size: 0.85rem; color: var(--muted); }
+.prev-uploads .resume-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; font-size: 0.9rem; }
 .upbar { height: 6px; margin-top: 10px; border-radius: 999px; background: var(--subtle); overflow: hidden; }
 .upbar i { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--accent); transition: width .15s linear; }
 .drop-notes { margin-top: 10px; }
