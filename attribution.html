@@ -201,6 +201,14 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .prev-uploads { margin-top: 14px; border: 1px solid #e6e9ee; border-radius: 12px; padding: 10px 14px; background: var(--surface); }
 .prev-uploads > summary { cursor: pointer; font-size: 0.9rem; color: var(--text); font-weight: 600; }
 .prev-uploads[open] > summary { margin-bottom: 4px; }
+/* Chosen, and cannot run. The row stays where the customer put it, struck through, with
+   the reason on it — a warning elsewhere on the page names the analysis but not the row,
+   and the row is where the remedy is. */
+.mod-item.cannot-run .mt, .mod-extra-toggle.cannot-run { text-decoration: line-through; text-decoration-thickness: 1px; color: var(--faint); }
+.cannot-run-why { margin-left: 6px; font-size: 0.78rem; color: #7a5a12; background: #fdf6e6; border: 1px solid #f0d8a8; border-radius: 6px; padding: 1px 6px; text-decoration: none; display: inline-block; }
+.resume-exp { font-size: 0.78rem; color: var(--faint); }
+.resume-exp--gone { color: var(--red); font-weight: 600; }
+.dropbtn--ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
 .resume-acts { display: flex; gap: 8px; flex: none; }
 .resume-del { color: var(--red); }
 .prev-uploads .resume-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; font-size: 0.9rem; }
