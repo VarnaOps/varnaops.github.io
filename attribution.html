@@ -451,7 +451,20 @@ html[data-step="1"] .stepper .step[data-i="1"], html[data-step="2"] .stepper .st
 .mod-extra-radio input { margin-top: 2px; flex: none; }
 .mod-extra-radio-note { font-size: 0.8rem; margin: 0 0 4px 24px; }
 /* confirm-columns step (after upload) */
-.confirm-cols { border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; background: #fff; max-width: 520px; }
+/* NO BOUNDING BOX (Leonardo, 2026-08-20). This panel is not a card floating on the page:
+   it is the body of step 3, already inside the step's own frame, so its border drew a box
+   inside a box. `max-width` is wider than the old 520px because the row below puts the
+   value preview in a second column, which needs the room. */
+.confirm-cols { max-width: 760px; }
+/* PICKER LEFT, PREVIEW RIGHT. Centred against the field rather than top- or
+   bottom-aligned, because the preview's height is the customer's data (1 line for a
+   2-value column, 3 for a listed 8) and only centring looks deliberate at every height. */
+.confirm-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); column-gap: 16px; align-items: center; margin: 0 0 12px; }
+.confirm-row .confirm-field { margin: 0; }
+.confirm-row .col-preview { margin: 0; }
+/* One column when there is no room for two: the preview returns to under its picker,
+   which is worse but readable, where a squeezed second column is neither. */
+@media (max-width: 620px) { .confirm-row { grid-template-columns: minmax(0, 1fr); row-gap: 2px; } }
 .confirm-title { font-size: 0.95rem; font-weight: 700; margin: 0 0 10px; }
 .confirm-field { display: block; margin: 0 0 12px; }
 .confirm-field span { display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 5px; }
