@@ -206,9 +206,18 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .cr-tag { font-size: 0.78rem; color: var(--muted); background: var(--subtle); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; white-space: nowrap; }
 /* Fixed lines sit under the analyses, separated, so the floor reads as the floor. */
 .cr-tag--shared { font-style: italic; }
-.cr-item--note { color: #7a5a12; background: #fdf6e6; border: 1px solid #f0d8a8; border-radius: 8px; padding: 6px 10px; margin-bottom: 6px; font-size: 0.82rem; }
+/* Inherits the list's size like every other row — it was a THIRD size in the same list,
+   found by the guard rather than by looking. */
+.cr-item--note { color: #7a5a12; background: #fdf6e6; border: 1px solid #f0d8a8; border-radius: 8px; padding: 6px 10px; margin-bottom: 6px; }
 .cr-item--fixed { color: var(--muted); }
-.cr-item--sub { padding-left: 18px; font-size: 0.88rem; color: var(--muted); }
+/* ONE SIZE FOR THE LIST. Depth is indent and colour, never size — a nested row was
+   rendering LARGER than the row it nests under (0.88 inside 0.86), which is the part that
+   read as broken rather than merely inconsistent. */
+.cr-item--sub { padding-left: 20px; color: var(--muted); }
+/* MORE SPECIFIC THAN `.credits-bar .cr-note`, which sets 0.82rem and sits later in this
+   file — the list lives inside a .credits-bar, so an equal-specificity rule would lose the
+   tie and the marker would stay a third size. */
+.cr-items .cr-item .cr-note { font-size: inherit; }
 .cr-item--omitted span { text-decoration: line-through; text-decoration-thickness: 1px; color: var(--faint); }
 .cr-item--omitted .cr-note { text-decoration: none; }
 .run-hint--omitted { margin: 8px 0 0; padding: 8px 12px; border-radius: 8px; border: 1px solid #f0d8a8; background: #fdf6e6; color: #7a5a12; font-size: 0.85rem; line-height: 1.5; }
