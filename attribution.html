@@ -213,14 +213,18 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 /* ONE SIZE FOR THE LIST. Depth is indent and colour, never size — a nested row was
    rendering LARGER than the row it nests under (0.88 inside 0.86), which is the part that
    read as broken rather than merely inconsistent. */
-.cr-item--sub { padding-left: 20px; color: var(--muted); }
+/* Indent + a left rule: the indent alone was easy to miss at this size, and the rule
+   makes "belongs to the row above" visible without another font size. */
+.cr-item--sub { padding-left: 14px; margin-left: 6px; border-left: 2px solid var(--line); color: var(--muted); }
 /* MORE SPECIFIC THAN `.credits-bar .cr-note`, which sets 0.82rem and sits later in this
    file — the list lives inside a .credits-bar, so an equal-specificity rule would lose the
    tie and the marker would stay a third size. */
 .cr-items .cr-item .cr-note { font-size: inherit; }
 .cr-item--omitted span { text-decoration: line-through; text-decoration-thickness: 1px; color: var(--faint); }
 .cr-item--omitted .cr-note { text-decoration: none; }
-.run-hint--omitted { margin: 8px 0 0; padding: 8px 12px; border-radius: 8px; border: 1px solid #f0d8a8; background: #fdf6e6; color: #7a5a12; font-size: 0.85rem; line-height: 1.5; }
+/* No font-size of its own: it is the same paragraph as .run-hint (0.84rem) and differed
+   from it by 0.01rem, which is an accident rather than a distinction. */
+.run-hint--omitted { margin: 8px 0 0; padding: 8px 12px; border-radius: 8px; border: 1px solid #f0d8a8; background: #fdf6e6; color: #7a5a12; line-height: 1.5; }
 .cr-item--fixed + .cr-item--total, .cr-item--fixed:first-of-type { border-top: 1px solid var(--line); }
 /* Chosen, and cannot run. The row stays where the customer put it, struck through, with
    the reason on it — a warning elsewhere on the page names the analysis but not the row,
@@ -514,6 +518,10 @@ html[data-step="1"] .stepper .step[data-i="1"], html[data-step="2"] .stepper .st
 .cr-items { margin-top: 10px; width: 100%; font-size: 0.86rem; }
 .cr-item { display: flex; justify-content: space-between; gap: 16px; padding: 3px 0; color: var(--muted); }
 .cr-item b { color: var(--text); font-weight: 600; white-space: nowrap; }
+/* The label wraps, the amount does not move. Prefixing sub-ticks with their analysis makes
+   these rows longer (up to ~52 characters), and without min-width:0 a flex child refuses to
+   shrink below its content and pushes the amount off the row. */
+.cr-item > span { min-width: 0; overflow-wrap: anywhere; }
 .cr-item--total { margin-top: 6px; padding-top: 7px; border-top: 1px solid var(--line); }
 /* both live inside .credits-bar (a wrapping flex row), so each takes its own line */
 .cr-legend { flex-basis: 100%; display: flex; align-items: center; gap: 4px; color: var(--faint); font-size: 0.82rem; }
