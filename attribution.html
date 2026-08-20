@@ -220,7 +220,11 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
    file — the list lives inside a .credits-bar, so an equal-specificity rule would lose the
    tie and the marker would stay a third size. */
 .cr-items .cr-item .cr-note { font-size: inherit; }
-.cr-item--omitted span { text-decoration: line-through; text-decoration-thickness: 1px; color: var(--faint); }
+/* `.cr-items` prefixed, so this ties the winner and sits later. Without it (0,1,1) against
+   `.cr-items .cr-item > span` (0,2,1)) the struck row resolved to bold and full contrast —
+   the analysis that is NOT running ended up the most emphatic row in the list, with the
+   strikethrough surviving only because nothing competes for text-decoration. */
+.cr-items .cr-item.cr-item--omitted span { text-decoration: line-through; text-decoration-thickness: 1px; color: var(--faint); }
 .cr-item--omitted .cr-note { text-decoration: none; }
 /* No font-size of its own: it is the same paragraph as .run-hint (0.84rem) and differed
    from it by 0.01rem, which is an accident rather than a distinction. */
@@ -528,15 +532,23 @@ html[data-step="1"] .stepper .step[data-i="1"], html[data-step="2"] .stepper .st
 .cr-items { margin-top: 10px; width: 100%; font-size: 0.86rem; }
 .cr-item { display: flex; justify-content: space-between; gap: 16px; padding: 3px 0; color: var(--muted); }
 .cr-item b { color: var(--text); font-weight: 600; white-space: nowrap; }
-/* The analyses the customer chose read first; their parts and the fixed lines read as
-   detail. Weight carries the hierarchy now that the left rule is gone. */
-.cr-items .cr-item > span { font-weight: 600; color: var(--text); }
+/* NO ROW IS EMPHASISED OVER ANOTHER (Leonardo, 2026-08-19). The bolding is gone: the
+   colour difference plus the sub-rows' indent carry the hierarchy, and the amounts are
+   already bold via `.cr-item b`, so a bold LABEL beside a bold number gave the list two
+   competing emphases. Only `color` here now. */
+.cr-items .cr-item > span { color: var(--text); }
 /* MATCHES THE WINNER'S SPECIFICITY AND SITS LATER. As written first — `.cr-item--sub >
    span` at (0,1,1) against `.cr-items .cr-item > span` at (0,2,1) — this rule LOST, so
    every row rendered bold and the sub-rows had only their indent left. Same tie the
    .cr-note rule two commits above had to win, and the same class of defect as
    `el.hidden` losing to `display: flex`: present in the file, no effect on the element. */
-.cr-items .cr-item--sub > span, .cr-items .cr-item--fixed > span { font-weight: 400; color: var(--muted); }
+/* (0,3,1), which BEATS `.cr-items .cr-item > span` rather than tying it. A tie is decided
+   by document order, and depending on order across a 40kB stylesheet is how the same
+   override silently loses again the next time a rule is inserted above it. */
+.cr-items .cr-item.cr-item--sub > span, .cr-items .cr-item.cr-item--fixed > span { color: var(--muted); }
+/* The note keeps its own warning colour: the generic row rule would repaint it var(--text)
+   and it would stop looking like a callout. */
+.cr-items .cr-item.cr-item--note span { color: inherit; }
 /* The label wraps, the amount does not move. Prefixing sub-ticks with their analysis makes
    these rows longer (up to ~52 characters), and without min-width:0 a flex child refuses to
    shrink below its content and pushes the amount off the row. */
