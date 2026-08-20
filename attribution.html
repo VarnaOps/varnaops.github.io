@@ -470,6 +470,12 @@ html[data-step="1"] .stepper .step[data-i="1"], html[data-step="2"] .stepper .st
 .confirm-field span { display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 5px; }
 .confirm-field select, .confirm-field input[type=text] { width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font: inherit; font-size: 0.88rem; background: #fff; box-sizing: border-box; }
 .confirm-note { font-size: 0.8rem; margin: 4px 0 10px; }
+/* A BOUGHT OPINION, marked as ours. Tinted rather than plain so it cannot be mistaken for
+   something read out of the file the way the value preview is, and quiet rather than loud
+   because it is a draft the customer is about to overrule or accept. */
+.col-proposal { margin: 2px 0 8px; font-size: 0.82rem; line-height: 1.45; color: var(--muted); border-left: 2px solid var(--accent, #2a6); padding-left: 8px; }
+.col-proposal b { color: var(--text); }
+.col-proposal--none { border-left-color: var(--line); }
 .confirm-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 .confirm-subtitle { font-size: 0.84rem; font-weight: 600; margin: 14px 0 8px; }
 .confirm-align { border-top: 1px solid var(--line); padding-top: 6px; margin-bottom: 10px; }
