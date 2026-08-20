@@ -215,7 +215,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
    read as broken rather than merely inconsistent. */
 /* Indent + a left rule: the indent alone was easy to miss at this size, and the rule
    makes "belongs to the row above" visible without another font size. */
-.cr-item--sub { padding-left: 14px; margin-left: 6px; border-left: 2px solid var(--line); color: var(--muted); }
+.cr-item--sub { padding-left: 20px; color: var(--muted); }
 /* MORE SPECIFIC THAN `.credits-bar .cr-note`, which sets 0.82rem and sits later in this
    file — the list lives inside a .credits-bar, so an equal-specificity rule would lose the
    tie and the marker would stay a third size. */
@@ -239,6 +239,16 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .prev-uploads .resume-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; font-size: 0.9rem; }
 .upbar { height: 6px; margin-top: 10px; border-radius: 999px; background: var(--subtle); overflow: hidden; }
 .upbar i { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--accent); transition: width .15s linear; }
+/* INDETERMINATE, for work whose progress cannot be measured: /inspect is one request, and
+   the alternative is a page that looks idle while it reads the customer's columns. The
+   animation deliberately shows no percentage — it says "working", never "this far done". */
+.upbar--busy i { width: 35%; transition: none; animation: upbar-slide 1.1s ease-in-out infinite; }
+@keyframes upbar-slide { 0% { margin-left: -35%; } 100% { margin-left: 100%; } }
+@media (prefers-reduced-motion: reduce) {
+  /* A static three-quarter bar rather than a moving one: still says "busy", moves nobody who
+     asked not to be moved. */
+  .upbar--busy i { animation: none; width: 75%; opacity: 0.55; }
+}
 .drop-notes { margin-top: 10px; }
 .drop-formats { margin: 0 0 6px; font-size: 0.82rem; color: var(--faint); }
 .drop-formats code { color: var(--muted); font-size: 0.9em; }
@@ -518,6 +528,15 @@ html[data-step="1"] .stepper .step[data-i="1"], html[data-step="2"] .stepper .st
 .cr-items { margin-top: 10px; width: 100%; font-size: 0.86rem; }
 .cr-item { display: flex; justify-content: space-between; gap: 16px; padding: 3px 0; color: var(--muted); }
 .cr-item b { color: var(--text); font-weight: 600; white-space: nowrap; }
+/* The analyses the customer chose read first; their parts and the fixed lines read as
+   detail. Weight carries the hierarchy now that the left rule is gone. */
+.cr-items .cr-item > span { font-weight: 600; color: var(--text); }
+/* MATCHES THE WINNER'S SPECIFICITY AND SITS LATER. As written first — `.cr-item--sub >
+   span` at (0,1,1) against `.cr-items .cr-item > span` at (0,2,1) — this rule LOST, so
+   every row rendered bold and the sub-rows had only their indent left. Same tie the
+   .cr-note rule two commits above had to win, and the same class of defect as
+   `el.hidden` losing to `display: flex`: present in the file, no effect on the element. */
+.cr-items .cr-item--sub > span, .cr-items .cr-item--fixed > span { font-weight: 400; color: var(--muted); }
 /* The label wraps, the amount does not move. Prefixing sub-ticks with their analysis makes
    these rows longer (up to ~52 characters), and without min-width:0 a flex child refuses to
    shrink below its content and pushes the amount off the row. */
