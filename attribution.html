@@ -470,10 +470,21 @@ html[data-step="1"] .stepper .step[data-i="1"], html[data-step="2"] .stepper .st
 .confirm-field span { display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 5px; }
 .confirm-field select, .confirm-field input[type=text] { width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font: inherit; font-size: 0.88rem; background: #fff; box-sizing: border-box; }
 .confirm-note { font-size: 0.8rem; margin: 4px 0 10px; }
+/* THE OFFER. On its own ground under the title, not a third button in the actions row:
+   Confirm and Reset are things the customer does with their own answers, and this is
+   something we sell them. The tint is what separates the two kinds. */
+.autodetect { background: var(--accent-soft); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin: 0 0 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.autodetect-lead { flex: 1 1 100%; margin: 0; font-size: 0.84rem; line-height: 1.5; color: var(--muted); }
+.autodetect-price { font-size: 0.84rem; color: var(--text); font-weight: 600; }
+.autodetect-bal { font-weight: 400; color: var(--muted); }
+.autodetect-off { flex: 1 1 100%; margin: 0; font-size: 0.82rem; }
+.autodetect-note { flex: 1 1 100%; margin: 0; font-size: 0.82rem; line-height: 1.45; }
+.autodetect-note--ok { color: var(--accent); }
+.autodetect-note--err { color: var(--red); font-weight: 600; }
 /* A BOUGHT OPINION, marked as ours. Tinted rather than plain so it cannot be mistaken for
    something read out of the file the way the value preview is, and quiet rather than loud
    because it is a draft the customer is about to overrule or accept. */
-.col-proposal { margin: 2px 0 8px; font-size: 0.82rem; line-height: 1.45; color: var(--muted); border-left: 2px solid var(--accent, #2a6); padding-left: 8px; }
+.col-proposal { margin: 2px 0 8px; font-size: 0.82rem; line-height: 1.45; color: var(--muted); border-left: 2px solid var(--accent); padding-left: 8px; }
 .col-proposal b { color: var(--text); }
 .col-proposal--none { border-left-color: var(--line); }
 .confirm-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
