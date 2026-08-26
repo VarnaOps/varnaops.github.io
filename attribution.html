@@ -237,6 +237,10 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
 .cannot-run-why { margin-left: 6px; font-size: 0.78rem; color: #7a5a12; background: #fdf6e6; border: 1px solid #f0d8a8; border-radius: 6px; padding: 1px 6px; text-decoration: none; display: inline-block; }
 .resume-exp { font-size: 0.78rem; color: var(--faint); }
 .resume-exp--gone { color: var(--red); font-weight: 600; }
+/* Sits where Load would be on an expired row, so the row keeps its shape instead of the
+   Remove button jumping left. `.muted` is only defined under .resume-banner, so this
+   carries its own colour rather than inheriting one that does not apply here. */
+.resume-gone-note { font-size: 0.82rem; color: var(--faint); align-self: center; }
 .dropbtn--ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
 .resume-acts { display: flex; gap: 8px; flex: none; }
 .resume-del { color: var(--red); }
@@ -392,7 +396,7 @@ footer a:hover { color: var(--accent); }
    soon as it takes over, and `.show` is the only mechanism from then on — two mechanisms
    both live would fight the moment the customer clicked a step.
    Enumerated per step because CSS cannot compare an attribute to an index;
-   tests/test_step_restore.py fails if index.html ever grows a panel these rules do not
+   tests/test_step_restore_and_copy.py fails if index.html ever grows a panel these rules do not
    cover, which would otherwise hide the page. */
 html[data-step="1"] .panel[data-p="0"], html[data-step="2"] .panel[data-p="0"], html[data-step="3"] .panel[data-p="0"] { display: none; }
 html[data-step="1"] .panel[data-p="1"], html[data-step="2"] .panel[data-p="2"], html[data-step="3"] .panel[data-p="3"] { display: block; }
@@ -648,6 +652,59 @@ html[data-step="1"] .stepper .step[data-i="1"], html[data-step="2"] .stepper .st
 /* keep the button label white in every context — .nav-links a / .prose a would
    otherwise win on specificity and grey-out (or green-on-green) the CTA text */
 a.cta, a.cta:hover { color: var(--accent-ink); }
+
+/* ---- My runs -------------------------------------------------------------
+   Deliberately NOT styled as a fifth panel of .app-box. It is a separate card
+   below the step box, quieter than it (no shadow, subtle ground), because it is
+   a place to come back to rather than the thing the page is asking you to do. */
+.runs-box { margin: 18px 0 0; border: 1px solid var(--line); border-radius: 14px; background: var(--subtle); overflow: hidden; }
+.runs-head { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  width: 100%; padding: 14px 18px; background: none; border: 0; cursor: pointer;
+  font: inherit; color: var(--text); text-align: left; }
+.runs-head:hover { background: rgba(17,24,39,0.02); }
+.runs-title { font-weight: 600; font-size: 0.95rem; }
+.runs-count { color: var(--muted); font-weight: 500; }
+.runs-chev { color: var(--faint); transition: transform .16s ease; }
+.runs-box.runs-open .runs-chev { transform: rotate(180deg); }
+.runs-body { padding: 0 18px 16px; }
+.runs-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 0 0 10px; border-bottom: 1px solid var(--line); }
+/* The liveness line is the whole point of the panel not lying about itself, so it is
+   readable rather than fine print — see renderRunsLive(). */
+.runs-live { font-size: 0.82rem; color: var(--muted); }
+.runs-refresh { padding: 4px 12px; font-size: 0.84rem; }
+.runs-empty { padding: 18px 0; color: var(--muted); font-size: 0.9rem; }
+.runs-empty--err { color: var(--red); }
+
+.run-row { border-bottom: 1px solid var(--line); }
+.run-row:last-child { border-bottom: 0; }
+.run-line { display: grid; grid-template-columns: 92px minmax(0,1fr) auto auto 16px;
+  align-items: center; gap: 12px; width: 100%; padding: 11px 0; background: none;
+  border: 0; cursor: pointer; font: inherit; color: var(--text); text-align: left; }
+.run-line:hover { background: rgba(17,24,39,0.02); }
+.run-status { font-size: 0.74rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.run-status--ok { color: var(--accent); }
+.run-status--bad { color: var(--red); }
+.run-status--live { color: var(--muted); }
+/* The filename can be anything a customer named a file, so it truncates rather than
+   pushing the date off the row. minmax(0,1fr) above is what makes this bite. */
+.run-file { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.9rem; }
+.run-ref { color: var(--muted); font-size: 0.82rem; white-space: nowrap; }
+.run-when { color: var(--faint); font-size: 0.8rem; white-space: nowrap; }
+.run-chev { color: var(--faint); font-size: 0.8rem; transition: transform .16s ease; }
+.run-row--open .run-chev { transform: rotate(180deg); }
+.run-detail { padding: 2px 0 16px; }
+.run-detail p { margin: 0 0 8px; font-size: 0.88rem; }
+.run-id code { font-size: 0.8rem; }
+/* One column below the row's own breakpoint: five columns in ~340px turns the filename
+   into two characters and an ellipsis, which is worse than a taller row. */
+@media (max-width: 640px) {
+  .run-line { grid-template-columns: 1fr auto; grid-auto-rows: min-content; row-gap: 2px; }
+  .run-status { grid-column: 1; }
+  .run-chev { grid-column: 2; grid-row: 1; }
+  .run-file { grid-column: 1 / -1; }
+  .run-ref, .run-when { grid-column: 1 / -1; }
+}
 
   </style>
 </head>
