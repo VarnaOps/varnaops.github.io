@@ -1,0 +1,12 @@
+# VarnaOps is in private preview. Nothing here is meant to be indexed yet.
+#
+# This is discouragement, not a control: a compliant crawler honours it, anyone with a
+# URL is unaffected. The app itself is gated (basic auth today, invite-only accounts
+# next); this file only keeps the marketing page and the attribution record out of
+# search results while the product is not public.
+#
+# attribution.html is served for a licence obligation — CC BY requires the credit be
+# publicly reachable — so it stays available at its URL. Reachable and indexed are
+# different things, and only the second is being declined here.
+User-agent: *
+Disallow: /
