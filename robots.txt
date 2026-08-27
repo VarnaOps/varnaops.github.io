@@ -5,8 +5,11 @@
 # next); this file only keeps the marketing page and the attribution record out of
 # search results while the product is not public.
 #
-# attribution.html is served for a licence obligation — CC BY requires the credit be
-# publicly reachable — so it stays available at its URL. Reachable and indexed are
-# different things, and only the second is being declined here.
+# attribution.html NO LONGER LIVES HERE. On 2026-08-27 the apex moved to CloudFront and
+# the canonical page moved with it, to https://varnaops.com/attribution.html, which is
+# where the footer above now links. The licence obligation is discharged there: CC BY
+# requires the credit be publicly reachable, and that path is exempt from the app's auth
+# gate by design. Do not restore a copy here — two pages under one obligation is how the
+# credit starts to differ from the data it credits.
 User-agent: *
 Disallow: /
